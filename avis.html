@@ -13,7 +13,7 @@
             background: linear-gradient(to bottom right, #e0f2fe, #e3f2fd);
             color: #1e293b;
             /* Adjusted padding-top to account for the fixed header height */
-            padding-top: 5rem; /* Base padding for mobile, assuming header height around 4rem + some margin */
+            padding-top: 4rem; /* Reduced padding for smaller header on mobile */
             padding-left: 1rem;
             padding-right: 1rem;
             padding-bottom: 1rem;
@@ -220,7 +220,7 @@
             background-color: #ffffff;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            padding: 0.75rem 1rem;
+            padding: 0.5rem 1rem; /* Smaller padding for a more compact bar */
             display: flex;
             justify-content: center; /* Center the content */
             align-items: center;
@@ -229,7 +229,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.5rem 1rem;
+            padding: 0.5rem 1rem; /* Smaller padding for the button itself */
             background-color: #3b82f6; /* Default blue */
             color: white;
             font-weight: 600;
@@ -253,7 +253,7 @@
         /* Adjustments for larger screens (sm: breakpoint and up) */
         @media (min-width: 640px) {
             body {
-                padding-top: 6rem; /* Adjusted padding for desktop */
+                padding-top: 5rem; /* Adjusted padding for desktop for smaller header */
                 padding-left: 2.5rem;
                 padding-right: 2.5rem;
                 padding-bottom: 2.5rem;
@@ -282,10 +282,10 @@
                 font-size: 0.875rem;
             }
             .fixed-header {
-                padding: 1rem 2.5rem;
+                padding: 0.75rem 2.5rem; /* Slightly larger padding for desktop */
             }
             .header-button {
-                padding: 0.75rem 1.5rem;
+                padding: 0.6rem 1.2rem; /* Slightly larger padding for desktop button */
                 font-size: 1rem;
             }
             .header-button svg {
@@ -296,7 +296,7 @@
     </style>
 </head>
 <body>
-    <!-- Fixed header with the Home button -->
+    <!-- Fixed header with only the "Accueil" button -->
     <div class="fixed-header">
         <a href="index.html" class="header-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
