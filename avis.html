@@ -12,7 +12,6 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(to bottom right, #e0f2fe, #e3f2fd);
             color: #1e293b;
-            /* Adjusted padding-top to account for the fixed header height */
             padding-top: 4rem; /* Reduced padding for smaller header on mobile */
             padding-left: 1rem;
             padding-right: 1rem;
@@ -249,6 +248,23 @@
             height: 16px;
         }
 
+        /* Loading Spinner */
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #3b82f6; /* Blue */
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            margin: 1rem auto;
+            display: none; /* Hidden by default */
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
 
         /* Adjustments for larger screens (sm: breakpoint and up) */
         @media (min-width: 640px) {
@@ -328,7 +344,7 @@
             <section class="mb-8 sm:mb-10">
                 <h2 class="mb-4">Avis des joueurs</h2>
                 <div id="reviewsList" class="flex flex-col gap-4">
-                    <!-- Reviews will be loaded here by JavaScript -->
+                    <div id="reviewsLoader" class="loader"></div> <!-- Loading spinner for reviews -->
                     <p class="text-center text-gray-500" id="noReviewsMessage">Aucun avis pour le moment. Soyez le premier !</p>
                 </div>
             </section>
@@ -358,11 +374,26 @@
         </div>
     </div>
 
-    <script>
-        const REVIEWS_STORAGE_KEY = 'sky_architect_reviews';
-        const USER_ID_COOKIE_NAME = 'sky_architect_user_id';
-        const ADMIN_CODE = '0567';
+    <script type="module">
+        // Firebase SDK imports
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
+        // Global variables provided by the Canvas environment
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+        const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : {};
+        const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // Constants
+        const ADMIN_CODE = '0567'; // Admin code for client-side check
+
+        // DOM Elements
         const reviewForm = document.getElementById('reviewForm');
         const reviewTextarea = document.getElementById('reviewText');
         const reviewsList = document.getElementById('reviewsList');
@@ -371,52 +402,25 @@
         const adminPanel = document.getElementById('adminPanel');
         const messageBox = document.getElementById('messageBox');
         const adminLogoutButton = document.getElementById('adminLogoutButton');
+        const reviewsLoader = document.getElementById('reviewsLoader'); // Loading spinner
 
         const adminModal = document.getElementById('adminModal');
         const adminCodeInput = document.getElementById('adminCodeInput');
         const modalLoginButton = document.getElementById('modalLoginButton');
 
         let isAdminMode = false;
+        let currentUserId = null; // To store the authenticated user's UID
 
-        // --- Utility functions for cookies ---
-        function setCookie(name, value, days) {
-            let expires = "";
-            if (days) {
-                const date = new Date();
-                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
-                expires = "; expires=" + date.toUTCString();
-            }
-            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        // --- Utility functions ---
+        function showLoader() {
+            reviewsLoader.style.display = 'block';
+            noReviewsMessage.style.display = 'none'; // Hide "No reviews" message while loading
         }
 
-        function getCookie(name) {
-            const nameEQ = name + "=";
-            const ca = document.cookie.split(';');
-            for (let i = 0; i < ca.length; i++) {
-                let c = ca[i];
-                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
-                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
-            }
-            return null;
+        function hideLoader() {
+            reviewsLoader.style.display = 'none';
         }
 
-        function generateUUID() {
-            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-                const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
-                return v.toString(16);
-            });
-        }
-
-        function getOrCreateUserId() {
-            let userId = getCookie(USER_ID_COOKIE_NAME);
-            if (!userId) {
-                userId = generateUUID();
-                setCookie(USER_ID_COOKIE_NAME, userId, 365);
-            }
-            return userId;
-        }
-
-        // --- Show temporary message ---
         function showMessage(message, type = 'info') {
             messageBox.textContent = message;
             messageBox.style.display = 'block';
@@ -443,20 +447,62 @@
             adminModal.classList.remove('show');
         }
 
-        // --- Load and save reviews ---
-        function loadReviews() {
-            const reviewsJson = localStorage.getItem(REVIEWS_STORAGE_KEY);
-            return reviewsJson ? JSON.parse(reviewsJson) : [];
+        // --- Firebase Authentication ---
+        async function authenticateUser() {
+            try {
+                if (initialAuthToken) {
+                    await signInWithCustomToken(auth, initialAuthToken);
+                    console.log("Signed in with custom token.");
+                } else {
+                    await signInAnonymously(auth);
+                    console.log("Signed in anonymously.");
+                }
+            } catch (error) {
+                console.error("Firebase authentication error:", error);
+                showMessage("Erreur d'authentification Firebase. Certaines fonctionnalités peuvent être limitées.", 'error');
+            }
         }
 
-        function saveReviews(reviews) {
-            localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(reviews));
+        // Listen for auth state changes
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                currentUserId = user.uid;
+                console.log("User authenticated:", currentUserId);
+                setupRealtimeReviewsListener(); // Start listening for reviews once authenticated
+            } else {
+                currentUserId = null;
+                console.log("No user signed in.");
+                // Optionally clear reviews if no user is signed in, or display a message
+                reviewsList.innerHTML = '<p class="text-center text-gray-500" id="noReviewsMessage">Veuillez vous connecter pour voir les avis.</p>';
+                hideLoader();
+            }
+        });
+
+        // --- Real-time Reviews Listener ---
+        function setupRealtimeReviewsListener() {
+            showLoader();
+            // Define the collection path for public reviews
+            // /artifacts/{appId}/public/data/reviews
+            const reviewsCollectionRef = collection(db, `artifacts/${appId}/public/data/reviews`);
+            const q = query(reviewsCollectionRef, orderBy('timestamp', 'desc')); // Order by timestamp descending
+
+            onSnapshot(q, (snapshot) => {
+                hideLoader();
+                const reviews = [];
+                snapshot.forEach(doc => {
+                    reviews.push({ id: doc.id, ...doc.data() });
+                });
+                displayReviews(reviews);
+            }, (error) => {
+                console.error("Error fetching real-time reviews:", error);
+                hideLoader();
+                showMessage("Erreur lors du chargement des avis. Veuillez réessayer.", 'error');
+            });
         }
 
         // --- Display reviews on the page ---
-        function displayReviews() {
-            const reviews = loadReviews();
-            reviewsList.innerHTML = '';
+        function displayReviews(reviews) {
+            reviewsList.innerHTML = ''; // Clear existing reviews
 
             if (reviews.length === 0) {
                 noReviewsMessage.style.display = 'block';
@@ -467,7 +513,7 @@
                     reviewElement.className = 'review-item';
                     reviewElement.setAttribute('data-id', review.id);
 
-                    const date = new Date(review.timestamp);
+                    const date = review.timestamp ? new Date(review.timestamp.toDate()) : new Date(); // Convert Firestore Timestamp
                     const formattedDate = date.toLocaleDateString('fr-FR', {
                         year: 'numeric', month: 'long', day: 'numeric',
                         hour: '2-digit', minute: '2-digit'
@@ -495,9 +541,14 @@
         }
 
         // --- Handle review submission ---
-        reviewForm.addEventListener('submit', (e) => {
+        reviewForm.addEventListener('submit', async (e) => {
             e.preventDefault();
             const reviewText = reviewTextarea.value.trim();
+
+            if (!currentUserId) {
+                showMessage("Veuillez patienter pendant l'authentification ou recharger la page.", 'error');
+                return;
+            }
 
             if (reviewText.length < 10) {
                 showMessage("Votre avis est trop court (minimum 10 caractères).", 'error');
@@ -508,20 +559,21 @@
                 return;
             }
 
-            const userId = getOrCreateUserId();
-            const newReview = {
-                id: generateUUID(),
-                userId: userId,
-                text: reviewText,
-                timestamp: new Date().toISOString()
-            };
-
-            const reviews = loadReviews();
-            reviews.unshift(newReview);
-            saveReviews(reviews);
-            displayReviews();
-            reviewTextarea.value = '';
-            showMessage("Votre avis a été envoyé avec succès !");
+            try {
+                showLoader();
+                await addDoc(collection(db, `artifacts/${appId}/public/data/reviews`), {
+                    userId: currentUserId, // Store the anonymous user ID
+                    text: reviewText,
+                    timestamp: serverTimestamp() // Use server timestamp for consistency
+                });
+                reviewTextarea.value = '';
+                showMessage("Votre avis a été envoyé avec succès !");
+            } catch (error) {
+                console.error("Error adding review:", error);
+                showMessage("Erreur lors de l'envoi de l'avis. Veuillez réessayer.", 'error');
+            } finally {
+                hideLoader();
+            }
         });
 
         // --- Handle Admin login via footer link ---
@@ -538,7 +590,8 @@
                 hideAdminModal();
                 adminPanel.classList.remove('hidden');
                 adminLoginLink.style.display = 'none';
-                displayReviews();
+                // Re-display reviews to show delete buttons
+                setupRealtimeReviewsListener(); // Re-trigger listener to update UI with admin buttons
                 showMessage("Mode Admin activé !");
             } else {
                 showMessage("Code administrateur incorrect.", 'error');
@@ -551,33 +604,33 @@
             isAdminMode = false;
             adminPanel.classList.add('hidden');
             adminLoginLink.style.display = 'inline-block';
-            displayReviews();
+            // Re-display reviews to hide delete buttons
+            setupRealtimeReviewsListener(); // Re-trigger listener to update UI without admin buttons
             showMessage("Mode Admin désactivé.");
         });
 
         // --- Delete review (admin function) ---
-        function deleteReview(reviewId) {
+        async function deleteReview(reviewId) {
             if (!isAdminMode) {
                 showMessage("Vous n'êtes pas en mode administrateur.", 'error');
                 return;
             }
 
-            let reviews = loadReviews();
-            const initialLength = reviews.length;
-            reviews = reviews.filter(review => review.id !== reviewId);
-            saveReviews(reviews);
-            displayReviews();
-            if (reviews.length < initialLength) {
+            try {
+                showLoader();
+                await deleteDoc(doc(db, `artifacts/${appId}/public/data/reviews`, reviewId));
                 showMessage("Avis supprimé avec succès !");
-            } else {
-                showMessage("Erreur: Avis non trouvé ou non supprimé.", 'error');
+            } catch (error) {
+                console.error("Error deleting review:", error);
+                showMessage("Erreur lors de la suppression de l'avis. Veuillez réessayer.", 'error');
+            } finally {
+                hideLoader();
             }
         }
 
         // --- Initialize on page load ---
         document.addEventListener('DOMContentLoaded', () => {
-            getOrCreateUserId();
-            displayReviews();
+            authenticateUser(); // Start authentication process
         });
     </script>
 </body>
