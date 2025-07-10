@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Donnez votre avis - Sky Architect</title>
+    <title>Avis - Non Disponible</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -12,18 +12,23 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(to bottom right, #e0f2fe, #e3f2fd);
             color: #1e293b;
-            padding-top: 4rem; /* Reduced padding for smaller header on mobile */
+            padding-top: 4rem; /* Adjusted for fixed header */
             padding-left: 1rem;
             padding-right: 1rem;
-            padding-bottom: 1rem;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            align-items: center;
+            justify-content: center; /* Center content vertically */
+            text-align: center;
         }
         .container {
             max-width: 950px;
-            padding: 1.5rem;
-            flex-grow: 1;
+            padding: 2rem;
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-top: -4rem; /* Pull up to compensate for padding-top and center better */
         }
         .header-gradient {
             background: linear-gradient(to right, #60a5fa, #3b82f6);
@@ -31,186 +36,9 @@
             background-clip: text;
             color: transparent;
             font-size: 2.25rem;
-        }
-        h1.header-gradient {
-            line-height: 1.2;
-        }
-        h2 {
-            font-size: 1.5rem;
-            border-left: 4px solid #3b82f6;
-            padding-left: 1rem;
+            font-weight: 800;
             margin-bottom: 1rem;
         }
-        .card {
-            background-color: #ffffff;
-            border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            padding: 1.25rem;
-            margin-bottom: 1.25rem;
-        }
-        .form-input, .form-textarea {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 0.5rem;
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
-            font-size: 0.875rem;
-            color: #334155;
-        }
-        .form-input:focus, .form-textarea:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
-        }
-        .submit-button {
-            background-color: #2563eb;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.2s ease-in-out;
-            width: 100%;
-            cursor: pointer;
-        }
-        .submit-button:hover {
-            background-color: #1d4ed8;
-        }
-        .review-item {
-            background-color: #f8fafc;
-            border: 1px solid #e2e8f0;
-            border-radius: 0.75rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            position: relative;
-        }
-        .review-author {
-            font-weight: 600;
-            color: #475569;
-            font-size: 0.875rem;
-            margin-bottom: 0.25rem;
-        }
-        .review-date {
-            font-size: 0.75rem;
-            color: #94a3b8;
-            margin-bottom: 0.5rem;
-        }
-        .review-text {
-            font-size: 0.875rem;
-            color: #334155;
-            line-height: 1.5;
-        }
-        .admin-panel {
-            background-color: #fffbeb;
-            border: 1px solid #fcd34d;
-            border-radius: 0.75rem;
-            padding: 1.25rem;
-            margin-top: 2rem;
-            text-align: center;
-        }
-        .admin-delete-button {
-            background-color: #ef4444;
-            color: white;
-            padding: 0.3rem 0.6rem;
-            border-radius: 0.375rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            transition: background-color 0.2s ease-in-out;
-            cursor: pointer;
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-        }
-        .admin-delete-button:hover {
-            background-color: #dc2626;
-        }
-        .message-box {
-            background-color: #dbeafe;
-            color: #1e40af;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            font-size: 0.875rem;
-            text-align: center;
-            display: none;
-        }
-
-        /* Styles for the discreet admin link in the footer */
-        .admin-link {
-            color: #64748b;
-            font-size: 0.75rem;
-            text-decoration: none;
-            transition: color 0.2s ease-in-out;
-            margin-top: 1rem;
-        }
-        .admin-link:hover {
-            color: #3b82f6;
-        }
-
-        /* Styles for the custom modal */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.6);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-            opacity: 0;
-            visibility: hidden;
-            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
-        }
-        .modal-overlay.show {
-            opacity: 1;
-            visibility: visible;
-        }
-        .modal-content {
-            background-color: white;
-            padding: 1.5rem;
-            border-radius: 1rem;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            width: 90%;
-            max-width: 400px;
-            position: relative;
-        }
-        .modal-close-button {
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            background: none;
-            border: none;
-            font-size: 1.5rem;
-            cursor: pointer;
-            color: #64748b;
-        }
-        .modal-input {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid #cbd5e1;
-            border-radius: 0.5rem;
-            margin-top: 0.5rem;
-            margin-bottom: 1rem;
-            font-size: 1rem;
-            color: #334155;
-        }
-        .modal-submit-button {
-            background-color: #2563eb;
-            color: white;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 600;
-            transition: background-color 0.2s ease-in-out;
-            width: 100%;
-            cursor: pointer;
-        }
-        .modal-submit-button:hover {
-            background-color: #1d4ed8;
-        }
-
-        /* Styles for the fixed header */
         .fixed-header {
             position: fixed;
             top: 0;
@@ -219,17 +47,17 @@
             background-color: #ffffff;
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
             z-index: 1000;
-            padding: 0.5rem 1rem; /* Smaller padding for a more compact bar */
+            padding: 0.5rem 1rem;
             display: flex;
-            justify-content: space-between; /* Space out buttons */
+            justify-content: center; /* Center the button */
             align-items: center;
         }
-        .header-button { /* Generic style for header buttons */
+        .header-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.5rem 1rem; /* Smaller padding for the button itself */
-            background-color: #3b82f6; /* Default blue */
+            padding: 0.5rem 1rem;
+            background-color: #3b82f6;
             color: white;
             font-weight: 600;
             border-radius: 0.5rem;
@@ -243,65 +71,27 @@
             transform: translateY(-1px);
         }
         .header-button svg {
-            margin-right: 0.5rem; /* Icon to the left of the text */
+            margin-right: 0.5rem;
             width: 16px;
             height: 16px;
         }
 
-        /* Loading Spinner */
-        .loader {
-            border: 4px solid #f3f3f3; /* Light grey */
-            border-top: 4px solid #3b82f6; /* Blue */
-            border-radius: 50%;
-            width: 24px;
-            height: 24px;
-            animation: spin 1s linear infinite;
-            margin: 1rem auto;
-            display: none; /* Hidden by default */
-        }
-
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-
         /* Adjustments for larger screens (sm: breakpoint and up) */
         @media (min-width: 640px) {
             body {
-                padding-top: 5rem; /* Adjusted padding for desktop for smaller header */
+                padding-top: 5rem;
                 padding-left: 2.5rem;
                 padding-right: 2.5rem;
-                padding-bottom: 2.5rem;
             }
             .container {
                 padding: 3rem 4rem;
+                margin-top: -5rem; /* Adjust for larger padding-top */
             }
             .header-gradient {
                 font-size: 3.5rem;
             }
-            h2 {
-                font-size: 1.875rem;
-            }
-            p, li, .review-author, .review-text, .form-input, .form-textarea, .submit-button, .message-box {
-                font-size: 1rem;
-            }
-            .card {
-                padding: 2rem;
-                margin-bottom: 2rem;
-            }
-            .admin-delete-button {
-                font-size: 0.875rem;
-                padding: 0.4rem 0.8rem;
-            }
-            .admin-link {
-                font-size: 0.875rem;
-            }
-            .fixed-header {
-                padding: 0.75rem 2.5rem; /* Slightly larger padding for desktop */
-            }
             .header-button {
-                padding: 0.6rem 1.2rem; /* Slightly larger padding for desktop button */
+                padding: 0.6rem 1.2rem;
                 font-size: 1rem;
             }
             .header-button svg {
@@ -312,573 +102,27 @@
     </style>
 </head>
 <body>
-    <!-- Fixed header with navigation and auth buttons -->
+    <!-- Fixed header with only the "Accueil" button -->
     <div class="fixed-header">
         <a href="index.html" class="header-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
             Accueil
         </a>
-        <div class="flex items-center space-x-2">
-            <span id="userStatus" class="text-gray-600 text-sm font-medium hidden sm:block"></span>
-            <button id="authButton" class="header-button">Connexion / Inscription</button>
-            <button id="logoutButton" class="header-button hidden">Déconnexion</button>
-        </div>
     </div>
 
-    <div class="container mx-auto bg-white rounded-3xl shadow-2xl flex-grow">
-
-        <header class="text-center mb-8 sm:mb-12">
-            <h1 class="font-extrabold header-gradient mb-3 sm:mb-4">Donnez votre avis</h1>
-            <p class="text-lg sm:text-2xl text-gray-700 font-semibold">Partagez votre expérience sur <span class="text-blue-600">Sky Architect</span></p>
-        </header>
-
-        <main>
-            <section class="mb-8 sm:mb-10">
-                <h2 class="mb-4">Laisser un avis</h2>
-                <div class="card">
-                    <div id="messageBox" class="message-box"></div>
-                    <form id="reviewForm" class="flex flex-col hidden"> <!-- Hidden by default, shown when logged in -->
-                        <label for="reviewText" class="font-semibold mb-2 text-gray-700">Votre avis :</label>
-                        <textarea id="reviewText" class="form-textarea" rows="5" placeholder="Écrivez votre avis ici..." required></textarea>
-
-                        <button type="submit" class="submit-button">Envoyer l'avis</button>
-                    </form>
-                    <p id="loginPrompt" class="text-center text-gray-600">Veuillez vous connecter pour laisser un avis.</p>
-                </div>
-            </section>
-
-            <section class="mb-8 sm:mb-10">
-                <h2 class="mb-4">Avis des joueurs</h2>
-                <div id="reviewsList" class="flex flex-col gap-4">
-                    <div id="reviewsLoader" class="loader"></div> <!-- Loading spinner for reviews -->
-                    <p class="text-center text-gray-500" id="noReviewsMessage">Aucun avis pour le moment. Soyez le premier !</p>
-                </div>
-            </section>
-
-            <div id="adminPanel" class="admin-panel hidden">
-                <p class="text-green-600 font-semibold mb-2">Mode Admin activé !</p>
-                <p class="text-gray-600">Vous pouvez maintenant supprimer les avis.</p>
-                <button id="adminLogoutButton" class="admin-delete-button !relative !top-0 !right-0 mt-2">Quitter Admin</button>
-            </div>
-        </main>
+    <div class="container mx-auto">
+        <h1 class="header-gradient">Page d'Avis</h1>
+        <p class="text-lg sm:text-xl text-gray-700 mb-4">
+            Nous vous prions de bien vouloir nous excuser.
+        </p>
+        <p class="text-base sm:text-lg text-gray-600 mb-6">
+            La fonctionnalité d'avis est actuellement en cours de développement et n'est pas disponible pour le moment.
+            Nous travaillons activement pour vous l'offrir très bientôt !
+        </p>
+        <p class="text-sm text-gray-500">
+            Merci de votre compréhension.
+        </p>
     </div>
 
-    <footer class="text-center text-gray-500 text-xs sm:text-sm mt-8 py-4 border-t border-gray-200 flex flex-col items-center">
-        <p>&copy; 2025 Sky Architect. Tous droits réservés.</p>
-        <p>Document généré pour la conception de jeu Roblox.</p>
-        <a href="#" id="adminLoginLink" class="admin-link">Admin</a>
-    </footer>
-
-    <!-- Login/Registration Modal -->
-    <div id="authModal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close-button" onclick="hideAuthModal()">&times;</button>
-            <h3 id="authModalTitle" class="text-xl font-semibold mb-4 text-center">Connexion</h3>
-            <div id="authMessageBox" class="message-box"></div>
-            <form id="authForm" class="flex flex-col">
-                <label for="authEmailInput" class="block text-left font-semibold mb-2 text-gray-700">Email :</label>
-                <input type="email" id="authEmailInput" class="modal-input" placeholder="Votre email" required />
-
-                <label for="authUsernameInput" class="block text-left font-semibold mb-2 text-gray-700 hidden">Nom d'utilisateur :</label>
-                <input type="text" id="authUsernameInput" class="modal-input hidden" placeholder="Votre nom d'utilisateur" />
-
-                <label for="authPasswordInput" class="block text-left font-semibold mb-2 text-gray-700">Mot de passe :</label>
-                <input type="password" id="authPasswordInput" class="modal-input" placeholder="Votre mot de passe" required />
-
-                <button type="submit" id="authSubmitButton" class="modal-submit-button">Se connecter</button>
-            </form>
-            <p class="text-center text-sm mt-4">
-                <span id="toggleAuthModeText">Pas encore de compte ?</span>
-                <button id="toggleAuthModeButton" class="text-blue-600 hover:underline font-semibold ml-1">S'inscrire</button>
-            </p>
-        </div>
-    </div>
-
-    <!-- Admin Login Modal (kept separate for admin code) -->
-    <div id="adminModal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="modal-close-button" onclick="hideAdminModal()">&times;</button>
-            <h3 class="text-xl font-semibold mb-4 text-center">Connexion Administrateur</h3>
-            <label for="adminCodeInput" class="block text-left font-semibold mb-2 text-gray-700">Code :</label>
-            <input type="password" id="adminCodeInput" class="modal-input" placeholder="Entrez le code admin" />
-            <button id="modalLoginButton" class="modal-submit-button">Se connecter</button>
-        </div>
-    </div>
-
-    <script type="module">
-        // Firebase SDK imports
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-        import { getFirestore, collection, addDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-        // Your Firebase Configuration
-        const firebaseConfig = {
-          apiKey: "AIzaSyB5AcBt67LO7BxXSoFZe04fgYKJ7HP1mK0",
-          authDomain: "architect-avis.firebaseapp.com",
-          projectId: "architect-avis",
-          storageBucket: "architect-avis.firebasestorage.app",
-          messagingSenderId: "246338602219",
-          appId: "1:246338602219:web:6370371c9875a5fc056aae",
-          measurementId: "G-5LFD2E0K8L"
-        };
-        const appId = firebaseConfig.projectId; // Ensure appId uses the projectId from your config
-        const initialAuthToken = null; // Keep this null for your use case
-
-        // Initialize Firebase
-        const app = initializeApp(firebaseConfig);
-        const db = getFirestore(app);
-        const auth = getAuth(app);
-
-        // Constants
-        const ADMIN_CODE = '0567'; // Admin code for client-side check
-        const ADMIN_STATUS_KEY = 'sky_architect_admin_status'; // Key for localStorage
-
-        // DOM Elements
-        const reviewForm = document.getElementById('reviewForm');
-        const reviewTextarea = document.getElementById('reviewText');
-        const reviewsList = document.getElementById('reviewsList');
-        const noReviewsMessage = document.getElementById('noReviewsMessage');
-        const adminLoginLink = document.getElementById('adminLoginLink');
-        const adminPanel = document.getElementById('adminPanel');
-        const messageBox = document.getElementById('messageBox');
-        const reviewsLoader = document.getElementById('reviewsLoader'); // Loading spinner
-        const loginPrompt = document.getElementById('loginPrompt'); // New element for login prompt
-
-        // Auth Modal Elements
-        const authModal = document.getElementById('authModal');
-        const authModalTitle = document.getElementById('authModalTitle');
-        const authMessageBox = document.getElementById('authMessageBox');
-        const authForm = document.getElementById('authForm');
-        const authEmailInput = document.getElementById('authEmailInput');
-        const authUsernameInput = document.getElementById('authUsernameInput'); // New username input
-        const authPasswordInput = document.getElementById('authPasswordInput');
-        const authSubmitButton = document.getElementById('authSubmitButton');
-        const toggleAuthModeText = document.getElementById('toggleAuthModeText');
-        const toggleAuthModeButton = document.getElementById('toggleAuthModeButton');
-        const authButton = document.getElementById('authButton');
-        const logoutButton = document.getElementById('logoutButton');
-        const userStatus = document.getElementById('userStatus');
-
-        // Admin Modal Elements
-        const adminModal = document.getElementById('adminModal');
-        const adminCodeInput = document.getElementById('adminCodeInput');
-        const modalLoginButton = document.getElementById('modalLoginButton');
-        const adminLogoutButton = document.getElementById('adminLogoutButton'); // Admin logout button
-
-        let isAdminMode = false;
-        let isRegisterMode = false; // To toggle between login and register in auth modal
-        let currentUsername = null; // To store the current user's username
-
-        // Cache for fetched usernames to avoid repeated Firestore reads
-        const usernameCache = new Map();
-
-        // --- Utility functions ---
-        function showLoader() {
-            reviewsLoader.style.display = 'block';
-            noReviewsMessage.style.display = 'none'; // Hide "No reviews" message while loading
-        }
-
-        function hideLoader() {
-            reviewsLoader.style.display = 'none';
-        }
-
-        function showMessage(message, type = 'info') {
-            messageBox.textContent = message;
-            messageBox.style.display = 'block';
-            if (type === 'error') {
-                messageBox.style.backgroundColor = '#fee2e2';
-                messageBox.style.color = '#dc2626';
-            } else {
-                messageBox.style.backgroundColor = '#dbeafe';
-                messageBox.style.color = '#1e40af';
-            }
-            setTimeout(() => {
-                messageBox.style.display = 'none';
-            }, 3000);
-        }
-
-        function showAuthMessage(message, type = 'info') {
-            authMessageBox.textContent = message;
-            authMessageBox.style.display = 'block';
-            if (type === 'error') {
-                authMessageBox.style.backgroundColor = '#fee2e2';
-                authMessageBox.style.color = '#dc2626';
-            } else {
-                authMessageBox.style.backgroundColor = '#dbeafe';
-                authMessageBox.style.color = '#1e40af';
-            }
-            setTimeout(() => {
-                authMessageBox.style.display = 'none';
-            }, 3000);
-        }
-
-        // --- Auth Modal management functions ---
-        function showAuthModal(mode = 'login') {
-            isRegisterMode = (mode === 'register');
-            authModalTitle.textContent = isRegisterMode ? 'Inscription' : 'Connexion';
-            authSubmitButton.textContent = isRegisterMode ? 'S\'inscrire' : 'Se connecter';
-            toggleAuthModeText.textContent = isRegisterMode ? 'Déjà un compte ?' : 'Pas encore de compte ?';
-            toggleAuthModeButton.textContent = isRegisterMode ? 'Se connecter' : 'S\'inscrire';
-
-            // Toggle visibility and required status of username input
-            if (isRegisterMode) {
-                authUsernameInput.classList.remove('hidden');
-                authUsernameInput.setAttribute('required', 'required');
-                authUsernameInput.previousElementSibling.classList.remove('hidden'); // Show label
-            } else {
-                authUsernameInput.classList.add('hidden');
-                authUsernameInput.removeAttribute('required');
-                authUsernameInput.previousElementSibling.classList.add('hidden'); // Hide label
-            }
-
-            authMessageBox.style.display = 'none'; // Hide any previous messages
-            authEmailInput.value = '';
-            authUsernameInput.value = ''; // Clear username input
-            authPasswordInput.value = '';
-            authModal.classList.add('show');
-            authEmailInput.focus();
-        }
-
-        function hideAuthModal() {
-            authModal.classList.remove('show');
-        }
-
-        // --- Admin Modal management functions ---
-        function showAdminModal() {
-            adminModal.classList.add('show');
-            adminCodeInput.value = '';
-            adminCodeInput.focus();
-        }
-
-        function hideAdminModal() {
-            adminModal.classList.remove('show');
-        }
-
-        // --- Firebase Authentication Methods ---
-        async function registerUser(email, username, password) {
-            try {
-                const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-                const user = userCredential.user;
-
-                // Save username to Firestore
-                await setDoc(doc(db, `artifacts/${appId}/users`, user.uid), {
-                    username: username,
-                    email: email,
-                    createdAt: serverTimestamp()
-                });
-
-                showAuthMessage("Compte créé et connecté avec succès !", 'info');
-                hideAuthModal();
-            } catch (error) {
-                console.error("Registration error:", error);
-                let errorMessage = "Erreur lors de l'inscription.";
-                if (error.code === 'auth/email-already-in-use') {
-                    errorMessage = "Cet email est déjà utilisé.";
-                } else if (error.code === 'auth/invalid-email') {
-                    errorMessage = "L'adresse email est invalide.";
-                } else if (error.code === 'auth/weak-password') {
-                    errorMessage = "Le mot de passe est trop faible (6 caractères minimum).";
-                }
-                showAuthMessage(errorMessage, 'error');
-            }
-        }
-
-        async function loginUser(email, password) {
-            try {
-                await signInWithEmailAndPassword(auth, email, password);
-                showAuthMessage("Connexion réussie !", 'info');
-                hideAuthModal();
-            } catch (error) {
-                console.error("Login error:", error);
-                let errorMessage = "Erreur de connexion.";
-                if (error.code === 'auth/invalid-credential' || error.code === 'auth/user-not-found' || error.code === 'auth/wrong-password') {
-                    errorMessage = "Email ou mot de passe incorrect.";
-                }
-                showAuthMessage(errorMessage, 'error');
-            }
-        }
-
-        async function logoutUser() {
-            try {
-                await signOut(auth);
-                showMessage("Déconnexion réussie.", 'info');
-            } catch (error) {
-                console.error("Logout error:", error);
-                showMessage("Erreur lors de la déconnexion.", 'error');
-            }
-        }
-
-        // --- Listen for auth state changes and update UI ---
-        onAuthStateChanged(auth, async (user) => {
-            if (user) {
-                // User is signed in
-                console.log("User signed in:", user.email || user.uid);
-                currentUsername = null; // Reset username
-                userStatus.classList.remove('hidden');
-                authButton.classList.add('hidden');
-                logoutButton.classList.remove('hidden');
-                reviewForm.classList.remove('hidden');
-                loginPrompt.classList.add('hidden'); // Hide login prompt
-
-                // Fetch username from Firestore
-                const userProfileRef = doc(db, `artifacts/${appId}/users`, user.uid);
-                try {
-                    const userProfileSnap = await getDoc(userProfileRef);
-                    if (userProfileSnap.exists()) {
-                        currentUsername = userProfileSnap.data().username;
-                        userStatus.textContent = `Connecté en tant que : ${currentUsername}`;
-                    } else {
-                        userStatus.textContent = `Connecté en tant que : ${user.email || 'Inconnu'}`;
-                        console.warn("User profile not found in Firestore for UID:", user.uid);
-                        // If profile not found, ensure currentUsername is null for new reviews
-                        currentUsername = null;
-                        // Optionally, prompt user to set a username if not found (future enhancement)
-                    }
-                } catch (error) {
-                    console.error("Error fetching user profile:", error);
-                    userStatus.textContent = `Connecté en tant que : ${user.email || 'Inconnu'}`;
-                    currentUsername = null; // Ensure null on error
-                }
-
-            } else {
-                // User is signed out
-                console.log("No user signed in.");
-                currentUsername = null;
-                userStatus.classList.add('hidden');
-                authButton.classList.remove('hidden');
-                logoutButton.classList.add('hidden');
-                reviewForm.classList.add('hidden');
-                loginPrompt.classList.remove('hidden'); // Show login prompt
-            }
-            setupRealtimeReviewsListener(); // Always listen for reviews, regardless of auth status
-        });
-
-        // --- Real-time Reviews Listener ---
-        function setupRealtimeReviewsListener() {
-            showLoader();
-            const reviewsCollectionRef = collection(db, `artifacts/${appId}/public/data/reviews`);
-            const q = query(reviewsCollectionRef, orderBy('timestamp', 'desc'));
-
-            onSnapshot(q, (snapshot) => {
-                hideLoader();
-                const reviews = [];
-                snapshot.forEach(doc => {
-                    reviews.push({ id: doc.id, ...doc.data() });
-                });
-                displayReviews(reviews);
-                if (reviews.length === 0) {
-                    noReviewsMessage.style.display = 'block';
-                } else {
-                    noReviewsMessage.style.display = 'none';
-                }
-            }, (error) => {
-                console.error("Error fetching real-time reviews:", error);
-                hideLoader();
-                showMessage("Erreur lors du chargement des avis. Veuillez réessayer.", 'error');
-            });
-        }
-
-        // --- Display reviews on the page ---
-        async function displayReviews(reviews) {
-            reviewsList.innerHTML = ''; // Clear existing reviews
-
-            if (reviews.length === 0) {
-                noReviewsMessage.style.display = 'block';
-            } else {
-                noReviewsMessage.style.display = 'none';
-                for (const review of reviews) { // Use for...of for async operations
-                    const reviewElement = document.createElement('div');
-                    reviewElement.className = 'review-item';
-                    reviewElement.setAttribute('data-id', review.id);
-
-                    // Firestore Timestamp needs to be converted to a Date object
-                    const date = review.timestamp && review.timestamp.toDate ? new Date(review.timestamp.toDate()) : new Date();
-                    const formattedDate = date.toLocaleDateString('fr-FR', {
-                        year: 'numeric', month: 'long', day: 'numeric',
-                        hour: '2-digit', minute: '2-digit'
-                    });
-
-                    let authorDisplayName = 'Chargement...'; // Default while fetching
-                    
-                    // Prioritize authorUsername saved directly with the review
-                    if (review.authorUsername) {
-                        authorDisplayName = review.authorUsername;
-                    } else if (review.userId) {
-                        // If authorUsername not on review, try to fetch from user profile cache or Firestore
-                        if (usernameCache.has(review.userId)) {
-                            authorDisplayName = usernameCache.get(review.userId);
-                        } else {
-                            // Fetch username from user profile if not in cache
-                            const userProfileRef = doc(db, `artifacts/${appId}/users`, review.userId);
-                            try {
-                                const userProfileSnap = await getDoc(userProfileRef);
-                                if (userProfileSnap.exists() && userProfileSnap.data().username) {
-                                    authorDisplayName = userProfileSnap.data().username;
-                                    usernameCache.set(review.userId, authorDisplayName); // Cache it
-                                } else {
-                                    // Fallback if profile exists but no username, or profile doesn't exist
-                                    authorDisplayName = review.authorEmail || 'Utilisateur Inconnu';
-                                }
-                            } catch (profileError) {
-                                console.error("Error fetching user profile for review:", review.userId, profileError);
-                                authorDisplayName = review.authorEmail || 'Utilisateur Inconnu (Erreur)';
-                            }
-                        }
-                    } else {
-                        // If no userId and no authorUsername/Email, fallback
-                        authorDisplayName = 'Utilisateur Déconnecté';
-                    }
-
-
-                    reviewElement.innerHTML = `
-                        <p class="review-author">Avis de : <span class="author-name">${authorDisplayName}</span></p>
-                        <p class="review-date">${formattedDate}</p>
-                        <p class="review-text">${review.text}</p>
-                    `;
-
-                    // Only show delete button if admin mode is active
-                    if (isAdminMode) {
-                        const deleteButton = document.createElement('button');
-                        deleteButton.className = 'admin-delete-button';
-                        deleteButton.textContent = 'Supprimer';
-                        deleteButton.onclick = (event) => {
-                            event.stopPropagation();
-                            deleteReview(review.id);
-                        };
-                        reviewElement.appendChild(deleteButton);
-                    }
-                    reviewsList.appendChild(reviewElement);
-                }
-            }
-        }
-
-        // --- Handle review submission ---
-        reviewForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const reviewText = reviewTextarea.value.trim();
-
-            const user = auth.currentUser;
-            if (!user) {
-                showMessage("Vous devez être connecté pour laisser un avis.", 'error');
-                return;
-            }
-
-            if (reviewText.length < 10) {
-                showMessage("Votre avis est trop court (minimum 10 caractères).", 'error');
-                return;
-            }
-            if (reviewText.length > 500) {
-                showMessage("Votre avis est trop long (maximum 500 caractères).", 'error');
-                return;
-            }
-
-            try {
-                showLoader();
-                await addDoc(collection(db, `artifacts/${appId}/public/data/reviews`), {
-                    userId: user.uid, // Store the user ID
-                    authorEmail: user.email, // Store the user's email
-                    authorUsername: currentUsername, // Store the user's username
-                    text: reviewText,
-                    timestamp: serverTimestamp() // Use server timestamp for consistency
-                });
-                reviewTextarea.value = '';
-                showMessage("Votre avis a été envoyé avec succès !");
-            } catch (error) {
-                console.error("Error adding review:", error);
-                showMessage("Erreur lors de l'envoi de l'avis. Veuillez réessayer.", 'error');
-            } finally {
-                hideLoader();
-            }
-        });
-
-        // --- Event Listeners for Auth Modals ---
-        authButton.addEventListener('click', () => showAuthModal('login'));
-        logoutButton.addEventListener('click', logoutUser);
-
-        toggleAuthModeButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            showAuthModal(isRegisterMode ? 'login' : 'register');
-        });
-
-        authForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const email = authEmailInput.value;
-            const password = authPasswordInput.value;
-            const username = authUsernameInput.value.trim(); // Get username for registration
-
-            if (isRegisterMode) {
-                if (!username) {
-                    showAuthMessage("Veuillez entrer un nom d'utilisateur.", 'error');
-                    return;
-                }
-                await registerUser(email, username, password);
-            } else {
-                await loginUser(email, password);
-            }
-        });
-
-        // --- Handle Admin login via footer link ---
-        adminLoginLink.addEventListener('click', (e) => {
-            e.preventDefault();
-            showAdminModal();
-        });
-
-        // --- Handle Admin code submission from modal ---
-        modalLoginButton.addEventListener('click', () => {
-            const code = adminCodeInput.value.trim();
-            if (code === ADMIN_CODE) {
-                isAdminMode = true;
-                localStorage.setItem(ADMIN_STATUS_KEY, 'true'); // Persist admin status
-                hideAdminModal();
-                adminPanel.classList.remove('hidden');
-                adminLoginLink.style.display = 'none';
-                showMessage("Mode Admin activé !");
-                // Le onAuthStateChanged listener va redéclencher displayReviews
-            } else {
-                showAuthMessage("Code administrateur incorrect.", 'error'); // Use authMessageBox for admin modal errors
-                adminCodeInput.value = '';
-            }
-        });
-
-        // --- Handle Admin logout ---
-        adminLogoutButton.addEventListener('click', () => {
-            isAdminMode = false;
-            localStorage.removeItem(ADMIN_STATUS_KEY); // Remove admin status
-            adminPanel.classList.add('hidden');
-            adminLoginLink.style.display = 'inline-block';
-            showMessage("Mode Admin désactivé.");
-            // Le onAuthStateChanged listener va redéclencher displayReviews
-        });
-
-        // --- Delete review (admin function) ---
-        async function deleteReview(reviewId) {
-            if (!isAdminMode) {
-                showMessage("Vous n'êtes pas en mode administrateur.", 'error');
-                return;
-            }
-
-            try {
-                showLoader();
-                await deleteDoc(doc(db, `artifacts/${appId}/public/data/reviews`, reviewId));
-                showMessage("Avis supprimé avec succès !");
-            } catch (error) {
-                console.error("Error deleting review:", error);
-                showMessage("Erreur lors de la suppression de l'avis. Veuillez réessayer.", 'error');
-            } finally {
-                hideLoader();
-            }
-        }
-
-        // --- Initialize on page load ---
-        document.addEventListener('DOMContentLoaded', () => {
-            // Check local storage for admin status on load
-            if (localStorage.getItem(ADMIN_STATUS_KEY) === 'true') {
-                isAdminMode = true;
-                adminPanel.classList.remove('hidden');
-                adminLoginLink.style.display = 'none';
-            }
-            // The onAuthStateChanged listener will handle initial authentication state and review loading.
-        });
-    </script>
 </body>
 </html>
