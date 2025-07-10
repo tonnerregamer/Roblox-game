@@ -12,7 +12,11 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(to bottom right, #e0f2fe, #e3f2fd);
             color: #1e293b;
-            padding: 1rem;
+            /* Adjusted padding-top to account for the fixed header height */
+            padding-top: 5rem; /* Base padding for mobile, assuming header height around 4rem + some margin */
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-bottom: 1rem;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
@@ -132,7 +136,7 @@
             display: none;
         }
 
-        /* Styles pour le lien admin discret dans le footer */
+        /* Styles for the discreet admin link in the footer */
         .admin-link {
             color: #64748b;
             font-size: 0.75rem;
@@ -144,7 +148,7 @@
             color: #3b82f6;
         }
 
-        /* Styles de la modale personnalisée */
+        /* Styles for the custom modal */
         .modal-overlay {
             position: fixed;
             top: 0;
@@ -207,7 +211,7 @@
             background-color: #1d4ed8;
         }
 
-        /* Styles pour le header fixe */
+        /* Styles for the fixed header */
         .fixed-header {
             position: fixed;
             top: 0;
@@ -218,15 +222,15 @@
             z-index: 1000;
             padding: 0.75rem 1rem;
             display: flex;
-            justify-content: center; /* CENTRER LE CONTENU */
+            justify-content: center; /* Center the content */
             align-items: center;
         }
-        .header-button { /* Style générique pour les boutons du header */
+        .header-button { /* Generic style for header buttons */
             display: inline-flex;
             align-items: center;
             justify-content: center;
             padding: 0.5rem 1rem;
-            background-color: #3b82f6; /* Bleu par défaut */
+            background-color: #3b82f6; /* Default blue */
             color: white;
             font-weight: 600;
             border-radius: 0.5rem;
@@ -240,7 +244,7 @@
             transform: translateY(-1px);
         }
         .header-button svg {
-            margin-right: 0.5rem; /* Icône à gauche du texte */
+            margin-right: 0.5rem; /* Icon to the left of the text */
             width: 16px;
             height: 16px;
         }
@@ -249,7 +253,7 @@
         /* Adjustments for larger screens (sm: breakpoint and up) */
         @media (min-width: 640px) {
             body {
-                padding-top: 6rem;
+                padding-top: 6rem; /* Adjusted padding for desktop */
                 padding-left: 2.5rem;
                 padding-right: 2.5rem;
                 padding-bottom: 2.5rem;
@@ -292,7 +296,7 @@
     </style>
 </head>
 <body>
-    <!-- Header fixe avec le bouton Accueil -->
+    <!-- Fixed header with the Home button -->
     <div class="fixed-header">
         <a href="index.html" class="header-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
@@ -324,7 +328,7 @@
             <section class="mb-8 sm:mb-10">
                 <h2 class="mb-4">Avis des joueurs</h2>
                 <div id="reviewsList" class="flex flex-col gap-4">
-                    <!-- Les avis seront chargés ici par JavaScript -->
+                    <!-- Reviews will be loaded here by JavaScript -->
                     <p class="text-center text-gray-500" id="noReviewsMessage">Aucun avis pour le moment. Soyez le premier !</p>
                 </div>
             </section>
@@ -337,13 +341,13 @@
         </main>
     </div>
 
-    <footer class="text-center text-gray-500 text-xs sm:text-sm mt-8 py-4 border-t border-gray-200">
+    <footer class="text-center text-gray-500 text-xs sm:text-sm mt-8 py-4 border-t border-gray-200 flex flex-col items-center">
         <p>&copy; 2025 Sky Architect. Tous droits réservés.</p>
         <p>Document généré pour la conception de jeu Roblox.</p>
         <a href="#" id="adminLoginLink" class="admin-link">Admin</a>
     </footer>
 
-    <!-- Modale de connexion Admin -->
+    <!-- Admin Login Modal -->
     <div id="adminModal" class="modal-overlay">
         <div class="modal-content">
             <button class="modal-close-button" onclick="hideAdminModal()">&times;</button>
@@ -374,7 +378,7 @@
 
         let isAdminMode = false;
 
-        // --- Fonctions utilitaires pour les cookies ---
+        // --- Utility functions for cookies ---
         function setCookie(name, value, days) {
             let expires = "";
             if (days) {
@@ -412,7 +416,7 @@
             return userId;
         }
 
-        // --- Afficher un message temporaire ---
+        // --- Show temporary message ---
         function showMessage(message, type = 'info') {
             messageBox.textContent = message;
             messageBox.style.display = 'block';
@@ -428,7 +432,7 @@
             }, 3000);
         }
 
-        // --- Fonctions de gestion de la modale ---
+        // --- Modal management functions ---
         function showAdminModal() {
             adminModal.classList.add('show');
             adminCodeInput.value = '';
@@ -439,7 +443,7 @@
             adminModal.classList.remove('show');
         }
 
-        // --- Charger et sauvegarder les avis ---
+        // --- Load and save reviews ---
         function loadReviews() {
             const reviewsJson = localStorage.getItem(REVIEWS_STORAGE_KEY);
             return reviewsJson ? JSON.parse(reviewsJson) : [];
@@ -449,7 +453,7 @@
             localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(reviews));
         }
 
-        // --- Afficher les avis sur la page ---
+        // --- Display reviews on the page ---
         function displayReviews() {
             const reviews = loadReviews();
             reviewsList.innerHTML = '';
@@ -490,7 +494,7 @@
             }
         }
 
-        // --- Gérer la soumission d'un avis ---
+        // --- Handle review submission ---
         reviewForm.addEventListener('submit', (e) => {
             e.preventDefault();
             const reviewText = reviewTextarea.value.trim();
@@ -520,13 +524,13 @@
             showMessage("Votre avis a été envoyé avec succès !");
         });
 
-        // --- Gérer la connexion Admin via le lien du footer ---
+        // --- Handle Admin login via footer link ---
         adminLoginLink.addEventListener('click', (e) => {
             e.preventDefault();
             showAdminModal();
         });
 
-        // --- Gérer la soumission du code admin depuis la modale ---
+        // --- Handle Admin code submission from modal ---
         modalLoginButton.addEventListener('click', () => {
             const code = adminCodeInput.value.trim();
             if (code === ADMIN_CODE) {
@@ -542,7 +546,7 @@
             }
         });
 
-        // --- Gérer la déconnexion Admin ---
+        // --- Handle Admin logout ---
         adminLogoutButton.addEventListener('click', () => {
             isAdminMode = false;
             adminPanel.classList.add('hidden');
@@ -551,7 +555,7 @@
             showMessage("Mode Admin désactivé.");
         });
 
-        // --- Supprimer un avis (fonction admin) ---
+        // --- Delete review (admin function) ---
         function deleteReview(reviewId) {
             if (!isAdminMode) {
                 showMessage("Vous n'êtes pas en mode administrateur.", 'error');
@@ -570,7 +574,7 @@
             }
         }
 
-        // --- Initialisation au chargement de la page ---
+        // --- Initialize on page load ---
         document.addEventListener('DOMContentLoaded', () => {
             getOrCreateUserId();
             displayReviews();
