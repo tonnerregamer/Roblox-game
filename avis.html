@@ -431,6 +431,7 @@
 
         // Constants
         const ADMIN_CODE = '0567'; // Admin code for client-side check
+        const ADMIN_STATUS_KEY = 'sky_architect_admin_status'; // Key for localStorage
 
         // DOM Elements
         const reviewForm = document.getElementById('reviewForm');
@@ -467,6 +468,9 @@
         let isAdminMode = false;
         let isRegisterMode = false; // To toggle between login and register in auth modal
         let currentUsername = null; // To store the current user's username
+
+        // Cache for fetched usernames to avoid repeated Firestore reads
+        const usernameCache = new Map();
 
         // --- Utility functions ---
         function showLoader() {
@@ -520,9 +524,11 @@
             if (isRegisterMode) {
                 authUsernameInput.classList.remove('hidden');
                 authUsernameInput.setAttribute('required', 'required');
+                authUsernameInput.previousElementSibling.classList.remove('hidden'); // Show label
             } else {
                 authUsernameInput.classList.add('hidden');
                 authUsernameInput.removeAttribute('required');
+                authUsernameInput.previousElementSibling.classList.add('hidden'); // Hide label
             }
 
             authMessageBox.style.display = 'none'; // Hide any previous messages
@@ -624,11 +630,14 @@
                     } else {
                         userStatus.textContent = `Connecté en tant que : ${user.email || 'Inconnu'}`;
                         console.warn("User profile not found in Firestore for UID:", user.uid);
-                        // Optionally, prompt user to set a username if not found
+                        // If profile not found, ensure currentUsername is null for new reviews
+                        currentUsername = null;
+                        // Optionally, prompt user to set a username if not found (future enhancement)
                     }
                 } catch (error) {
                     console.error("Error fetching user profile:", error);
                     userStatus.textContent = `Connecté en tant que : ${user.email || 'Inconnu'}`;
+                    currentUsername = null; // Ensure null on error
                 }
 
             } else {
@@ -670,14 +679,14 @@
         }
 
         // --- Display reviews on the page ---
-        function displayReviews(reviews) {
+        async function displayReviews(reviews) {
             reviewsList.innerHTML = ''; // Clear existing reviews
 
             if (reviews.length === 0) {
                 noReviewsMessage.style.display = 'block';
             } else {
                 noReviewsMessage.style.display = 'none';
-                reviews.forEach((review) => {
+                for (const review of reviews) { // Use for...of for async operations
                     const reviewElement = document.createElement('div');
                     reviewElement.className = 'review-item';
                     reviewElement.setAttribute('data-id', review.id);
@@ -689,11 +698,40 @@
                         hour: '2-digit', minute: '2-digit'
                     });
 
-                    // Display author's username, fallback to email, then to 'Utilisateur Déconnecté'
-                    const author = review.authorUsername || review.authorEmail || 'Utilisateur Déconnecté';
+                    let authorDisplayName = 'Chargement...'; // Default while fetching
+                    
+                    // Prioritize authorUsername saved directly with the review
+                    if (review.authorUsername) {
+                        authorDisplayName = review.authorUsername;
+                    } else if (review.userId) {
+                        // If authorUsername not on review, try to fetch from user profile cache or Firestore
+                        if (usernameCache.has(review.userId)) {
+                            authorDisplayName = usernameCache.get(review.userId);
+                        } else {
+                            // Fetch username from user profile if not in cache
+                            const userProfileRef = doc(db, `artifacts/${appId}/users`, review.userId);
+                            try {
+                                const userProfileSnap = await getDoc(userProfileRef);
+                                if (userProfileSnap.exists() && userProfileSnap.data().username) {
+                                    authorDisplayName = userProfileSnap.data().username;
+                                    usernameCache.set(review.userId, authorDisplayName); // Cache it
+                                } else {
+                                    // Fallback if profile exists but no username, or profile doesn't exist
+                                    authorDisplayName = review.authorEmail || 'Utilisateur Inconnu';
+                                }
+                            } catch (profileError) {
+                                console.error("Error fetching user profile for review:", review.userId, profileError);
+                                authorDisplayName = review.authorEmail || 'Utilisateur Inconnu (Erreur)';
+                            }
+                        }
+                    } else {
+                        // If no userId and no authorUsername/Email, fallback
+                        authorDisplayName = 'Utilisateur Déconnecté';
+                    }
+
 
                     reviewElement.innerHTML = `
-                        <p class="review-author">Avis de : ${author}</p>
+                        <p class="review-author">Avis de : <span class="author-name">${authorDisplayName}</span></p>
                         <p class="review-date">${formattedDate}</p>
                         <p class="review-text">${review.text}</p>
                     `;
@@ -710,7 +748,7 @@
                         reviewElement.appendChild(deleteButton);
                     }
                     reviewsList.appendChild(reviewElement);
-                });
+                }
             }
         }
 
@@ -790,11 +828,12 @@
             const code = adminCodeInput.value.trim();
             if (code === ADMIN_CODE) {
                 isAdminMode = true;
+                localStorage.setItem(ADMIN_STATUS_KEY, 'true'); // Persist admin status
                 hideAdminModal();
                 adminPanel.classList.remove('hidden');
                 adminLoginLink.style.display = 'none';
                 showMessage("Mode Admin activé !");
-                // The onAuthStateChanged listener will re-trigger displayReviews
+                // Le onAuthStateChanged listener va redéclencher displayReviews
             } else {
                 showAuthMessage("Code administrateur incorrect.", 'error'); // Use authMessageBox for admin modal errors
                 adminCodeInput.value = '';
@@ -804,10 +843,11 @@
         // --- Handle Admin logout ---
         adminLogoutButton.addEventListener('click', () => {
             isAdminMode = false;
+            localStorage.removeItem(ADMIN_STATUS_KEY); // Remove admin status
             adminPanel.classList.add('hidden');
             adminLoginLink.style.display = 'inline-block';
             showMessage("Mode Admin désactivé.");
-            // The onAuthStateChanged listener will re-trigger displayReviews
+            // Le onAuthStateChanged listener va redéclencher displayReviews
         });
 
         // --- Delete review (admin function) ---
@@ -831,6 +871,12 @@
 
         // --- Initialize on page load ---
         document.addEventListener('DOMContentLoaded', () => {
+            // Check local storage for admin status on load
+            if (localStorage.getItem(ADMIN_STATUS_KEY) === 'true') {
+                isAdminMode = true;
+                adminPanel.classList.remove('hidden');
+                adminLoginLink.style.display = 'none';
+            }
             // The onAuthStateChanged listener will handle initial authentication state and review loading.
         });
     </script>
