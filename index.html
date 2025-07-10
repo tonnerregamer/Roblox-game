@@ -11,93 +11,113 @@
         /* Styles de base pour mobile (par défaut) */
         body {
             font-family: 'Inter', sans-serif;
-            background: linear-gradient(to bottom right, #e0f2fe, #e3f2fd); /* Dégradé bleu clair */
+            /* Dégradé radial plus vibrant pour le fond du ciel */
+            background: radial-gradient(at top left, #e0f7fa, #d1e9f7, #a7d9f7, #85c4e9, #60a5fa);
             color: #1e293b; /* Texte gris-bleu foncé */
-            /* Adjusted padding-top to account for the fixed header height */
-            padding-top: 4rem; /* Reduced padding for smaller header on mobile */
-            padding-left: 1rem;
-            padding-right: 1rem;
-            padding-bottom: 1rem;
+            padding-top: 6rem; /* Espace pour le header fixe sur mobile (augmenté) */
+            padding-left: 0.5rem; /* Padding horizontal réduit pour très petits écrans */
+            padding-right: 0.5rem; /* Padding horizontal réduit pour très petits écrans */
+            padding-bottom: 2rem;
+            min-height: 100vh; /* S'assure que le body prend au moins toute la hauteur */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Centre le contenu horizontalement */
         }
         .container {
             max-width: 950px;
-            padding: 1.5rem; /* Espacement interne de base pour mobile */
+            width: 100%; /* S'assure que le conteneur prend toute la largeur disponible */
+            padding: 1.5rem; /* Espacement interne légèrement réduit pour mobile */
+            background-color: #ffffff;
+            border-radius: 1.5rem; /* Bords plus arrondis */
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée et éthérée */
+            border: 1px solid rgba(255, 255, 255, 0.6); /* Bordure blanche subtile pour un effet "flottant" */
         }
         .header-gradient {
-            background: linear-gradient(to right, #60a5fa, #3b82f6); /* Dégradé bleu pour l'en-tête */
+            /* Dégradé plus éclatant pour le titre principal */
+            background: linear-gradient(to right, #3b82f6, #60a5fa, #2563eb);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
             font-size: 2.25rem; /* Taille de titre H1 pour mobile (text-3xl) */
+            font-weight: 800; /* Plus gras */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ombre textuelle subtile */
         }
         h1.header-gradient {
             line-height: 1.2; /* Ajustement de l'interligne pour les titres */
         }
         h2.section-title {
             font-size: 1.5rem; /* Taille de titre H2 pour mobile (text-2xl) */
-        }
-        h3 {
-            font-size: 1.125rem; /* Taille de titre H3 pour mobile (text-xl) */
-        }
-        p, li {
-            font-size: 0.875rem; /* Taille de texte générale pour mobile (text-sm) */
-            line-height: 1.5; /* Interligne pour la lisibilité */
-        }
-
-        .section-title {
+            font-weight: 700; /* Plus gras */
             position: relative;
-            padding-left: 1.25rem; /* Espacement pour la barre latérale */
-            margin-bottom: 1.25rem;
+            padding-left: 1.5rem; /* Espacement pour la barre latérale */
+            margin-bottom: 1.5rem; /* Espacement sous le titre de section */
+            color: #1a202c; /* Couleur de texte plus foncée pour le contraste */
         }
-        .section-title::before {
+        h2.section-title::before {
             content: '';
             position: absolute;
             left: 0;
             top: 50%;
             transform: translateY(-50%);
-            width: 6px; /* Largeur de la barre latérale */
+            width: 10px; /* Largeur de la barre latérale plus large */
             height: 100%;
-            background-color: #2563eb; /* Couleur bleue accent */
-            border-radius: 3px;
+            /* Dégradé pour la barre latérale */
+            background: linear-gradient(to bottom, #60a5fa, #2563eb);
+            border-radius: 5px;
         }
+        h3 {
+            font-size: 1.125rem; /* Taille de titre H3 pour mobile (text-xl) */
+            font-weight: 600;
+            color: #1e40af; /* Couleur plus foncée pour les sous-titres */
+        }
+        p, li {
+            font-size: 0.9rem; /* Taille de texte générale pour mobile (légèrement ajustée) */
+            line-height: 1.6; /* Interligne améliorée pour la lisibilité */
+        }
+
         .card {
-            background-color: #ffffff;
-            border-radius: 1rem; /* Bords arrondis */
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
-            transition: transform 0.2s ease-in-out;
-            padding: 1.25rem; /* Espacement interne des cartes pour mobile */
-            margin-bottom: 1.25rem; /* Espacement entre les cartes */
+            background: linear-gradient(to bottom right, #ffffff, #f8faff); /* Dégradé subtil pour les cartes */
+            border-radius: 1.25rem; /* Bords plus arrondis */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12); /* Ombre légère mais visible */
+            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+            padding: 1.75rem; /* Espacement interne des cartes pour mobile */
+            margin-bottom: 1.75rem; /* Espacement entre les cartes */
+            border: 1px solid rgba(226, 232, 240, 0.7); /* Bordure subtile */
         }
         .card:hover {
-            transform: translateY(-3px); /* Léger effet de survol */
+            transform: translateY(-8px); /* Effet de survol plus prononcé */
+            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.2); /* Ombre plus intense au survol */
         }
 
         /* Styles spécifiques pour les schémas collapsibles */
         .schema-container {
-            margin-top: 1.5rem;
-            background-color: #f0f9ff; /* Bleu très clair */
-            border: 1px dashed #93c5fd; /* Bordure bleue en pointillés */
-            border-radius: 0.75rem;
-            overflow: hidden; /* Cache le contenu débordant */
+            margin-top: 2rem;
+            background-color: #f0f9ff; /* Bleu très clair, presque blanc */
+            border: 2px solid #93c5fd; /* Bordure bleue plus visible */
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Ombre légère */
         }
         .schema-button {
             display: flex;
             align-items: center;
             justify-content: space-between;
             width: 100%;
-            padding: 1rem 1.25rem;
-            background-color: #dbeafe; /* Bleu très clair pour le bouton */
+            padding: 1.25rem 1.5rem;
+            /* Dégradé pour le bouton de schéma */
+            background: linear-gradient(to right, #dbeafe, #bfdbfe);
             border: none;
             border-bottom: 1px solid #93c5fd;
-            font-weight: 600;
+            font-weight: 700; /* Plus gras */
             color: #1d4ed8;
             cursor: pointer;
             text-align: left;
-            border-radius: 0.75rem 0.75rem 0 0; /* Arrondir seulement le haut */
+            border-radius: 0.9rem 0.9rem 0 0; /* Arrondir seulement le haut */
             transition: background-color 0.2s ease-in-out;
+            font-size: 1rem; /* Taille de texte plus grande */
         }
         .schema-button:hover {
-            background-color: #bfdbfe; /* Bleu légèrement plus foncé au survol */
+            background: linear-gradient(to right, #bfdbfe, #93c5fd); /* Dégradé légèrement plus foncé au survol */
         }
         .schema-button svg {
             transition: transform 0.3s ease-in-out;
@@ -106,70 +126,63 @@
             transform: rotate(90deg); /* Rotation de la flèche quand ouvert */
         }
         .schema-content {
-            padding: 1rem; /* Espacement interne du contenu du schéma */
+            padding: 1.5rem; /* Espacement interne du contenu du schéma */
             display: none; /* Caché par défaut */
             text-align: center; /* Centrer le SVG */
         }
 
         /* Styles pour les SVG des schémas */
         .schema-svg {
-            max-width: 100%; /* S'assure que le SVG ne dépasse pas la largeur du conteneur */
-            height: auto; /* Maintient le ratio d'aspect */
-            font-family: 'Inter', sans-serif; /* Utilise la police principale */
-            overflow: visible; /* Permet au texte de déborder si nécessaire */
+            max-width: 100%;
+            height: auto;
+            font-family: 'Inter', sans-serif;
+            overflow: visible;
         }
         .schema-svg text {
-            font-size: 10px; /* Taille de police par défaut pour le texte SVG (plus petite pour mobile) */
-            fill: #1e293b; /* Couleur du texte SVG */
+            font-size: 11px; /* Taille de police par défaut pour le texte SVG (plus petite pour mobile) */
+            fill: #1e293b;
             font-weight: 600;
         }
         .schema-svg rect {
-            fill: #e0f2fe; /* Fond des boîtes de schéma */
-            stroke: #3b82f6; /* Bordure des boîtes de schéma */
-            stroke-width: 1;
-            rx: 5; /* Rayon des coins */
+            fill: #e0f2fe;
+            stroke: #3b82f6;
+            stroke-width: 1.5; /* Bordure plus épaisse */
+            rx: 6; /* Rayon des coins */
         }
         .schema-svg line {
             stroke: #3b82f6;
-            stroke-width: 2;
-            marker-end: url(#arrowhead); /* Ajoute une flèche à la fin de la ligne */
+            stroke-width: 2.5; /* Ligne plus épaisse */
+            marker-end: url(#arrowhead);
         }
         .schema-svg .arrow-text {
-            font-size: 8px; /* Texte plus petit pour les flèches */
+            font-size: 9px; /* Texte plus petit pour les flèches */
             fill: #475569;
-            font-weight: 400;
+            font-weight: 500;
         }
 
 
         /* Ajustements pour les écrans plus grands (breakpoint 'sm' et au-delà) */
         @media (min-width: 640px) {
             body {
-                padding-top: 5rem; /* Adjusted padding for desktop for smaller header */
-                padding-left: 2.5rem;
-                padding-right: 2.5rem;
-                padding-bottom: 2.5rem;
+                padding-top: 7rem; /* Espace pour le header fixe sur sm (augmenté) */
+                padding-left: 1rem; /* Padding horizontal pour sm */
+                padding-right: 1rem; /* Padding horizontal pour sm */
+                padding-bottom: 3rem;
             }
             .container {
-                padding: 3rem 4rem;
+                padding: 2rem; /* Espacement interne pour sm */
             }
             .header-gradient {
-                font-size: 3.5rem; /* Taille de titre H1 pour desktop (sm:text-5xl) */
+                font-size: 3rem; /* Taille de titre H1 pour sm (text-4xl) */
             }
             h2.section-title {
-                font-size: 1.875rem; /* Taille de titre H2 pour desktop (sm:text-3xl) */
+                font-size: 1.875rem; /* Taille de titre H2 pour sm (text-3xl) */
             }
             h3 {
-                font-size: 1.5rem; /* Taille de titre H3 pour desktop (sm:text-2xl) */
+                font-size: 1.25rem; /* Taille de titre H3 pour sm (text-xl) */
             }
             p, li {
-                font-size: 1rem; /* Taille de texte générale pour desktop (sm:text-base) */
-            }
-            .section-title {
-                padding-left: 1.5rem;
-                margin-bottom: 1.5rem;
-            }
-            .section-title::before {
-                width: 8px;
+                font-size: 1rem; /* Taille de texte générale pour sm */
             }
             .card {
                 padding: 2rem;
@@ -177,16 +190,62 @@
             }
             .schema-button {
                 padding: 1.25rem 1.5rem;
-                font-size: 1.125rem;
+                font-size: 1rem;
             }
             .schema-content {
-                padding: 1.25rem 1.5rem;
+                padding: 1.5rem;
             }
             .schema-svg text {
-                font-size: 12px; /* Taille de police plus grande pour desktop */
+                font-size: 12px;
             }
             .schema-svg .arrow-text {
                 font-size: 10px;
+            }
+        }
+
+        /* Ajustements pour les écrans moyens (breakpoint 'md' et au-delà) */
+        @media (min-width: 768px) {
+            body {
+                padding-top: 8rem; /* Espace pour le header fixe sur md (augmenté) */
+                padding-left: 2.5rem; /* Padding horizontal pour md */
+                padding-right: 2.5rem; /* Padding horizontal pour md */
+            }
+            .container {
+                padding: 3.5rem 5rem; /* Espacement interne plus généreux pour md */
+            }
+            .header-gradient {
+                font-size: 4.5rem; /* Taille de titre H1 pour md (text-5xl) */
+            }
+            h2.section-title {
+                font-size: 2.25rem; /* Taille de titre H2 pour md (text-4xl) */
+                padding-left: 2rem;
+                margin-bottom: 2rem;
+            }
+            h2.section-title::before {
+                width: 10px; /* Barre latérale plus large */
+            }
+            h3 {
+                font-size: 1.5rem; /* Taille de titre H3 pour md (text-2xl) */
+            }
+            p, li {
+                font-size: 1.05rem; /* Taille de texte générale pour md */
+            }
+            .card {
+                padding: 2.5rem;
+                margin-bottom: 2.5rem;
+            }
+            .schema-button {
+                padding: 1.5rem 2rem;
+                font-size: 1.15rem;
+            }
+            .schema-content {
+                padding: 1.75rem 2rem;
+            }
+            .schema-svg text {
+                font-size: 13px;
+            }
+            .schema-svg .arrow-text {
+                font-size: 11px;
             }
         }
 
@@ -197,35 +256,37 @@
             left: 0;
             width: 100%;
             background-color: #ffffff;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre plus douce */
             z-index: 1000;
-            padding: 0.5rem 1rem; /* Smaller padding for a more compact bar */
+            padding: 0.75rem 2rem; /* Padding plus généreux */
             display: flex;
-            justify-content: center; /* Center the content */
+            justify-content: center;
             align-items: center;
         }
-        .header-button { /* Style générique pour les boutons du header */
+        .header-button {
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            padding: 0.5rem 1rem; /* Smaller padding for the button itself */
-            background-color: #3b82f6; /* Default blue */
+            padding: 0.75rem 1.75rem; /* Padding plus généreux */
+            /* Dégradé vibrant pour le bouton */
+            background: linear-gradient(to right, #3b82f6, #60a5fa);
             color: white;
-            font-weight: 600;
-            border-radius: 0.5rem;
+            font-weight: 700; /* Plus gras */
+            border-radius: 0.75rem; /* Bords plus arrondis */
             text-decoration: none;
-            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
-            font-size: 0.875rem;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+            font-size: 0.95rem; /* Légèrement plus grand */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombre plus douce et visible */
         }
         .header-button:hover {
-            background-color: #2563eb;
-            transform: translateY(-1px);
+            background: linear-gradient(to right, #2563eb, #3b82f6); /* Dégradé légèrement plus foncé au survol */
+            transform: translateY(-3px); /* Effet de survol plus prononcé */
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Ombre plus intense au survol */
         }
         .header-button svg {
-            margin-right: 0.5rem; /* Icon to the left of the text */
-            width: 16px;
-            height: 16px;
+            margin-right: 0.6rem; /* Marge plus grande pour l'icône */
+            width: 18px;
+            height: 18px;
         }
     </style>
 </head>
@@ -240,29 +301,29 @@
 
     <div class="container mx-auto bg-white rounded-3xl shadow-2xl">
 
-        <header class="text-center mb-8 sm:mb-12">
-            <h1 class="font-extrabold header-gradient mb-3 sm:mb-4">Cahier des Charges Détaillé</h1>
-            <p class="text-lg sm:text-2xl text-gray-700 font-semibold">Jeu Roblox : <span class="text-blue-600">Sky Architect</span></p>
-            <p class="text-sm sm:text-lg text-gray-500 mt-2">Construisez votre rêve au-dessus des nuages !</p>
+        <header class="text-center mb-10 sm:mb-16">
+            <h1 class="font-extrabold header-gradient mb-4 sm:mb-6">Cahier des Charges Détaillé</h1>
+            <p class="text-xl sm:text-3xl text-gray-700 font-semibold">Jeu Roblox : <span class="text-blue-600">Sky Architect</span></p>
+            <p class="text-base sm:text-xl text-gray-500 mt-3">Construisez votre rêve au-dessus des nuages !</p>
         </header>
 
-        <section class="mb-8 sm:mb-10">
-            <h2 class="font-bold section-title mb-5 sm:mb-6">1. Concept et Vision Générale du Jeu</h2>
+        <section class="mb-10 sm:mb-16">
+            <h2 class="font-bold section-title mb-6 sm:mb-8">1. Concept et Vision Générale du Jeu</h2>
             <div class="card">
-                <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Titre Provisoire :</strong> Sky Architect</p>
-                <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Genre :</strong> Jeu de Construction / Bac à Sable (Sandbox) avec des éléments de Gestion d'Île et un fort accent sur la Créativité Sociale.</p>
-                <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Pitch :</strong> Bâtissez et personnalisez votre propre île flottante au-dessus du vide infini. Transformez la beauté et la complexité de votre création en une source de richesse continue. Créez des structures complexes avec des Blueprints uniques et partagez votre monde céleste avec vos amis.</p>
-                <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Proposition de Valeur Unique (USP) :</strong> La liberté totale de construire et de développer une île aérienne personnelle et persistante, où l'ingéniosité et l'esthétique sont directement récompensées par un gain d'argent passif. Le système de Blueprints personnalisés et le marché dynamique ajoute des couches de profondeur et de rejouabilité uniques.</p>
-                <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Expérience Principale Voulue :</strong> Créative, relaxante, collaborative, avec une progression satisfaisante et un sentiment d'accomplissement visuel et économique.</p>
+                <p class="mb-3 sm:mb-4"><strong class="text-blue-700">Titre Provisoire :</strong> Sky Architect</p>
+                <p class="mb-3 sm:mb-4"><strong class="text-blue-700">Genre :</strong> Jeu de Construction / Bac à Sable (Sandbox) avec des éléments de Gestion d'Île et un fort accent sur la Créativité Sociale.</p>
+                <p class="mb-3 sm:mb-4"><strong class="text-blue-700">Pitch :</strong> Bâtissez et personnalisez votre propre île flottante au-dessus du vide infini. Transformez la beauté et la complexité de votre création en une source de richesse continue. Créez des structures complexes avec des Blueprints uniques et partagez votre monde céleste avec vos amis.</p>
+                <p class="mb-3 sm:mb-4"><strong class="text-blue-700">Proposition de Valeur Unique (USP) :</strong> La liberté totale de construire et de développer une île aérienne personnelle et persistante, où l'ingéniosité et l'esthétique sont directement récompensées par un gain d'argent passif. Le système de Blueprints personnalisés et le marché dynamique ajoute des couches de profondeur et de rejouabilité uniques.</p>
+                <p class="mb-3 sm:mb-4"><strong class="text-blue-700">Expérience Principale Voulue :</strong> Créative, relaxante, collaborative, avec une progression satisfaisante et un sentiment d'accomplissement visuel et économique.</p>
                 <p><strong class="text-blue-700">Ambiance Générale :</strong> Aérienne, onirique, fantastique, ouverte à l'imagination du joueur. Un environnement paisible qui encourage l'exploration et la construction au-dessus du vide.</p>
             </div>
         </section>
 
-        <section class="mb-8 sm:mb-10">
-            <h2 class="font-bold section-title mb-5 sm:mb-6">2. Mécaniques de Gameplay Détaillées</h2>
+        <section class="mb-10 sm:mb-16">
+            <h2 class="font-bold section-title mb-6 sm:mb-8">2. Mécaniques de Gameplay Détaillées</h2>
 
             <div class="card">
-                <h3 class="font-semibold mb-3 sm:mb-4 text-blue-700">2.1. Gestion des Serveurs/Mondes (Îles)</h3>
+                <h3 class="font-semibold mb-4 sm:mb-5 text-blue-700">2.1. Gestion des Serveurs/Mondes (Îles)</h3>
                 <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
                     <li class="mb-2">Chaque joueur peut créer sa propre île flottante, un espace de construction personnel et **persistant**, automatiquement sauvegardé.</li>
                     <li class="mb-2">Accès rapide aux îles sauvegardées via un menu clair.</li>
@@ -273,7 +334,7 @@
             </div>
 
             <div class="card">
-                <h3 class="font-semibold mb-3 sm:mb-4 text-blue-700">2.2. Construction et Blocs</h3>
+                <h3 class="font-semibold mb-4 sm:mb-5 text-blue-700">2.2. Construction et Blocs</h3>
                 <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
                     <li class="mb-2">**Blocs de Base Illimités :** La **terre et les roches sont disponibles en quantité illimitée**, permettant aux joueurs de jeter les bases et d'agrandir leur île sans contrainte de ressources initiales.</li>
                     <li class="mb-2">**Interface de Placement :** Une interface utilisateur intuitive permettra de sélectionner, placer, faire pivoter et retirer/détruire des blocs. Un système de "snapping" (alignement automatique) assurera la précision des constructions.</li>
@@ -330,7 +391,7 @@
             </div>
 
             <div class="card">
-                <h3 class="font-semibold mb-3 sm:mb-4 text-blue-700">2.3. Économie et Progression (La "Valeur de l'Île" / Gain d'Argent par Seconde)</h3>
+                <h3 class="font-semibold mb-4 sm:mb-5 text-blue-700">2.3. Économie et Progression (La "Valeur de l'Île" / Gain d'Argent par Seconde)</h3>
                 <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
                     <li class="mb-2">**Monnaie du Jeu :** Une monnaie principale (ex: "Crédits Célestes", "Éclats d'Éther") utilisée pour acheter des blocs et d'autres éléments.</li>
                     <li class="mb-2">**Gain d'Argent Passif :** L'objectif central est d'augmenter le **taux de gain d'argent par seconde**. C'est ce que nous appelons la **"Valeur de l'Île"**. Plus l'île est grande et belle, plus elle rapporte !</li>
@@ -407,7 +468,7 @@
             </div>
 
             <div class="card">
-                <h3 class="font-semibold mb-3 sm:mb-4 text-blue-700">2.4. Le Marchand</h3>
+                <h3 class="font-semibold mb-4 sm:mb-5 text-blue-700">2.4. Le Marchand</h3>
                 <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
                     <li class="mb-2">**Source de Matériaux Avancés :** Le marchand est la principale source pour acquérir des blocs rares (bois, métaux, verre, etc.) et d'autres matériaux décoratifs ou fonctionnels.</li>
                     <li class="mb-2">**Stock Limité :** Chaque type de bloc ou d'objet a un stock limité (ex: 10 à 100 unités).</li>
@@ -457,8 +518,8 @@
             </div>
         </section>
 
-        <section class="mb-8 sm:mb-10">
-            <h2 class="font-bold section-title mb-5 sm:mb-6">3. Expérience Utilisateur (UX) et Interface Utilisateur (UI)</h2>
+        <section class="mb-10 sm:mb-16">
+            <h2 class="font-bold section-title mb-6 sm:mb-8">3. Expérience Utilisateur (UX) et Interface Utilisateur (UI)</h2>
             <div class="card">
                 <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
                     <li class="mb-2">**Interface de Construction :** Icônes claires et boutons facilement accessibles pour la sélection des types de blocs, les outils de placement, la rotation, et l'accès rapide aux Blueprints. Un système de grille visuelle pour faciliter le placement.</li>
@@ -469,16 +530,16 @@
             </div>
         </section>
 
-        <section class="mb-8 sm:mb-10">
-            <h2 class="font-bold section-title mb-5 sm:mb-6">4. Monétisation</h2>
+        <section class="mb-10 sm:mb-16">
+            <h2 class="font-bold section-title mb-6 sm:mb-8">4. Monétisation</h2>
             <div class="card">
-                <p class="mb-2 sm:mb-3">Sky Architect est un jeu entièrement **Free-to-Play**. Tous les éléments de gameplay, blocs, couleurs et fonctionnalités sont accessibles gratuitement en jouant.</p>
-                <p class="mb-2 sm:mb-3">Le seul moyen de soutenir le développement du jeu et de montrer votre appréciation est par le biais de **dons volontaires**. Ces dons sont purement optionnels et n'offrent aucun avantage en jeu, garantissant une expérience équitable pour tous les joueurs.</p>
+                <p class="mb-3 sm:mb-4">Sky Architect est un jeu entièrement **Free-to-Play**. Tous les éléments de gameplay, blocs, couleurs et fonctionnalités sont accessibles gratuitement en jouant.</p>
+                <p class="mb-3 sm:mb-4">Le seul moyen de soutenir le développement du jeu et de montrer votre appréciation est par le biais de **dons volontaires**. Ces dons sont purement optionnels et n'offrent aucun avantage en jeu, garantissant une expérience équitable pour tous les joueurs.</p>
             </div>
         </section>
 
-        <section class="mb-8 sm:mb-10">
-            <h2 class="font-bold section-title mb-5 sm:mb-6">5. Contenu et Progression Future</h2>
+        <section class="mb-10 sm:mb-16">
+            <h2 class="font-bold section-title mb-6 sm:mb-8">5. Contenu et Progression Future</h2>
             <div class="card">
                 <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
                     <li class="mb-2">**Contenu de Lancement :** Un assortiment suffisant de blocs de base et avancés, une variété de couleurs, et quelques Blueprints pré-définis pour démarrer l'expérience.</li>
@@ -488,87 +549,30 @@
             </div>
         </section>
 
-        <section class="mb-8 sm:mb-10">
-            <h2 class="font-bold section-title mb-5 sm:mb-6">6. Aspect Social et Multijoueur</h2>
+        <section class="mb-10 sm:mb-16">
+            <h2 class="font-bold section-title mb-6 sm:mb-8">6. Aspect Social et Multijoueur</h2>
             <div class="card">
                 <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
                     <li class="mb-2">**Serveurs Privés Persistants :** Les joueurs rejoignent l'île d'un ami via le code unique pour collaborer à des projets de construction ou simplement visiter.</li>
-                    <li class="mb-2">**Rôles et Permissions :** Le propriétaire de l'île pourra définir des niveaux de permission pour les joueurs invités :
-                        <ul class="list-circle pl-6 mt-2 text-gray-600">
-                            <li class="mb-1">**Visiteur :** Peut explorer et regarder, mais ne peut pas interagir avec les blocs.</li>
-                            <li class="mb-1">**Constructeur :** Peut poser et détruire des blocs sur l'île (sous la supervision du propriétaire).</li>
-                            <li class="mb-1">**Co-propriétaire :** Accès quasi total (construction, destruction, gestion de certaines options de l'île).</li>
-                        </ul>
-                    </li>
+                    <li class="mb-2">**Collaboration Simplifiée :** Les joueurs invités pourront participer à la construction sur l'île, encourageant la créativité collective sans gestion complexe de permissions.</li>
                     <li class="mb-2">**Chat en Jeu :** Pour la communication en temps réel entre les joueurs présents sur une île.</li>
                     <li class="mb-2">**Intégration des Amitiés Roblox :** Faciliter les invitations et la découverte des îles de ses amis.</li>
                 </ul>
-                <div class="schema-container">
-                    <button class="schema-button" aria-expanded="false" onclick="toggleSchema(this)">
-                        <span>Afficher le schéma : Gestion des Permissions d'Île</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                    </button>
-                    <div class="schema-content">
-                        <svg class="schema-svg" viewBox="0 0 200 250" aria-label="Schéma de gestion des permissions d'île">
-                            <defs>
-                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                                    <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
-                                </marker>
-                            </defs>
-
-                            <!-- Step 1: Propriétaire -->
-                            <rect x="50" y="10" width="100" height="40" />
-                            <text x="100" y="35" text-anchor="middle">Propriétaire de l'Île</text>
-
-                            <!-- Arrow 1 -->
-                            <line x1="100" y1="50" x2="100" y2="70" />
-                            <text x="100" y="65" text-anchor="middle" class="arrow-text">Partage Code Unique</text>
-
-                            <!-- Step 2: Joueur Invité -->
-                            <rect x="50" y="80" width="100" height="40" />
-                            <text x="100" y="105" text-anchor="middle">Joueur Invité</text>
-
-                            <!-- Arrow 2 -->
-                            <line x1="100" y1="120" x2="100" y2="140" />
-                            <text x="100" y="135" text-anchor="middle" class="arrow-text">Le propriétaire choisit un rôle</text>
-
-                            <!-- Step 3: Rôles (branches) -->
-                            <line x1="100" y1="150" x2="50" y2="170" />
-                            <line x1="100" y1="150" x2="100" y2="170" />
-                            <line x1="100" y1="150" x2="150" y2="170" />
-
-                            <!-- Role 1: Visiteur -->
-                            <rect x="10" y="180" width="80" height="40" />
-                            <text x="50" y="205" text-anchor="middle">Visiteur</text>
-                            <text x="50" y="218" text-anchor="middle" class="arrow-text">(Voir seulement)</text>
-
-                            <!-- Role 2: Constructeur -->
-                            <rect x="60" y="180" width="80" height="40" />
-                            <text x="100" y="205" text-anchor="middle">Constructeur</text>
-                            <text x="100" y="218" text-anchor="middle" class="arrow-text">(Poser/Détruire)</text>
-
-                            <!-- Role 3: Co-propriétaire -->
-                            <rect x="110" y="180" width="80" height="40" />
-                            <text x="150" y="205" text-anchor="middle">Co-propriétaire</text>
-                            <text x="150" y="218" text-anchor="middle" class="arrow-text">(Accès quasi total)</text>
-                        </svg>
-                    </div>
-                </div>
             </div>
         </section>
 
-        <section class="mb-8 sm:mb-10">
-            <h2 class="font-bold section-title mb-5 sm:mb-6">7. Style Artistique et Technique</h2>
+        <section class="mb-10 sm:mb-16">
+            <h2 class="font-bold section-title mb-6 sm:mb-8">7. Style Artistique et Technique</h2>
             <div class="card">
                 <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
-                    <li class="mb-2">**Style Artistique :** [À définir : low poly, stylisé, semi-réaliste, cartoon ?]. La cohérence visuelle sera essentielle pour une identité forte.</li>
+                    <li class="mb-2">**Style Artistique :** Le jeu adoptera un style **simpliste et épuré (low poly)**, privilégiant la clarté visuelle et la performance. Cela permettra une grande liberté créative pour les joueurs sans surcharger les graphismes.</li>
                     <li class="mb-2">**Optimisation :** Priorité absolue à la performance, en particulier sur les appareils mobiles. Cela inclura des techniques comme le "culling" (ne rendre que ce qui est visible), l'optimisation des maillages de blocs, et une gestion efficace de la physique pour les très grandes îles.</li>
                     <li class="mb-2">**Musique et Sons :** Une ambiance sonore relaxante et inspirante pour la construction. Des effets sonores satisfaisants pour la pose et la destruction des blocs, ainsi que pour les interactions avec l'UI et le marchand.</li>
                 </ul>
             </div>
         </section>
 
-        <footer class="text-center text-gray-500 text-xs sm:text-sm mt-10 py-4 border-t border-gray-200">
+        <footer class="text-center text-gray-500 text-sm mt-12 py-6 border-t border-gray-200">
             <p>&copy; 2025 Cahier des Charges - Projet Sky Architect. Tous droits réservés.</p>
             <p>Document généré pour la conception de jeu Roblox.</p>
         </footer>
