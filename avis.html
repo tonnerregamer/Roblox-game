@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Avis - Non Disponible</title>
+    <title>Avis - Bientôt Disponible</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
@@ -12,7 +12,8 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(to bottom right, #e0f2fe, #e3f2fd);
             color: #1e293b;
-            padding-top: 4rem; /* Adjusted for fixed header */
+            /* Adjusted padding-top to ensure content is not hidden by the fixed header */
+            padding-top: 6rem; /* Increased padding-top for better clearance */
             padding-left: 1rem;
             padding-right: 1rem;
             min-height: 100vh;
@@ -28,7 +29,7 @@
             background-color: #ffffff;
             border-radius: 1rem;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            margin-top: -4rem; /* Pull up to compensate for padding-top and center better */
+            /* Removed negative margin-top as padding-top on body should handle clearance */
         }
         .header-gradient {
             background: linear-gradient(to right, #60a5fa, #3b82f6);
@@ -79,13 +80,12 @@
         /* Adjustments for larger screens (sm: breakpoint and up) */
         @media (min-width: 640px) {
             body {
-                padding-top: 5rem;
+                padding-top: 7rem; /* Even more padding-top for desktop */
                 padding-left: 2.5rem;
                 padding-right: 2.5rem;
             }
             .container {
                 padding: 3rem 4rem;
-                margin-top: -5rem; /* Adjust for larger padding-top */
             }
             .header-gradient {
                 font-size: 3.5rem;
@@ -113,14 +113,15 @@
     <div class="container mx-auto">
         <h1 class="header-gradient">Page d'Avis</h1>
         <p class="text-lg sm:text-xl text-gray-700 mb-4">
-            Nous vous prions de bien vouloir nous excuser.
+            Nous vous remercions de votre intérêt !
         </p>
         <p class="text-base sm:text-lg text-gray-600 mb-6">
-            La fonctionnalité d'avis est actuellement en cours de développement et n'est pas disponible pour le moment.
-            Nous travaillons activement pour vous l'offrir très bientôt !
+            La fonctionnalité d'avis sera disponible à partir du **mois d'août**.
+            À cette occasion, nous procéderons à une **refonte complète de notre site web actuel**,
+            où vous pourrez découvrir des **photos exclusives** et suivre les **annonces sur l'avancée du jeu**.
         </p>
         <p class="text-sm text-gray-500">
-            Merci de votre compréhension.
+            Nous avons hâte de partager cette nouvelle expérience avec vous !
         </p>
     </div>
 
