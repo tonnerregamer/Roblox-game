@@ -13,7 +13,8 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(to bottom right, #e0f2fe, #e3f2fd); /* Dégradé bleu clair */
             color: #1e293b; /* Texte gris-bleu foncé */
-            padding-top: 5rem; /* Espace pour le header fixe sur mobile */
+            /* Adjusted padding-top to account for the fixed header height */
+            padding-top: 4rem; /* Reduced padding for smaller header on mobile */
             padding-left: 1rem;
             padding-right: 1rem;
             padding-bottom: 1rem;
@@ -139,49 +140,11 @@
             font-weight: 400;
         }
 
-        /* Styles pour le header fixe */
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #ffffff; /* Fond blanc */
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-            z-index: 1000; /* Assure qu'il est au-dessus des autres éléments */
-            padding: 0.75rem 1rem; /* Padding pour mobile */
-            display: flex;
-            justify-content: center; /* CENTRER LE BOUTON */
-            align-items: center;
-        }
-        .feedback-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.5rem 1rem; /* Padding réduit pour le bouton fixe sur mobile */
-            background-color: #2563eb; /* Bleu primaire */
-            color: white;
-            font-weight: 600;
-            border-radius: 0.5rem;
-            text-decoration: none;
-            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
-            font-size: 0.875rem; /* Taille de police réduite pour le bouton fixe sur mobile */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        }
-        .feedback-button:hover {
-            background-color: #1d4ed8; /* Bleu plus foncé au survol */
-            transform: translateY(-1px); /* Léger effet de survol */
-        }
-        .feedback-button svg {
-            margin-left: 0.5rem;
-            width: 16px; /* Taille de l'icône réduite */
-            height: 16px;
-        }
-
 
         /* Ajustements pour les écrans plus grands (breakpoint 'sm' et au-delà) */
         @media (min-width: 640px) {
             body {
-                padding-top: 6rem; /* Espace pour le header fixe sur desktop */
+                padding-top: 5rem; /* Adjusted padding for desktop for smaller header */
                 padding-left: 2.5rem;
                 padding-right: 2.5rem;
                 padding-bottom: 2.5rem;
@@ -225,26 +188,53 @@
             .schema-svg .arrow-text {
                 font-size: 10px;
             }
-            .fixed-header {
-                padding: 1rem 2.5rem; /* Padding pour desktop */
-            }
-            .feedback-button {
-                padding: 0.75rem 1.5rem; /* Padding standard pour le bouton fixe sur desktop */
-                font-size: 1rem; /* Taille de police standard pour le bouton fixe sur desktop */
-            }
-            .feedback-button svg {
-                width: 20px; /* Taille de l'icône standard */
-                height: 20px;
-            }
+        }
+
+        /* Styles pour le header fixe */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 0.5rem 1rem; /* Smaller padding for a more compact bar */
+            display: flex;
+            justify-content: center; /* Center the content */
+            align-items: center;
+        }
+        .header-button { /* Style générique pour les boutons du header */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem; /* Smaller padding for the button itself */
+            background-color: #3b82f6; /* Default blue */
+            color: white;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            font-size: 0.875rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header-button:hover {
+            background-color: #2563eb;
+            transform: translateY(-1px);
+        }
+        .header-button svg {
+            margin-right: 0.5rem; /* Icon to the left of the text */
+            width: 16px;
+            height: 16px;
         }
     </style>
 </head>
 <body>
-    <!-- Header fixe avec le bouton d'avis -->
+    <!-- Header fixe avec le bouton "Donnez votre avis" -->
     <div class="fixed-header">
-        <a href="avis.html" class="feedback-button">
-            Donnez votre avis
+        <a href="avis.html" class="header-button">
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+            Donnez votre avis
         </a>
     </div>
 
@@ -410,19 +400,7 @@
                             <line x1="150" y1="240" x2="180" y2="240" />
                             <line x1="180" y1="240" x2="180" y2="30" />
                             <line x1="180" y1="30" x2="150" y2="30" />
-                            <text x="185" y="135" text-anchor="start" class="arrow-text">Nouveaux Blocs</text>
-
-                            <!-- Step 5: Débloque -->
-                            <rect x="25" y="280" width="150" height="40" />
-                            <text x="100" y="305" text-anchor="middle">Débloque Nouveaux</text>
-                            <text x="100" y="318" text-anchor="middle" class="arrow-text">Blocs/Couleurs/Blueprints</text>
-
-                            <!-- Arrow 5 (back to Poser Blocs) -->
-                            <line x1="100" y1="320" x2="100" y2="340" />
-                            <line x1="100" y1="340" x2="20" y2="340" />
-                            <line x1="20" y1="340" x2="20" y2="30" />
-                            <line x1="20" y1="30" x2="50" y2="30" />
-                            <text x="10" y="175" text-anchor="end" class="arrow-text">Plus d'options</text>
+                            <text x="185" y="100" text-anchor="start" class="arrow-text">Diminue Stock</text>
                         </svg>
                     </div>
                 </div>
@@ -494,23 +472,8 @@
         <section class="mb-8 sm:mb-10">
             <h2 class="font-bold section-title mb-5 sm:mb-6">4. Monétisation</h2>
             <div class="card">
-                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
-                    <li class="mb-2">**Game Passes (Achats Uniques) :**
-                        <ul class="list-circle pl-6 mt-2 text-gray-600">
-                            <li class="mb-1">Augmentation de la limite d'inventaire ou de stockage des Blueprints.</li>
-                            <li class="mb-1">Outils de construction avancés (ex: pose multiple de blocs, mode vol amélioré pour la construction rapide).</li>
-                            <li class="mb-1">Accélérateurs de gain d'argent par seconde.</li>
-                            <li class="mb-1">Game Pass permettant de rafraîchir le stock du marchand instantanément.</li>
-                        </ul>
-                    </li>
-                    <li class="mb-2">**Produits à Usage Unique (Devise Premium / Robux) :**
-                        <ul class="list-circle pl-6 mt-2 text-gray-600">
-                            <li class="mb-1">Skins cosmétiques exclusifs pour les blocs (sans affecter leur valeur de base).</li>
-                            <li class="mb-1">Effets visuels pour l'île (ex: aurores célestes, nuages décoratifs, particules spéciales).</li>
-                            <li class="mb-1">Accès à des blocs exclusifs ou à des bundles de matériaux rares.</li>
-                        </ul>
-                    </li>
-                </ul>
+                <p class="mb-2 sm:mb-3">Sky Architect est un jeu entièrement **Free-to-Play**. Tous les éléments de gameplay, blocs, couleurs et fonctionnalités sont accessibles gratuitement en jouant.</p>
+                <p class="mb-2 sm:mb-3">Le seul moyen de soutenir le développement du jeu et de montrer votre appréciation est par le biais de **dons volontaires**. Ces dons sont purement optionnels et n'offrent aucun avantage en jeu, garantissant une expérience équitable pour tous les joueurs.</p>
             </div>
         </section>
 
@@ -609,6 +572,7 @@
             <p>&copy; 2025 Cahier des Charges - Projet Sky Architect. Tous droits réservés.</p>
             <p>Document généré pour la conception de jeu Roblox.</p>
         </footer>
+
     </div>
 
     <script>
