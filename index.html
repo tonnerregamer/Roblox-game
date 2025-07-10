@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cahier des Charges Détaillé : Sky Architect</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        /* Styles de base pour mobile (par défaut) */
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, #e0f2fe, #e3f2fd); /* Dégradé bleu clair */
+            color: #1e293b; /* Texte gris-bleu foncé */
+            padding: 1rem; /* Espacement de base pour mobile */
+        }
+        .container {
+            max-width: 950px;
+            padding: 1.5rem; /* Espacement interne de base pour mobile */
+        }
+        .header-gradient {
+            background: linear-gradient(to right, #60a5fa, #3b82f6); /* Dégradé bleu pour l'en-tête */
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 2.25rem; /* Taille de titre H1 pour mobile (text-3xl) */
+        }
+        h1.header-gradient {
+            line-height: 1.2; /* Ajustement de l'interligne pour les titres */
+        }
+        h2.section-title {
+            font-size: 1.5rem; /* Taille de titre H2 pour mobile (text-2xl) */
+        }
+        h3 {
+            font-size: 1.125rem; /* Taille de titre H3 pour mobile (text-xl) */
+        }
+        p, li {
+            font-size: 0.875rem; /* Taille de texte générale pour mobile (text-sm) */
+            line-height: 1.5; /* Interligne pour la lisibilité */
+        }
+
+        .section-title {
+            position: relative;
+            padding-left: 1.25rem; /* Espacement pour la barre latérale */
+            margin-bottom: 1.25rem;
+        }
+        .section-title::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px; /* Largeur de la barre latérale */
+            height: 100%;
+            background-color: #2563eb; /* Couleur bleue accent */
+            border-radius: 3px;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 1rem; /* Bords arrondis */
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Ombre légère */
+            transition: transform 0.2s ease-in-out;
+            padding: 1.25rem; /* Espacement interne des cartes pour mobile */
+            margin-bottom: 1.25rem; /* Espacement entre les cartes */
+        }
+        .card:hover {
+            transform: translateY(-3px); /* Léger effet de survol */
+        }
+
+        /* Styles spécifiques pour les schémas collapsibles */
+        .schema-container {
+            margin-top: 1.5rem;
+            background-color: #f0f9ff; /* Bleu très clair */
+            border: 1px dashed #93c5fd; /* Bordure bleue en pointillés */
+            border-radius: 0.75rem;
+            overflow: hidden; /* Cache le contenu débordant */
+        }
+        .schema-button {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+            padding: 1rem 1.25rem;
+            background-color: #dbeafe; /* Bleu très clair pour le bouton */
+            border: none;
+            border-bottom: 1px solid #93c5fd;
+            font-weight: 600;
+            color: #1d4ed8;
+            cursor: pointer;
+            text-align: left;
+            border-radius: 0.75rem 0.75rem 0 0; /* Arrondir seulement le haut */
+            transition: background-color 0.2s ease-in-out;
+        }
+        .schema-button:hover {
+            background-color: #bfdbfe; /* Bleu légèrement plus foncé au survol */
+        }
+        .schema-button svg {
+            transition: transform 0.3s ease-in-out;
+        }
+        .schema-button[aria-expanded="true"] svg {
+            transform: rotate(90deg); /* Rotation de la flèche quand ouvert */
+        }
+        .schema-content {
+            padding: 1rem; /* Espacement interne du contenu du schéma */
+            display: none; /* Caché par défaut */
+            text-align: center; /* Centrer le SVG */
+        }
+
+        /* Styles pour les SVG des schémas */
+        .schema-svg {
+            max-width: 100%; /* S'assure que le SVG ne dépasse pas la largeur du conteneur */
+            height: auto; /* Maintient le ratio d'aspect */
+            font-family: 'Inter', sans-serif; /* Utilise la police principale */
+            overflow: visible; /* Permet au texte de déborder si nécessaire */
+        }
+        .schema-svg text {
+            font-size: 10px; /* Taille de police par défaut pour le texte SVG (plus petite pour mobile) */
+            fill: #1e293b; /* Couleur du texte SVG */
+            font-weight: 600;
+        }
+        .schema-svg rect {
+            fill: #e0f2fe; /* Fond des boîtes de schéma */
+            stroke: #3b82f6; /* Bordure des boîtes de schéma */
+            stroke-width: 1;
+            rx: 5; /* Rayon des coins */
+        }
+        .schema-svg line {
+            stroke: #3b82f6;
+            stroke-width: 2;
+            marker-end: url(#arrowhead); /* Ajoute une flèche à la fin de la ligne */
+        }
+        .schema-svg .arrow-text {
+            font-size: 8px; /* Texte plus petit pour les flèches */
+            fill: #475569;
+            font-weight: 400;
+        }
+
+
+        /* Ajustements pour les écrans plus grands (breakpoint 'sm' et au-delà) */
+        @media (min-width: 640px) {
+            body {
+                padding: 2.5rem;
+            }
+            .container {
+                padding: 3rem 4rem;
+            }
+            .header-gradient {
+                font-size: 3.5rem; /* Taille de titre H1 pour desktop (sm:text-5xl) */
+            }
+            h2.section-title {
+                font-size: 1.875rem; /* Taille de titre H2 pour desktop (sm:text-3xl) */
+            }
+            h3 {
+                font-size: 1.5rem; /* Taille de titre H3 pour desktop (sm:text-2xl) */
+            }
+            p, li {
+                font-size: 1rem; /* Taille de texte générale pour desktop (sm:text-base) */
+            }
+            .section-title {
+                padding-left: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            .section-title::before {
+                width: 8px;
+            }
+            .card {
+                padding: 2rem;
+                margin-bottom: 2rem;
+            }
+            .schema-button {
+                padding: 1.25rem 1.5rem;
+                font-size: 1.125rem;
+            }
+            .schema-content {
+                padding: 1.25rem 1.5rem;
+            }
+            .schema-svg text {
+                font-size: 12px; /* Taille de police plus grande pour desktop */
+            }
+            .schema-svg .arrow-text {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container mx-auto bg-white rounded-3xl shadow-2xl">
+
+        <header class="text-center mb-8 sm:mb-12">
+            <h1 class="font-extrabold header-gradient mb-3 sm:mb-4">Cahier des Charges Détaillé</h1>
+            <p class="text-lg sm:text-2xl text-gray-700 font-semibold">Jeu Roblox : <span class="text-blue-600">Sky Architect</span></p>
+            <p class="text-sm sm:text-lg text-gray-500 mt-2">Construisez votre rêve au-dessus des nuages !</p>
+        </header>
+
+        <section class="mb-8 sm:mb-10">
+            <h2 class="font-bold section-title mb-5 sm:mb-6">1. Concept et Vision Générale du Jeu</h2>
+            <div class="card">
+                <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Titre Provisoire :</strong> Sky Architect</p>
+                <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Genre :</strong> Jeu de Construction / Bac à Sable (Sandbox) avec des éléments de Gestion d'Île et un fort accent sur la Créativité Sociale.</p>
+                <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Pitch :</strong> Bâtissez et personnalisez votre propre île flottante au-dessus du vide infini. Transformez la beauté et la complexité de votre création en une source de richesse continue. Créez des structures complexes avec des Blueprints uniques et partagez votre monde céleste avec vos amis.</p>
+                <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Proposition de Valeur Unique (USP) :</strong> La liberté totale de construire et de développer une île aérienne personnelle et persistante, où l'ingéniosité et l'esthétique sont directement récompensées par un gain d'argent passif. Le système de Blueprints personnalisés et le marché dynamique ajoutent des couches de profondeur et de rejouabilité uniques.</p>
+                <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Expérience Principale Voulue :</strong> Créative, relaxante, collaborative, avec une progression satisfaisante et un sentiment d'accomplissement visuel et économique.</p>
+                <p><strong class="text-blue-700">Ambiance Générale :</strong> Aérienne, onirique, fantastique, ouverte à l'imagination du joueur. Un environnement paisible qui encourage l'exploration et la construction au-dessus du vide.</p>
+            </div>
+        </section>
+
+        <section class="mb-8 sm:mb-10">
+            <h2 class="font-bold section-title mb-5 sm:mb-6">2. Mécaniques de Gameplay Détaillées</h2>
+
+            <div class="card">
+                <h3 class="font-semibold mb-3 sm:mb-4 text-blue-700">2.1. Gestion des Serveurs/Mondes (Îles)</h3>
+                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
+                    <li class="mb-2">Chaque joueur peut créer sa propre île flottante, un espace de construction personnel et **persistant**, automatiquement sauvegardé.</li>
+                    <li class="mb-2">Accès rapide aux îles sauvegardées via un menu clair.</li>
+                    <li class="mb-2">**Partage d'Îles :** Les joueurs peuvent inviter d'autres personnes sur leur île en partageant un **code unique** généré pour chaque île.</li>
+                    <li class="mb-2">**Chute dans le Vide :** Si un joueur tombe de son île, il réapparaît instantanément sur le point de spawn principal de l'île, sans aucune pénalité. Cela encourage l'expérimentation sans frustration.</li>
+                    <li class="mb-2">**Points de Spawn :** Les points de spawn sur l'île seront **modifiables et déplaçables** par le propriétaire de l'île.</li>
+                </ul>
+            </div>
+
+            <div class="card">
+                <h3 class="font-semibold mb-3 sm:mb-4 text-blue-700">2.2. Construction et Blocs</h3>
+                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
+                    <li class="mb-2">**Blocs de Base Illimités :** La **terre et les roches sont disponibles en quantité illimitée**, permettant aux joueurs de jeter les bases et d'agrandir leur île sans contrainte de ressources initiales.</li>
+                    <li class="mb-2">**Interface de Placement :** Une interface utilisateur intuitive permettra de sélectionner, placer, faire pivoter et retirer/détruire des blocs. Un système de "snapping" (alignement automatique) assurera la précision des constructions.</li>
+                    <li class="mb-2">**Blueprints Personnalisés (Plans de Construction) :**
+                        <ul class="list-circle pl-6 mt-2 text-gray-600">
+                            <li class="mb-1">**Création :** Le joueur sélectionne un ensemble de blocs déjà posés sur son île et clique sur un bouton dédié ("Créer Blueprint" ou "Sauvegarder Structure").</li>
+                            <li class="mb-1">**Utilisation :** Le Blueprint enregistré apparaît comme un "outil" dans l'inventaire du joueur. En l'utilisant, il peut poser la structure complète en une seule fois, consommant les matériaux nécessaires.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="schema-container">
+                    <button class="schema-button" aria-expanded="false" onclick="toggleSchema(this)">
+                        <span>Afficher le schéma : Création et Utilisation d'un Blueprint</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                    <div class="schema-content">
+                        <svg class="schema-svg" viewBox="0 0 200 250" aria-label="Schéma de création et utilisation d'un Blueprint">
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
+                                </marker>
+                            </defs>
+
+                            <!-- Step 1: Construire Structure -->
+                            <rect x="50" y="10" width="100" height="40" />
+                            <text x="100" y="35" text-anchor="middle">Construire Structure</text>
+
+                            <!-- Arrow 1 -->
+                            <line x1="100" y1="50" x2="100" y2="70" />
+                            <text x="100" y="65" text-anchor="middle" class="arrow-text">Sélectionner & Cliquer</text>
+
+                            <!-- Step 2: Créer Blueprint -->
+                            <rect x="50" y="80" width="100" height="40" />
+                            <text x="100" y="105" text-anchor="middle">Créer Blueprint</text>
+
+                            <!-- Arrow 2 -->
+                            <line x1="100" y1="120" x2="100" y2="140" />
+                            <text x="100" y="135" text-anchor="middle" class="arrow-text">Apparaît dans Inventaire</text>
+
+                            <!-- Step 3: Blueprint (Outil) -->
+                            <rect x="50" y="150" width="100" height="40" />
+                            <text x="100" y="175" text-anchor="middle">Blueprint (Outil)</text>
+
+                            <!-- Arrow 3 -->
+                            <line x1="100" y1="190" x2="100" y2="210" />
+                            <text x="100" y="205" text-anchor="middle" class="arrow-text">Utiliser l'Outil</text>
+
+                            <!-- Step 4: Poser Structure -->
+                            <rect x="50" y="220" width="100" height="40" />
+                            <text x="100" y="245" text-anchor="middle">Poser Structure</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="font-semibold mb-3 sm:mb-4 text-blue-700">2.3. Économie et Progression (La "Valeur de l'Île" / Gain d'Argent par Seconde)</h3>
+                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
+                    <li class="mb-2">**Monnaie du Jeu :** Une monnaie principale (ex: "Crédits Célestes", "Éclats d'Éther") utilisée pour acheter des blocs et d'autres éléments.</li>
+                    <li class="mb-2">**Gain d'Argent Passif :** L'objectif central est d'augmenter le **taux de gain d'argent par seconde**. C'est ce que nous appelons la **"Valeur de l'Île"**. Plus l'île est grande et belle, plus elle rapporte !</li>
+                    <li class="mb-2">**Argent de Départ :** Le joueur n'aura **aucun argent au début**. Le gain d'argent commencera dès la pose des premiers blocs.</li>
+                    <li class="mb-2">**Calcul de la "Valeur de l'Île" (Gain par Seconde) :**
+                        <ul class="list-circle pl-6 mt-2 text-gray-600">
+                            <li class="mb-1">Chaque bloc posé contribue à la "Valeur de l'Île".</li>
+                            <li class="mb-1">**Blocs de terre :** Chaque bloc de terre posé ajoute **1 point** à la "Valeur de l'Île", ce qui se traduit par **1 argent par seconde**.</li>
+                            <li class="mb-1">Les **blocs achetés chez le marchand** (bois, pierre taillée, métaux rares, etc.), plus rares et esthétiques, augmenteront le gain de manière plus significative (ex: 5, 10, 20 points par bloc).</li>
+                            <li class="mb-1">Les **structures complexes créées via des Blueprints personnalisés** pourraient donner un bonus de gain supplémentaire, récompensant l'ingéniosité du design.</li>
+                            <li class="mb-1">Le gain par seconde pourra être ajusté à un gain par minute si la progression est jugée trop rapide.</li>
+                        </ul>
+                    </li>
+                    <li class="mb-2">**Déblocage par Palier de Valeur :** Lorsque la "Valeur de l'Île" (le gain par seconde) atteint certains paliers (ex: 100, 500, 1000, 5000 points), le joueur débloque automatiquement :
+                        <ul class="list-circle pl-6 mt-2 text-gray-600">
+                            <li class="mb-1">De **nouveaux types de blocs** (matériaux plus avancés, formes uniques, éléments décoratifs).</li>
+                            <li class="mb-1">De **nouvelles palettes de couleurs** pour la personnalisation des blocs existants et futurs.</li>
+                            <li class="mb-1">Des **Blueprints pré-définis** offerts par le jeu, pour inspirer ou fournir des structures complexes.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <div class="schema-container">
+                    <button class="schema-button" aria-expanded="false" onclick="toggleSchema(this)">
+                        <span>Afficher le schéma : Boucle de Progression Économique</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                    <div class="schema-content">
+                        <svg class="schema-svg" viewBox="0 0 200 350" aria-label="Schéma de la boucle de progression économique">
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
+                                </marker>
+                            </defs>
+
+                            <!-- Step 1: Poser des blocs -->
+                            <rect x="50" y="10" width="100" height="40" />
+                            <text x="100" y="35" text-anchor="middle">Poser des Blocs</text>
+                            <text x="100" y="48" text-anchor="middle" class="arrow-text">(Terre/Roche illimité)</text>
+
+
+                            <!-- Arrow 1 -->
+                            <line x1="100" y1="50" x2="100" y2="70" />
+                            <text x="100" y="65" text-anchor="middle" class="arrow-text">Augmente</text>
+
+                            <!-- Step 2: Valeur de l'île -->
+                            <rect x="25" y="80" width="150" height="40" />
+                            <text x="100" y="105" text-anchor="middle">"Valeur de l'Île"</text>
+                            <text x="100" y="118" text-anchor="middle" class="arrow-text">(Gain par Seconde)</text>
+
+                            <!-- Arrow 2 -->
+                            <line x1="100" y1="120" x2="100" y2="140" />
+                            <text x="100" y="135" text-anchor="middle" class="arrow-text">Génère</text>
+
+                            <!-- Step 3: Gagner Argent -->
+                            <rect x="50" y="150" width="100" height="40" />
+                            <text x="100" y="175" text-anchor="middle">Gagner Argent</text>
+
+                            <!-- Arrow 3 (to Marchand) -->
+                            <line x1="100" y1="190" x2="100" y2="210" />
+                            <text x="100" y="205" text-anchor="middle" class="arrow-text">Pour acheter</text>
+
+                            <!-- Step 4: Marchand -->
+                            <rect x="50" y="220" width="100" height="40" />
+                            <text x="100" y="245" text-anchor="middle">Marchand</text>
+
+                            <!-- Arrow 4 (back to Poser Blocs) -->
+                            <line x1="150" y1="240" x2="180" y2="240" />
+                            <line x1="180" y1="240" x2="180" y2="30" />
+                            <line x1="180" y1="30" x2="150" y2="30" />
+                            <text x="185" y="135" text-anchor="start" class="arrow-text">Nouveaux Blocs</text>
+
+                            <!-- Step 5: Débloque -->
+                            <rect x="25" y="280" width="150" height="40" />
+                            <text x="100" y="305" text-anchor="middle">Débloque Nouveaux</text>
+                            <text x="100" y="318" text-anchor="middle" class="arrow-text">Blocs/Couleurs/Blueprints</text>
+
+                            <!-- Arrow 5 (back to Poser Blocs) -->
+                            <line x1="100" y1="320" x2="100" y2="340" />
+                            <line x1="100" y1="340" x2="20" y2="340" />
+                            <line x1="20" y1="340" x2="20" y2="30" />
+                            <line x1="20" y1="30" x2="50" y2="30" />
+                            <text x="10" y="175" text-anchor="end" class="arrow-text">Plus d'options</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="font-semibold mb-3 sm:mb-4 text-blue-700">2.4. Le Marchand</h3>
+                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
+                    <li class="mb-2">**Source de Matériaux Avancés :** Le marchand est la principale source pour acquérir des blocs rares (bois, métaux, verre, etc.) et d'autres matériaux décoratifs ou fonctionnels.</li>
+                    <li class="mb-2">**Stock Limité :** Chaque type de bloc ou d'objet a un stock limité (ex: 10 à 100 unités).</li>
+                    <li class="mb-2">**Renouvellement du Stock :** Le stock du marchand se renouvelle automatiquement **toutes les 5 minutes**. Cela encourage les visites régulières et la planification des achats.</li>
+                </ul>
+                <div class="schema-container">
+                    <button class="schema-button" aria-expanded="false" onclick="toggleSchema(this)">
+                        <span>Afficher le schéma : Fonctionnement du Marchand</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                    <div class="schema-content">
+                        <svg class="schema-svg" viewBox="0 0 200 200" aria-label="Schéma de fonctionnement du marchand">
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
+                                </marker>
+                            </defs>
+
+                            <!-- Step 1: Marchand -->
+                            <rect x="50" y="10" width="100" height="40" />
+                            <text x="100" y="35" text-anchor="middle">Marchand</text>
+                            <text x="100" y="48" text-anchor="middle" class="arrow-text">(Stock Limité)</text>
+
+                            <!-- Arrow 1 (to Stock Renouvelé) -->
+                            <line x1="100" y1="50" x2="100" y2="70" />
+                            <text x="100" y="65" text-anchor="middle" class="arrow-text">Toutes les 5 min</text>
+
+                            <!-- Step 2: Stock Renouvelé -->
+                            <rect x="50" y="80" width="100" height="40" />
+                            <text x="100" y="105" text-anchor="middle">Stock Renouvelé</text>
+
+                            <!-- Arrow 2 (to Joueur Achète) -->
+                            <line x1="100" y1="120" x2="100" y2="140" />
+
+                            <!-- Step 3: Joueur Achète -->
+                            <rect x="50" y="150" width="100" height="40" />
+                            <text x="100" y="175" text-anchor="middle">Joueur Achète</text>
+
+                            <!-- Arrow 3 (back to Marchand) -->
+                            <line x1="150" y1="170" x2="180" y2="170" />
+                            <line x1="180" y1="170" x2="180" y2="30" />
+                            <line x1="180" y1="30" x2="150" y2="30" />
+                            <text x="185" y="100" text-anchor="start" class="arrow-text">Diminue Stock</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-8 sm:mb-10">
+            <h2 class="font-bold section-title mb-5 sm:mb-6">3. Expérience Utilisateur (UX) et Interface Utilisateur (UI)</h2>
+            <div class="card">
+                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
+                    <li class="mb-2">**Interface de Construction :** Icônes claires et boutons facilement accessibles pour la sélection des types de blocs, les outils de placement, la rotation, et l'accès rapide aux Blueprints. Un système de grille visuelle pour faciliter le placement.</li>
+                    <li class="mb-2">**Menu d'Île :** Un menu principal intuitif pour créer une nouvelle île, charger une île existante, ou rejoindre une île d'ami via la saisie d'un code.</li>
+                    <li class="mb-2">**Affichage de Progression :** Des indicateurs visibles et clairs du gain d'argent par seconde ("Valeur de l'Île") et de l'argent total possédé. Des notifications visuelles et sonores satisfaisantes lors du déblocage de nouveaux éléments (blocs, couleurs, Blueprints).</li>
+                    <li class="mb-2">**Optimisation Mobile :** L'UI sera conçue pour être entièrement fonctionnelle, lisible et facile à manipuler sur les écrans tactiles des appareils mobiles.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="mb-8 sm:mb-10">
+            <h2 class="font-bold section-title mb-5 sm:mb-6">4. Monétisation</h2>
+            <div class="card">
+                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
+                    <li class="mb-2">**Game Passes (Achats Uniques) :**
+                        <ul class="list-circle pl-6 mt-2 text-gray-600">
+                            <li class="mb-1">Augmentation de la limite d'inventaire ou de stockage des Blueprints.</li>
+                            <li class="mb-1">Outils de construction avancés (ex: pose multiple de blocs, mode vol amélioré pour la construction rapide).</li>
+                            <li class="mb-1">Accélérateurs de gain d'argent par seconde.</li>
+                            <li class="mb-1">Game Pass permettant de rafraîchir le stock du marchand instantanément.</li>
+                        </ul>
+                    </li>
+                    <li class="mb-2">**Produits à Usage Unique (Devise Premium / Robux) :**
+                        <ul class="list-circle pl-6 mt-2 text-gray-600">
+                            <li class="mb-1">Skins cosmétiques exclusifs pour les blocs (sans affecter leur valeur de base).</li>
+                            <li class="mb-1">Effets visuels pour l'île (ex: aurores célestes, nuages décoratifs, particules spéciales).</li>
+                            <li class="mb-1">Accès à des blocs exclusifs ou à des bundles de matériaux rares.</li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="mb-8 sm:mb-10">
+            <h2 class="font-bold section-title mb-5 sm:mb-6">5. Contenu et Progression Future</h2>
+            <div class="card">
+                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
+                    <li class="mb-2">**Contenu de Lancement :** Un assortiment suffisant de blocs de base et avancés, une variété de couleurs, et quelques Blueprints pré-définis pour démarrer l'expérience.</li>
+                    <li class="mb-2">**Mises à Jour Régulières :** Ajouts fréquents de nouveaux thèmes de blocs (ex: futuriste, médiéval, organique, industriel), de nouveaux Blueprints pré-définis, d'outils de construction supplémentaires et d'événements à thème.</li>
+                    <li class="mb-2">**Défis/Quêtes :** Des défis de construction occasionnels qui récompensent des blocs, des couleurs ou des Blueprints uniques.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="mb-8 sm:mb-10">
+            <h2 class="font-bold section-title mb-5 sm:mb-6">6. Aspect Social et Multijoueur</h2>
+            <div class="card">
+                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
+                    <li class="mb-2">**Serveurs Privés Persistants :** Les joueurs rejoignent l'île d'un ami via le code unique pour collaborer à des projets de construction ou simplement visiter.</li>
+                    <li class="mb-2">**Rôles et Permissions :** Le propriétaire de l'île pourra définir des niveaux de permission pour les joueurs invités :
+                        <ul class="list-circle pl-6 mt-2 text-gray-600">
+                            <li class="mb-1">**Visiteur :** Peut explorer et regarder, mais ne peut pas interagir avec les blocs.</li>
+                            <li class="mb-1">**Constructeur :** Peut poser et détruire des blocs sur l'île (sous la supervision du propriétaire).</li>
+                            <li class="mb-1">**Co-propriétaire :** Accès quasi total (construction, destruction, gestion de certaines options de l'île).</li>
+                        </ul>
+                    </li>
+                    <li class="mb-2">**Chat en Jeu :** Pour la communication en temps réel entre les joueurs présents sur une île.</li>
+                    <li class="mb-2">**Intégration des Amitiés Roblox :** Faciliter les invitations et la découverte des îles de ses amis.</li>
+                </ul>
+                <div class="schema-container">
+                    <button class="schema-button" aria-expanded="false" onclick="toggleSchema(this)">
+                        <span>Afficher le schéma : Gestion des Permissions d'Île</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                    <div class="schema-content">
+                        <svg class="schema-svg" viewBox="0 0 200 250" aria-label="Schéma de gestion des permissions d'île">
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
+                                </marker>
+                            </defs>
+
+                            <!-- Step 1: Propriétaire -->
+                            <rect x="50" y="10" width="100" height="40" />
+                            <text x="100" y="35" text-anchor="middle">Propriétaire de l'Île</text>
+
+                            <!-- Arrow 1 -->
+                            <line x1="100" y1="50" x2="100" y2="70" />
+                            <text x="100" y="65" text-anchor="middle" class="arrow-text">Partage Code Unique</text>
+
+                            <!-- Step 2: Joueur Invité -->
+                            <rect x="50" y="80" width="100" height="40" />
+                            <text x="100" y="105" text-anchor="middle">Joueur Invité</text>
+
+                            <!-- Arrow 2 -->
+                            <line x1="100" y1="120" x2="100" y2="140" />
+                            <text x="100" y="135" text-anchor="middle" class="arrow-text">Le propriétaire choisit un rôle</text>
+
+                            <!-- Step 3: Rôles (branches) -->
+                            <line x1="100" y1="150" x2="50" y2="170" />
+                            <line x1="100" y1="150" x2="100" y2="170" />
+                            <line x1="100" y1="150" x2="150" y2="170" />
+
+                            <!-- Role 1: Visiteur -->
+                            <rect x="10" y="180" width="80" height="40" />
+                            <text x="50" y="205" text-anchor="middle">Visiteur</text>
+                            <text x="50" y="218" text-anchor="middle" class="arrow-text">(Voir seulement)</text>
+
+                            <!-- Role 2: Constructeur -->
+                            <rect x="60" y="180" width="80" height="40" />
+                            <text x="100" y="205" text-anchor="middle">Constructeur</text>
+                            <text x="100" y="218" text-anchor="middle" class="arrow-text">(Poser/Détruire)</text>
+
+                            <!-- Role 3: Co-propriétaire -->
+                            <rect x="110" y="180" width="80" height="40" />
+                            <text x="150" y="205" text-anchor="middle">Co-propriétaire</text>
+                            <text x="150" y="218" text-anchor="middle" class="arrow-text">(Accès quasi total)</text>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-8 sm:mb-10">
+            <h2 class="font-bold section-title mb-5 sm:mb-6">7. Style Artistique et Technique</h2>
+            <div class="card">
+                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
+                    <li class="mb-2">**Style Artistique :** [À définir : low poly, stylisé, semi-réaliste, cartoon ?]. La cohérence visuelle sera essentielle pour une identité forte.</li>
+                    <li class="mb-2">**Optimisation :** Priorité absolue à la performance, en particulier sur les appareils mobiles. Cela inclura des techniques comme le "culling" (ne rendre que ce qui est visible), l'optimisation des maillages de blocs, et une gestion efficace de la physique pour les très grandes îles.</li>
+                    <li class="mb-2">**Musique et Sons :** Une ambiance sonore relaxante et inspirante pour la construction. Des effets sonores satisfaisants pour la pose et la destruction des blocs, ainsi que pour les interactions avec l'UI et le marchand.</li>
+                </ul>
+            </div>
+        </section>
+
+        <footer class="text-center text-gray-500 text-xs sm:text-sm mt-10 py-4 border-t border-gray-200">
+            <p>&copy; 2025 Cahier des Charges - Projet Sky Architect. Tous droits réservés.</p>
+            <p>Document généré pour la conception de jeu Roblox.</p>
+        </footer>
+    </div>
+
+    <script>
+        function toggleSchema(button) {
+            const content = button.nextElementSibling;
+            const isExpanded = button.getAttribute('aria-expanded') === 'true';
+
+            if (isExpanded) {
+                content.style.display = 'none';
+                button.setAttribute('aria-expanded', 'false');
+            } else {
+                content.style.display = 'block';
+                button.setAttribute('aria-expanded', 'true');
+            }
+        }
+    </script>
+</body>
+</html>
