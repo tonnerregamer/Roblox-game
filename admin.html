@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donnez votre avis - Sky Architect</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(to bottom right, #e0f2fe, #e3f2fd);
+            color: #1e293b;
+            padding: 1rem;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .container {
+            max-width: 950px;
+            padding: 1.5rem;
+            flex-grow: 1;
+        }
+        .header-gradient {
+            background: linear-gradient(to right, #60a5fa, #3b82f6);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 2.25rem;
+        }
+        h1.header-gradient {
+            line-height: 1.2;
+        }
+        h2 {
+            font-size: 1.5rem;
+            border-left: 4px solid #3b82f6;
+            padding-left: 1rem;
+            margin-bottom: 1rem;
+        }
+        .card {
+            background-color: #ffffff;
+            border-radius: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 1.25rem;
+            margin-bottom: 1.25rem;
+        }
+        .form-input, .form-textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            color: #334155;
+        }
+        .form-input:focus, .form-textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.25);
+        }
+        .submit-button {
+            background-color: #2563eb;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+            width: 100%;
+            cursor: pointer;
+        }
+        .submit-button:hover {
+            background-color: #1d4ed8;
+        }
+        .review-item {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 0.75rem;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+        .review-author {
+            font-weight: 600;
+            color: #475569;
+            font-size: 0.875rem;
+            margin-bottom: 0.25rem;
+        }
+        .review-date {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 0.5rem;
+        }
+        .review-text {
+            font-size: 0.875rem;
+            color: #334155;
+            line-height: 1.5;
+        }
+        .admin-panel {
+            background-color: #fffbeb;
+            border: 1px solid #fcd34d;
+            border-radius: 0.75rem;
+            padding: 1.25rem;
+            margin-top: 2rem;
+            text-align: center;
+        }
+        .admin-delete-button {
+            background-color: #ef4444;
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+            cursor: pointer;
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+        }
+        .admin-delete-button:hover {
+            background-color: #dc2626;
+        }
+        .message-box {
+            background-color: #dbeafe;
+            color: #1e40af;
+            padding: 0.75rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 0.875rem;
+            text-align: center;
+            display: none;
+        }
+
+        /* Styles pour le lien admin discret dans le footer */
+        .admin-link {
+            color: #64748b;
+            font-size: 0.75rem;
+            text-decoration: none;
+            transition: color 0.2s ease-in-out;
+            margin-top: 1rem;
+        }
+        .admin-link:hover {
+            color: #3b82f6;
+        }
+
+        /* Styles de la modale personnalisée */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            width: 90%; /* Largeur pour mobile */
+            max-width: 400px; /* Largeur max pour desktop */
+            position: relative;
+        }
+        .modal-close-button {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748b;
+        }
+        .modal-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #cbd5e1;
+            border-radius: 0.5rem;
+            margin-top: 0.5rem;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+            color: #334155;
+        }
+        .modal-submit-button {
+            background-color: #2563eb;
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 600;
+            transition: background-color 0.2s ease-in-out;
+            width: 100%;
+            cursor: pointer;
+        }
+        .modal-submit-button:hover {
+            background-color: #1d4ed8;
+        }
+
+
+        /* Adjustments for larger screens (sm: breakpoint and up) */
+        @media (min-width: 640px) {
+            body {
+                padding: 2.5rem;
+            }
+            .container {
+                padding: 3rem 4rem;
+            }
+            .header-gradient {
+                font-size: 3.5rem;
+            }
+            h2 {
+                font-size: 1.875rem;
+            }
+            p, li, .review-author, .review-text, .form-input, .form-textarea, .submit-button, .message-box {
+                font-size: 1rem;
+            }
+            .card {
+                padding: 2rem;
+                margin-bottom: 2rem;
+            }
+            .admin-delete-button {
+                font-size: 0.875rem;
+                padding: 0.4rem 0.8rem;
+            }
+            .admin-link {
+                font-size: 0.875rem;
+            }
+            .modal-content {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body class="flex flex-col">
+    <div class="container mx-auto bg-white rounded-3xl shadow-2xl flex-grow">
+
+        <header class="text-center mb-8 sm:mb-12">
+            <h1 class="font-extrabold header-gradient mb-3 sm:mb-4">Donnez votre avis</h1>
+            <p class="text-lg sm:text-2xl text-gray-700 font-semibold">Partagez votre expérience sur <span class="text-blue-600">Sky Architect</span></p>
+        </header>
+
+        <main>
+            <section class="mb-8 sm:mb-10">
+                <h2 class="mb-4">Laisser un avis</h2>
+                <div class="card">
+                    <div id="messageBox" class="message-box"></div>
+                    <form id="reviewForm" class="flex flex-col">
+                        <label for="reviewText" class="font-semibold mb-2 text-gray-700">Votre avis :</label>
+                        <textarea id="reviewText" class="form-textarea" rows="5" placeholder="Écrivez votre avis ici..." required></textarea>
+
+                        <button type="submit" class="submit-button">Envoyer l'avis anonymement</button>
+                    </form>
+                </div>
+            </section>
+
+            <section class="mb-8 sm:mb-10">
+                <h2 class="mb-4">Avis des joueurs</h2>
+                <div id="reviewsList" class="flex flex-col gap-4">
+                    <!-- Les avis seront chargés ici par JavaScript -->
+                    <p class="text-center text-gray-500" id="noReviewsMessage">Aucun avis pour le moment. Soyez le premier !</p>
+                </div>
+            </section>
+
+            <div id="adminPanel" class="admin-panel hidden">
+                <p class="text-green-600 font-semibold mb-2">Mode Admin activé !</p>
+                <p class="text-gray-600">Vous pouvez maintenant supprimer les avis.</p>
+                <button id="adminLogoutButton" class="admin-delete-button !relative !top-0 !right-0 mt-2">Quitter Admin</button>
+            </div>
+        </main>
+    </div>
+
+    <footer class="text-center text-gray-500 text-xs sm:text-sm mt-8 py-4 border-t border-gray-200 flex flex-col items-center">
+        <p>&copy; 2025 Sky Architect. Tous droits réservés.</p>
+        <p>Document généré pour la conception de jeu Roblox.</p>
+        <a href="#" id="adminLoginLink" class="admin-link">Admin</a>
+    </footer>
+
+    <!-- Modale de connexion Admin -->
+    <div id="adminModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close-button" onclick="hideAdminModal()">&times;</button>
+            <h3 class="text-xl font-semibold mb-4 text-center">Connexion Administrateur</h3>
+            <label for="adminCodeInput" class="block text-left font-semibold mb-2 text-gray-700">Code :</label>
+            <input type="password" id="adminCodeInput" class="modal-input" placeholder="Entrez le code admin" />
+            <button id="modalLoginButton" class="modal-submit-button">Se connecter</button>
+        </div>
+    </div>
+
+    <script>
+        const REVIEWS_STORAGE_KEY = 'sky_architect_reviews';
+        const USER_ID_COOKIE_NAME = 'sky_architect_user_id';
+        const ADMIN_CODE = '0567'; // Code admin pour la suppression
+
+        const reviewForm = document.getElementById('reviewForm');
+        const reviewTextarea = document.getElementById('reviewText');
+        const reviewsList = document.getElementById('reviewsList');
+        const noReviewsMessage = document.getElementById('noReviewsMessage');
+        const adminLoginLink = document.getElementById('adminLoginLink');
+        const adminPanel = document.getElementById('adminPanel');
+        const messageBox = document.getElementById('messageBox');
+        const adminLogoutButton = document.getElementById('adminLogoutButton'); // Nouveau bouton de déconnexion
+
+        // Éléments de la modale
+        const adminModal = document.getElementById('adminModal');
+        const adminCodeInput = document.getElementById('adminCodeInput');
+        const modalLoginButton = document.getElementById('modalLoginButton');
+
+        let isAdminMode = false;
+
+        // --- Fonctions utilitaires pour les cookies ---
+        function setCookie(name, value, days) {
+            let expires = "";
+            if (days) {
+                const date = new Date();
+                date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "") + expires + "; path=/";
+        }
+
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for (let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) return c.substring(nameEQ.length, c.length);
+            }
+            return null;
+        }
+
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+
+        function getOrCreateUserId() {
+            let userId = getCookie(USER_ID_COOKIE_NAME);
+            if (!userId) {
+                userId = generateUUID();
+                setCookie(USER_ID_COOKIE_NAME, userId, 365);
+            }
+            return userId;
+        }
+
+        // --- Afficher un message temporaire ---
+        function showMessage(message, type = 'info') {
+            messageBox.textContent = message;
+            messageBox.style.display = 'block';
+            if (type === 'error') {
+                messageBox.style.backgroundColor = '#fee2e2';
+                messageBox.style.color = '#dc2626';
+            } else {
+                messageBox.style.backgroundColor = '#dbeafe';
+                messageBox.style.color = '#1e40af';
+            }
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 3000);
+        }
+
+        // --- Fonctions de gestion de la modale ---
+        function showAdminModal() {
+            adminModal.classList.add('show');
+            adminCodeInput.value = ''; // Réinitialiser l'input
+            adminCodeInput.focus(); // Mettre le focus sur l'input
+        }
+
+        function hideAdminModal() {
+            adminModal.classList.remove('show');
+        }
+
+        // --- Charger et sauvegarder les avis ---
+        function loadReviews() {
+            const reviewsJson = localStorage.getItem(REVIEWS_STORAGE_KEY);
+            return reviewsJson ? JSON.parse(reviewsJson) : [];
+        }
+
+        function saveReviews(reviews) {
+            localStorage.setItem(REVIEWS_STORAGE_KEY, JSON.stringify(reviews));
+        }
+
+        // --- Afficher les avis sur la page ---
+        function displayReviews() {
+            const reviews = loadReviews();
+            reviewsList.innerHTML = '';
+
+            if (reviews.length === 0) {
+                noReviewsMessage.style.display = 'block';
+            } else {
+                noReviewsMessage.style.display = 'none';
+                reviews.forEach((review) => {
+                    const reviewElement = document.createElement('div');
+                    reviewElement.className = 'review-item';
+                    reviewElement.setAttribute('data-id', review.id);
+
+                    const date = new Date(review.timestamp);
+                    const formattedDate = date.toLocaleDateString('fr-FR', {
+                        year: 'numeric', month: 'long', day: 'numeric',
+                        hour: '2-digit', minute: '2-digit'
+                    });
+
+                    reviewElement.innerHTML = `
+                        <p class="review-author">Avis de l'utilisateur anonyme</p>
+                        <p class="review-date">${formattedDate}</p>
+                        <p class="review-text">${review.text}</p>
+                    `;
+
+                    if (isAdminMode) {
+                        const deleteButton = document.createElement('button');
+                        deleteButton.className = 'admin-delete-button';
+                        deleteButton.textContent = 'Supprimer';
+                        deleteButton.onclick = (event) => {
+                            event.stopPropagation();
+                            deleteReview(review.id);
+                        };
+                        reviewElement.appendChild(deleteButton);
+                    }
+                    reviewsList.appendChild(reviewElement);
+                });
+            }
+        }
+
+        // --- Gérer la soumission d'un avis ---
+        reviewForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const reviewText = reviewTextarea.value.trim();
+
+            if (reviewText.length < 10) {
+                showMessage("Votre avis est trop court (minimum 10 caractères).", 'error');
+                return;
+            }
+            if (reviewText.length > 500) {
+                showMessage("Votre avis est trop long (maximum 500 caractères).", 'error');
+                return;
+            }
+
+            const userId = getOrCreateUserId();
+            const newReview = {
+                id: generateUUID(),
+                userId: userId,
+                text: reviewText,
+                timestamp: new Date().toISOString()
+            };
+
+            const reviews = loadReviews();
+            reviews.unshift(newReview);
+            saveReviews(reviews);
+            displayReviews();
+            reviewTextarea.value = '';
+            showMessage("Votre avis a été envoyé avec succès !");
+        });
+
+        // --- Gérer la connexion Admin via le lien du footer ---
+        adminLoginLink.addEventListener('click', (e) => {
+            e.preventDefault();
+            showAdminModal(); // Affiche la modale au lieu du prompt
+        });
+
+        // --- Gérer la soumission du code admin depuis la modale ---
+        modalLoginButton.addEventListener('click', () => {
+            const code = adminCodeInput.value.trim();
+            if (code === ADMIN_CODE) {
+                isAdminMode = true;
+                hideAdminModal(); // Cache la modale
+                adminPanel.classList.remove('hidden');
+                adminLoginLink.style.display = 'none'; // Cache le lien admin
+                displayReviews(); // Réaffiche les avis avec les boutons de suppression
+                showMessage("Mode Admin activé !");
+            } else {
+                showMessage("Code administrateur incorrect.", 'error');
+                adminCodeInput.value = ''; // Efface le code incorrect
+            }
+        });
+
+        // --- Gérer la déconnexion Admin ---
+        adminLogoutButton.addEventListener('click', () => {
+            isAdminMode = false;
+            adminPanel.classList.add('hidden');
+            adminLoginLink.style.display = 'inline-block'; // Réaffiche le lien admin
+            displayReviews(); // Réaffiche les avis sans les boutons de suppression
+            showMessage("Mode Admin désactivé.");
+        });
+
+        // --- Supprimer un avis (fonction admin) ---
+        function deleteReview(reviewId) {
+            let reviews = loadReviews();
+            const initialLength = reviews.length;
+            reviews = reviews.filter(review => review.id !== reviewId);
+            saveReviews(reviews);
+            displayReviews();
+            if (reviews.length < initialLength) {
+                showMessage("Avis supprimé avec succès !");
+            } else {
+                showMessage("Erreur: Avis non trouvé ou non supprimé.", 'error');
+            }
+        }
+
+        // --- Initialisation au chargement de la page ---
+        document.addEventListener('DOMContentLoaded', () => {
+            getOrCreateUserId();
+            displayReviews();
+        });
+    </script>
+</body>
+</html>
