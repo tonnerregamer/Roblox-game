@@ -13,7 +13,10 @@
             font-family: 'Inter', sans-serif;
             background: linear-gradient(to bottom right, #e0f2fe, #e3f2fd); /* Dégradé bleu clair */
             color: #1e293b; /* Texte gris-bleu foncé */
-            padding: 1rem; /* Espacement de base pour mobile */
+            padding-top: 5rem; /* Espace pour le header fixe sur mobile */
+            padding-left: 1rem;
+            padding-right: 1rem;
+            padding-bottom: 1rem;
         }
         .container {
             max-width: 950px;
@@ -136,11 +139,52 @@
             font-weight: 400;
         }
 
+        /* Styles pour le header fixe */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff; /* Fond blanc */
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000; /* Assure qu'il est au-dessus des autres éléments */
+            padding: 0.75rem 1rem; /* Padding pour mobile */
+            display: flex;
+            justify-content: center; /* CENTRER LE BOUTON */
+            align-items: center;
+        }
+        .feedback-button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem; /* Padding réduit pour le bouton fixe sur mobile */
+            background-color: #2563eb; /* Bleu primaire */
+            color: white;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            font-size: 0.875rem; /* Taille de police réduite pour le bouton fixe sur mobile */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .feedback-button:hover {
+            background-color: #1d4ed8; /* Bleu plus foncé au survol */
+            transform: translateY(-1px); /* Léger effet de survol */
+        }
+        .feedback-button svg {
+            margin-left: 0.5rem;
+            width: 16px; /* Taille de l'icône réduite */
+            height: 16px;
+        }
+
 
         /* Ajustements pour les écrans plus grands (breakpoint 'sm' et au-delà) */
         @media (min-width: 640px) {
             body {
-                padding: 2.5rem;
+                padding-top: 6rem; /* Espace pour le header fixe sur desktop */
+                padding-left: 2.5rem;
+                padding-right: 2.5rem;
+                padding-bottom: 2.5rem;
             }
             .container {
                 padding: 3rem 4rem;
@@ -181,10 +225,29 @@
             .schema-svg .arrow-text {
                 font-size: 10px;
             }
+            .fixed-header {
+                padding: 1rem 2.5rem; /* Padding pour desktop */
+            }
+            .feedback-button {
+                padding: 0.75rem 1.5rem; /* Padding standard pour le bouton fixe sur desktop */
+                font-size: 1rem; /* Taille de police standard pour le bouton fixe sur desktop */
+            }
+            .feedback-button svg {
+                width: 20px; /* Taille de l'icône standard */
+                height: 20px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Header fixe avec le bouton d'avis -->
+    <div class="fixed-header">
+        <a href="avis.html" class="feedback-button">
+            Donnez votre avis
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </a>
+    </div>
+
     <div class="container mx-auto bg-white rounded-3xl shadow-2xl">
 
         <header class="text-center mb-8 sm:mb-12">
@@ -199,7 +262,7 @@
                 <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Titre Provisoire :</strong> Sky Architect</p>
                 <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Genre :</strong> Jeu de Construction / Bac à Sable (Sandbox) avec des éléments de Gestion d'Île et un fort accent sur la Créativité Sociale.</p>
                 <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Pitch :</strong> Bâtissez et personnalisez votre propre île flottante au-dessus du vide infini. Transformez la beauté et la complexité de votre création en une source de richesse continue. Créez des structures complexes avec des Blueprints uniques et partagez votre monde céleste avec vos amis.</p>
-                <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Proposition de Valeur Unique (USP) :</strong> La liberté totale de construire et de développer une île aérienne personnelle et persistante, où l'ingéniosité et l'esthétique sont directement récompensées par un gain d'argent passif. Le système de Blueprints personnalisés et le marché dynamique ajoutent des couches de profondeur et de rejouabilité uniques.</p>
+                <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Proposition de Valeur Unique (USP) :</strong> La liberté totale de construire et de développer une île aérienne personnelle et persistante, où l'ingéniosité et l'esthétique sont directement récompensées par un gain d'argent passif. Le système de Blueprints personnalisés et le marché dynamique ajoute des couches de profondeur et de rejouabilité uniques.</p>
                 <p class="mb-2 sm:mb-3"><strong class="text-blue-700">Expérience Principale Voulue :</strong> Créative, relaxante, collaborative, avec une progression satisfaisante et un sentiment d'accomplissement visuel et économique.</p>
                 <p><strong class="text-blue-700">Ambiance Générale :</strong> Aérienne, onirique, fantastique, ouverte à l'imagination du joueur. Un environnement paisible qui encourage l'exploration et la construction au-dessus du vide.</p>
             </div>
