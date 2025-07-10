@@ -151,7 +151,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.6); /* Fond semi-transparent */
+            background-color: rgba(0, 0, 0, 0.6);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -169,8 +169,8 @@
             padding: 1.5rem;
             border-radius: 1rem;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            width: 90%; /* Largeur pour mobile */
-            max-width: 400px; /* Largeur max pour desktop */
+            width: 90%;
+            max-width: 400px;
             position: relative;
         }
         .modal-close-button {
@@ -207,11 +207,52 @@
             background-color: #1d4ed8;
         }
 
+        /* Styles pour le header fixe */
+        .fixed-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background-color: #ffffff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+            padding: 0.75rem 1rem;
+            display: flex;
+            justify-content: center; /* CENTRER LE CONTENU */
+            align-items: center;
+        }
+        .header-button { /* Style générique pour les boutons du header */
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+            background-color: #3b82f6; /* Bleu par défaut */
+            color: white;
+            font-weight: 600;
+            border-radius: 0.5rem;
+            text-decoration: none;
+            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out;
+            font-size: 0.875rem;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .header-button:hover {
+            background-color: #2563eb;
+            transform: translateY(-1px);
+        }
+        .header-button svg {
+            margin-right: 0.5rem; /* Icône à gauche du texte */
+            width: 16px;
+            height: 16px;
+        }
+
 
         /* Adjustments for larger screens (sm: breakpoint and up) */
         @media (min-width: 640px) {
             body {
-                padding: 2.5rem;
+                padding-top: 6rem;
+                padding-left: 2.5rem;
+                padding-right: 2.5rem;
+                padding-bottom: 2.5rem;
             }
             .container {
                 padding: 3rem 4rem;
@@ -236,13 +277,29 @@
             .admin-link {
                 font-size: 0.875rem;
             }
-            .modal-content {
-                padding: 2rem;
+            .fixed-header {
+                padding: 1rem 2.5rem;
+            }
+            .header-button {
+                padding: 0.75rem 1.5rem;
+                font-size: 1rem;
+            }
+            .header-button svg {
+                width: 20px;
+                height: 20px;
             }
         }
     </style>
 </head>
-<body class="flex flex-col">
+<body>
+    <!-- Header fixe avec le bouton Accueil -->
+    <div class="fixed-header">
+        <a href="index.html" class="header-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-home"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Accueil
+        </a>
+    </div>
+
     <div class="container mx-auto bg-white rounded-3xl shadow-2xl flex-grow">
 
         <header class="text-center mb-8 sm:mb-12">
@@ -280,7 +337,7 @@
         </main>
     </div>
 
-    <footer class="text-center text-gray-500 text-xs sm:text-sm mt-8 py-4 border-t border-gray-200 flex flex-col items-center">
+    <footer class="text-center text-gray-500 text-xs sm:text-sm mt-8 py-4 border-t border-gray-200">
         <p>&copy; 2025 Sky Architect. Tous droits réservés.</p>
         <p>Document généré pour la conception de jeu Roblox.</p>
         <a href="#" id="adminLoginLink" class="admin-link">Admin</a>
@@ -300,7 +357,7 @@
     <script>
         const REVIEWS_STORAGE_KEY = 'sky_architect_reviews';
         const USER_ID_COOKIE_NAME = 'sky_architect_user_id';
-        const ADMIN_CODE = '0567'; // Code admin pour la suppression
+        const ADMIN_CODE = '0567';
 
         const reviewForm = document.getElementById('reviewForm');
         const reviewTextarea = document.getElementById('reviewText');
@@ -309,9 +366,8 @@
         const adminLoginLink = document.getElementById('adminLoginLink');
         const adminPanel = document.getElementById('adminPanel');
         const messageBox = document.getElementById('messageBox');
-        const adminLogoutButton = document.getElementById('adminLogoutButton'); // Nouveau bouton de déconnexion
+        const adminLogoutButton = document.getElementById('adminLogoutButton');
 
-        // Éléments de la modale
         const adminModal = document.getElementById('adminModal');
         const adminCodeInput = document.getElementById('adminCodeInput');
         const modalLoginButton = document.getElementById('modalLoginButton');
@@ -375,8 +431,8 @@
         // --- Fonctions de gestion de la modale ---
         function showAdminModal() {
             adminModal.classList.add('show');
-            adminCodeInput.value = ''; // Réinitialiser l'input
-            adminCodeInput.focus(); // Mettre le focus sur l'input
+            adminCodeInput.value = '';
+            adminCodeInput.focus();
         }
 
         function hideAdminModal() {
@@ -467,7 +523,7 @@
         // --- Gérer la connexion Admin via le lien du footer ---
         adminLoginLink.addEventListener('click', (e) => {
             e.preventDefault();
-            showAdminModal(); // Affiche la modale au lieu du prompt
+            showAdminModal();
         });
 
         // --- Gérer la soumission du code admin depuis la modale ---
@@ -475,14 +531,14 @@
             const code = adminCodeInput.value.trim();
             if (code === ADMIN_CODE) {
                 isAdminMode = true;
-                hideAdminModal(); // Cache la modale
+                hideAdminModal();
                 adminPanel.classList.remove('hidden');
-                adminLoginLink.style.display = 'none'; // Cache le lien admin
-                displayReviews(); // Réaffiche les avis avec les boutons de suppression
+                adminLoginLink.style.display = 'none';
+                displayReviews();
                 showMessage("Mode Admin activé !");
             } else {
                 showMessage("Code administrateur incorrect.", 'error');
-                adminCodeInput.value = ''; // Efface le code incorrect
+                adminCodeInput.value = '';
             }
         });
 
@@ -490,13 +546,18 @@
         adminLogoutButton.addEventListener('click', () => {
             isAdminMode = false;
             adminPanel.classList.add('hidden');
-            adminLoginLink.style.display = 'inline-block'; // Réaffiche le lien admin
-            displayReviews(); // Réaffiche les avis sans les boutons de suppression
+            adminLoginLink.style.display = 'inline-block';
+            displayReviews();
             showMessage("Mode Admin désactivé.");
         });
 
         // --- Supprimer un avis (fonction admin) ---
         function deleteReview(reviewId) {
+            if (!isAdminMode) {
+                showMessage("Vous n'êtes pas en mode administrateur.", 'error');
+                return;
+            }
+
             let reviews = loadReviews();
             const initialLength = reviews.length;
             reviews = reviews.filter(review => review.id !== reviewId);
