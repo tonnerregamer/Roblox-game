@@ -3,595 +3,341 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cahier des Charges Détaillé : Sky Architect</title>
+    <title>Sky Architecte - Le Jeu</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
-    <style>
-        /* Styles de base pour mobile (par défaut) */
-        body {
-            font-family: 'Inter', sans-serif;
-            /* Dégradé radial plus vibrant pour le fond du ciel */
-            background: radial-gradient(at top left, #e0f7fa, #d1e9f7, #a7d9f7, #85c4e9, #60a5fa);
-            color: #1e293b; /* Texte gris-bleu foncé */
-            padding-top: 6rem; /* Espace pour le header fixe sur mobile (augmenté) */
-            padding-left: 0.5rem; /* Padding horizontal réduit pour très petits écrans */
-            padding-right: 0.5rem; /* Padding horizontal réduit pour très petits écrans */
-            padding-bottom: 2rem;
-            min-height: 100vh; /* S'assure que le body prend au moins toute la hauteur */
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Centre le contenu horizontalement */
-        }
-        .container {
-            max-width: 950px;
-            width: 100%; /* S'assure que le conteneur prend toute la largeur disponible */
-            padding: 1.5rem; /* Espacement interne légèrement réduit pour mobile */
-            background-color: #ffffff;
-            border-radius: 1.5rem; /* Bords plus arrondis */
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.2); /* Ombre plus prononcée et éthérée */
-            border: 1px solid rgba(255, 255, 255, 0.6); /* Bordure blanche subtile pour un effet "flottant" */
-        }
-        .header-gradient {
-            /* Dégradé plus éclatant pour le titre principal */
-            background: linear-gradient(to right, #3b82f6, #60a5fa, #2563eb);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            font-size: 2.25rem; /* Taille de titre H1 pour mobile (text-3xl) */
-            font-weight: 800; /* Plus gras */
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1); /* Ombre textuelle subtile */
-        }
-        h1.header-gradient {
-            line-height: 1.2; /* Ajustement de l'interligne pour les titres */
-        }
-        h2.section-title {
-            font-size: 1.5rem; /* Taille de titre H2 pour mobile (text-2xl) */
-            font-weight: 700; /* Plus gras */
-            position: relative;
-            padding-left: 1.5rem; /* Espacement pour la barre latérale */
-            margin-bottom: 1.5rem; /* Espacement sous le titre de section */
-            color: #1a202c; /* Couleur de texte plus foncée pour le contraste */
-        }
-        h2.section-title::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 10px; /* Largeur de la barre latérale plus large */
-            height: 100%;
-            /* Dégradé pour la barre latérale */
-            background: linear-gradient(to bottom, #60a5fa, #2563eb);
-            border-radius: 5px;
-        }
-        h3 {
-            font-size: 1.125rem; /* Taille de titre H3 pour mobile (text-xl) */
-            font-weight: 600;
-            color: #1e40af; /* Couleur plus foncée pour les sous-titres */
-        }
-        p, li {
-            font-size: 0.9rem; /* Taille de texte générale pour mobile (légèrement ajustée) */
-            line-height: 1.6; /* Interligne améliorée pour la lisibilité */
-        }
-
-        .card {
-            background: linear-gradient(to bottom right, #ffffff, #f8faff); /* Dégradé subtil pour les cartes */
-            border-radius: 1.25rem; /* Bords plus arrondis */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12); /* Ombre légère mais visible */
-            transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-            padding: 1.75rem; /* Espacement interne des cartes pour mobile */
-            margin-bottom: 1.75rem; /* Espacement entre les cartes */
-            border: 1px solid rgba(226, 232, 240, 0.7); /* Bordure subtile */
-        }
-        .card:hover {
-            transform: translateY(-8px); /* Effet de survol plus prononcé */
-            box-shadow: 0 18px 36px rgba(0, 0, 0, 0.2); /* Ombre plus intense au survol */
-        }
-
-        /* Styles spécifiques pour les schémas collapsibles */
-        .schema-container {
-            margin-top: 2rem;
-            background-color: #f0f9ff; /* Bleu très clair, presque blanc */
-            border: 2px solid #93c5fd; /* Bordure bleue plus visible */
-            border-radius: 1rem;
-            overflow: hidden;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); /* Ombre légère */
-        }
-        .schema-button {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            width: 100%;
-            padding: 1.25rem 1.5rem;
-            /* Dégradé pour le bouton de schéma */
-            background: linear-gradient(to right, #dbeafe, #bfdbfe);
-            border: none;
-            border-bottom: 1px solid #93c5fd;
-            font-weight: 700; /* Plus gras */
-            color: #1d4ed8;
-            cursor: pointer;
-            text-align: left;
-            border-radius: 0.9rem 0.9rem 0 0; /* Arrondir seulement le haut */
-            transition: background-color 0.2s ease-in-out;
-            font-size: 1rem; /* Taille de texte plus grande */
-        }
-        .schema-button:hover {
-            background: linear-gradient(to right, #bfdbfe, #93c5fd); /* Dégradé légèrement plus foncé au survol */
-        }
-        .schema-button svg {
-            transition: transform 0.3s ease-in-out;
-        }
-        .schema-button[aria-expanded="true"] svg {
-            transform: rotate(90deg); /* Rotation de la flèche quand ouvert */
-        }
-        .schema-content {
-            padding: 1.5rem; /* Espacement interne du contenu du schéma */
-            display: none; /* Caché par défaut */
-            text-align: center; /* Centrer le SVG */
-        }
-
-        /* Styles pour les SVG des schémas */
-        .schema-svg {
-            max-width: 100%;
-            height: auto;
-            font-family: 'Inter', sans-serif;
-            overflow: visible;
-        }
-        .schema-svg text {
-            font-size: 11px; /* Taille de police par défaut pour le texte SVG (plus petite pour mobile) */
-            fill: #1e293b;
-            font-weight: 600;
-        }
-        .schema-svg rect {
-            fill: #e0f2fe;
-            stroke: #3b82f6;
-            stroke-width: 1.5; /* Bordure plus épaisse */
-            rx: 6; /* Rayon des coins */
-        }
-        .schema-svg line {
-            stroke: #3b82f6;
-            stroke-width: 2.5; /* Ligne plus épaisse */
-            marker-end: url(#arrowhead);
-        }
-        .schema-svg .arrow-text {
-            font-size: 9px; /* Texte plus petit pour les flèches */
-            fill: #475569;
-            font-weight: 500;
-        }
-
-
-        /* Ajustements pour les écrans plus grands (breakpoint 'sm' et au-delà) */
-        @media (min-width: 640px) {
-            body {
-                padding-top: 7rem; /* Espace pour le header fixe sur sm (augmenté) */
-                padding-left: 1rem; /* Padding horizontal pour sm */
-                padding-right: 1rem; /* Padding horizontal pour sm */
-                padding-bottom: 3rem;
-            }
-            .container {
-                padding: 2rem; /* Espacement interne pour sm */
-            }
-            .header-gradient {
-                font-size: 3rem; /* Taille de titre H1 pour sm (text-4xl) */
-            }
-            h2.section-title {
-                font-size: 1.875rem; /* Taille de titre H2 pour sm (text-3xl) */
-            }
-            h3 {
-                font-size: 1.25rem; /* Taille de titre H3 pour sm (text-xl) */
-            }
-            p, li {
-                font-size: 1rem; /* Taille de texte générale pour sm */
-            }
-            .card {
-                padding: 2rem;
-                margin-bottom: 2rem;
-            }
-            .schema-button {
-                padding: 1.25rem 1.5rem;
-                font-size: 1rem;
-            }
-            .schema-content {
-                padding: 1.5rem;
-            }
-            .schema-svg text {
-                font-size: 12px;
-            }
-            .schema-svg .arrow-text {
-                font-size: 10px;
-            }
-        }
-
-        /* Ajustements pour les écrans moyens (breakpoint 'md' et au-delà) */
-        @media (min-width: 768px) {
-            body {
-                padding-top: 8rem; /* Espace pour le header fixe sur md (augmenté) */
-                padding-left: 2.5rem; /* Padding horizontal pour md */
-                padding-right: 2.5rem; /* Padding horizontal pour md */
-            }
-            .container {
-                padding: 3.5rem 5rem; /* Espacement interne plus généreux pour md */
-            }
-            .header-gradient {
-                font-size: 4.5rem; /* Taille de titre H1 pour md (text-5xl) */
-            }
-            h2.section-title {
-                font-size: 2.25rem; /* Taille de titre H2 pour md (text-4xl) */
-                padding-left: 2rem;
-                margin-bottom: 2rem;
-            }
-            h2.section-title::before {
-                width: 10px; /* Barre latérale plus large */
-            }
-            h3 {
-                font-size: 1.5rem; /* Taille de titre H3 pour md (text-2xl) */
-            }
-            p, li {
-                font-size: 1.05rem; /* Taille de texte générale pour md */
-            }
-            .card {
-                padding: 2.5rem;
-                margin-bottom: 2.5rem;
-            }
-            .schema-button {
-                padding: 1.5rem 2rem;
-                font-size: 1.15rem;
-            }
-            .schema-content {
-                padding: 1.75rem 2rem;
-            }
-            .schema-svg text {
-                font-size: 13px;
-            }
-            .schema-svg .arrow-text {
-                font-size: 11px;
-            }
-        }
-
-        /* Styles pour le header fixe */
-        .fixed-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background-color: #ffffff;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Ombre plus douce */
-            z-index: 1000;
-            padding: 0.75rem 2rem; /* Padding plus généreux */
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        .header-button {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            padding: 0.75rem 1.75rem; /* Padding plus généreux */
-            /* Dégradé vibrant pour le bouton */
-            background: linear-gradient(to right, #3b82f6, #60a5fa);
-            color: white;
-            font-weight: 700; /* Plus gras */
-            border-radius: 0.75rem; /* Bords plus arrondis */
-            text-decoration: none;
-            transition: background-color 0.2s ease-in-out, transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
-            font-size: 0.95rem; /* Légèrement plus grand */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Ombre plus douce et visible */
-        }
-        .header-button:hover {
-            background: linear-gradient(to right, #2563eb, #3b82f6); /* Dégradé légèrement plus foncé au survol */
-            transform: translateY(-3px); /* Effet de survol plus prononcé */
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3); /* Ombre plus intense au survol */
-        }
-        .header-button svg {
-            margin-right: 0.6rem; /* Marge plus grande pour l'icône */
-            width: 18px;
-            height: 18px;
-        }
-    </style>
-</head>
-<body>
-    <!-- Header fixe avec le bouton "Donnez votre avis" -->
-    <div class="fixed-header">
-        <a href="avis.html" class="header-button">
-            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-            Donnez votre avis
-        </a>
-    </div>
-
-    <div class="container mx-auto bg-white rounded-3xl shadow-2xl">
-
-        <header class="text-center mb-10 sm:mb-16">
-            <h1 class="font-extrabold header-gradient mb-4 sm:mb-6">Cahier des Charges Détaillé</h1>
-            <p class="text-xl sm:text-3xl text-gray-700 font-semibold">Jeu Roblox : <span class="text-blue-600">Sky Architect</span></p>
-            <p class="text-base sm:text-xl text-gray-500 mt-3">Construisez votre rêve au-dessus des nuages !</p>
-        </header>
-
-        <section class="mb-10 sm:mb-16">
-            <h2 class="font-bold section-title mb-6 sm:mb-8">1. Concept et Vision Générale du Jeu</h2>
-            <div class="card">
-                <p class="mb-3 sm:mb-4"><strong class="text-blue-700">Titre Provisoire :</strong> Sky Architect</p>
-                <p class="mb-3 sm:mb-4"><strong class="text-blue-700">Genre :</strong> Jeu de Construction / Bac à Sable (Sandbox) avec des éléments de Gestion d'Île et un fort accent sur la Créativité Sociale.</p>
-                <p class="mb-3 sm:mb-4"><strong class="text-blue-700">Pitch :</strong> Bâtissez et personnalisez votre propre île flottante au-dessus du vide infini. Transformez la beauté et la complexité de votre création en une source de richesse continue. Créez des structures complexes avec des Blueprints uniques et partagez votre monde céleste avec vos amis.</p>
-                <p class="mb-3 sm:mb-4"><strong class="text-blue-700">Proposition de Valeur Unique (USP) :</strong> La liberté totale de construire et de développer une île aérienne personnelle et persistante, où l'ingéniosité et l'esthétique sont directement récompensées par un gain d'argent passif. Le système de Blueprints personnalisés et le marché dynamique ajoute des couches de profondeur et de rejouabilité uniques.</p>
-                <p class="mb-3 sm:mb-4"><strong class="text-blue-700">Expérience Principale Voulue :</strong> Créative, relaxante, collaborative, avec une progression satisfaisante et un sentiment d'accomplissement visuel et économique.</p>
-                <p><strong class="text-blue-700">Ambiance Générale :</strong> Aérienne, onirique, fantastique, ouverte à l'imagination du joueur. Un environnement paisible qui encourage l'exploration et la construction au-dessus du vide.</p>
-            </div>
-        </section>
-
-        <section class="mb-10 sm:mb-16">
-            <h2 class="font-bold section-title mb-6 sm:mb-8">2. Mécaniques de Gameplay Détaillées</h2>
-
-            <div class="card">
-                <h3 class="font-semibold mb-4 sm:mb-5 text-blue-700">2.1. Gestion des Serveurs/Mondes (Îles)</h3>
-                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
-                    <li class="mb-2">Chaque joueur peut créer sa propre île flottante, un espace de construction personnel et **persistant**, automatiquement sauvegardé.</li>
-                    <li class="mb-2">Accès rapide aux îles sauvegardées via un menu clair.</li>
-                    <li class="mb-2">**Partage d'Îles :** Les joueurs peuvent inviter d'autres personnes sur leur île en partageant un **code unique** généré pour chaque île.</li>
-                    <li class="mb-2">**Chute dans le Vide :** Si un joueur tombe de son île, il réapparaît instantanément sur le point de spawn principal de l'île, sans aucune pénalité. Cela encourage l'expérimentation sans frustration.</li>
-                    <li class="mb-2">**Points de Spawn :** Les points de spawn sur l'île seront **modifiables et déplaçables** par le propriétaire de l'île.</li>
-                </ul>
-            </div>
-
-            <div class="card">
-                <h3 class="font-semibold mb-4 sm:mb-5 text-blue-700">2.2. Construction et Blocs</h3>
-                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
-                    <li class="mb-2">**Blocs de Base Illimités :** La **terre et les roches sont disponibles en quantité illimitée**, permettant aux joueurs de jeter les bases et d'agrandir leur île sans contrainte de ressources initiales.</li>
-                    <li class="mb-2">**Interface de Placement :** Une interface utilisateur intuitive permettra de sélectionner, placer, faire pivoter et retirer/détruire des blocs. Un système de "snapping" (alignement automatique) assurera la précision des constructions.</li>
-                    <li class="mb-2">**Blueprints Personnalisés (Plans de Construction) :**
-                        <ul class="list-circle pl-6 mt-2 text-gray-600">
-                            <li class="mb-1">**Création :** Le joueur sélectionne un ensemble de blocs déjà posés sur son île et clique sur un bouton dédié ("Créer Blueprint" ou "Sauvegarder Structure").</li>
-                            <li class="mb-1">**Utilisation :** Le Blueprint enregistré apparaît comme un "outil" dans l'inventaire du joueur. En l'utilisant, il peut poser la structure complète en une seule fois, consommant les matériaux nécessaires.</li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="schema-container">
-                    <button class="schema-button" aria-expanded="false" onclick="toggleSchema(this)">
-                        <span>Afficher le schéma : Création et Utilisation d'un Blueprint</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                    </button>
-                    <div class="schema-content">
-                        <svg class="schema-svg" viewBox="0 0 200 250" aria-label="Schéma de création et utilisation d'un Blueprint">
-                            <defs>
-                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                                    <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
-                                </marker>
-                            </defs>
-
-                            <!-- Step 1: Construire Structure -->
-                            <rect x="50" y="10" width="100" height="40" />
-                            <text x="100" y="35" text-anchor="middle">Construire Structure</text>
-
-                            <!-- Arrow 1 -->
-                            <line x1="100" y1="50" x2="100" y2="70" />
-                            <text x="100" y="65" text-anchor="middle" class="arrow-text">Sélectionner & Cliquer</text>
-
-                            <!-- Step 2: Créer Blueprint -->
-                            <rect x="50" y="80" width="100" height="40" />
-                            <text x="100" y="105" text-anchor="middle">Créer Blueprint</text>
-
-                            <!-- Arrow 2 -->
-                            <line x1="100" y1="120" x2="100" y2="140" />
-                            <text x="100" y="135" text-anchor="middle" class="arrow-text">Apparaît dans Inventaire</text>
-
-                            <!-- Step 3: Blueprint (Outil) -->
-                            <rect x="50" y="150" width="100" height="40" />
-                            <text x="100" y="175" text-anchor="middle">Blueprint (Outil)</text>
-
-                            <!-- Arrow 3 -->
-                            <line x1="100" y1="190" x2="100" y2="210" />
-                            <text x="100" y="205" text-anchor="middle" class="arrow-text">Utiliser l'Outil</text>
-
-                            <!-- Step 4: Poser Structure -->
-                            <rect x="50" y="220" width="100" height="40" />
-                            <text x="100" y="245" text-anchor="middle">Poser Structure</text>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3 class="font-semibold mb-4 sm:mb-5 text-blue-700">2.3. Économie et Progression (La "Valeur de l'Île" / Gain d'Argent par Seconde)</h3>
-                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
-                    <li class="mb-2">**Monnaie du Jeu :** Une monnaie principale (ex: "Crédits Célestes", "Éclats d'Éther") utilisée pour acheter des blocs et d'autres éléments.</li>
-                    <li class="mb-2">**Gain d'Argent Passif :** L'objectif central est d'augmenter le **taux de gain d'argent par seconde**. C'est ce que nous appelons la **"Valeur de l'Île"**. Plus l'île est grande et belle, plus elle rapporte !</li>
-                    <li class="mb-2">**Argent de Départ :** Le joueur n'aura **aucun argent au début**. Le gain d'argent commencera dès la pose des premiers blocs.</li>
-                    <li class="mb-2">**Calcul de la "Valeur de l'Île" (Gain par Seconde) :**
-                        <ul class="list-circle pl-6 mt-2 text-gray-600">
-                            <li class="mb-1">Chaque bloc posé contribue à la "Valeur de l'Île".</li>
-                            <li class="mb-1">**Blocs de terre :** Chaque bloc de terre posé ajoute **1 point** à la "Valeur de l'Île", ce qui se traduit par **1 argent par seconde**.</li>
-                            <li class="mb-1">Les **blocs achetés chez le marchand** (bois, pierre taillée, métaux rares, etc.), plus rares et esthétiques, augmenteront le gain de manière plus significative (ex: 5, 10, 20 points par bloc).</li>
-                            <li class="mb-1">Les **structures complexes créées via des Blueprints personnalisés** pourraient donner un bonus de gain supplémentaire, récompensant l'ingéniosité du design.</li>
-                            <li class="mb-1">Le gain par seconde pourra être ajusté à un gain par minute si la progression est jugée trop rapide.</li>
-                        </ul>
-                    </li>
-                    <li class="mb-2">**Déblocage par Palier de Valeur :** Lorsque la "Valeur de l'Île" (le gain par seconde) atteint certains paliers (ex: 100, 500, 1000, 5000 points), le joueur débloque automatiquement :
-                        <ul class="list-circle pl-6 mt-2 text-gray-600">
-                            <li class="mb-1">De **nouveaux types de blocs** (matériaux plus avancés, formes uniques, éléments décoratifs).</li>
-                            <li class="mb-1">De **nouvelles palettes de couleurs** pour la personnalisation des blocs existants et futurs.</li>
-                            <li class="mb-1">Des **Blueprints pré-définis** offerts par le jeu, pour inspirer ou fournir des structures complexes.</li>
-                        </ul>
-                    </li>
-                </ul>
-                <div class="schema-container">
-                    <button class="schema-button" aria-expanded="false" onclick="toggleSchema(this)">
-                        <span>Afficher le schéma : Boucle de Progression Économique</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                    </button>
-                    <div class="schema-content">
-                        <svg class="schema-svg" viewBox="0 0 200 350" aria-label="Schéma de la boucle de progression économique">
-                            <defs>
-                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                                    <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
-                                </marker>
-                            </defs>
-
-                            <!-- Step 1: Poser des blocs -->
-                            <rect x="50" y="10" width="100" height="40" />
-                            <text x="100" y="35" text-anchor="middle">Poser des Blocs</text>
-                            <text x="100" y="48" text-anchor="middle" class="arrow-text">(Terre/Roche illimité)</text>
-
-
-                            <!-- Arrow 1 -->
-                            <line x1="100" y1="50" x2="100" y2="70" />
-                            <text x="100" y="65" text-anchor="middle" class="arrow-text">Augmente</text>
-
-                            <!-- Step 2: Valeur de l'île -->
-                            <rect x="25" y="80" width="150" height="40" />
-                            <text x="100" y="105" text-anchor="middle">"Valeur de l'Île"</text>
-                            <text x="100" y="118" text-anchor="middle" class="arrow-text">(Gain par Seconde)</text>
-
-                            <!-- Arrow 2 -->
-                            <line x1="100" y1="120" x2="100" y2="140" />
-                            <text x="100" y="135" text-anchor="middle" class="arrow-text">Génère</text>
-
-                            <!-- Step 3: Gagner Argent -->
-                            <rect x="50" y="150" width="100" height="40" />
-                            <text x="100" y="175" text-anchor="middle">Gagner Argent</text>
-
-                            <!-- Arrow 3 (to Marchand) -->
-                            <line x1="100" y1="190" x2="100" y2="210" />
-                            <text x="100" y="205" text-anchor="middle" class="arrow-text">Pour acheter</text>
-
-                            <!-- Step 4: Marchand -->
-                            <rect x="50" y="220" width="100" height="40" />
-                            <text x="100" y="245" text-anchor="middle">Marchand</text>
-
-                            <!-- Arrow 4 (back to Poser Blocs) -->
-                            <line x1="150" y1="240" x2="180" y2="240" />
-                            <line x1="180" y1="240" x2="180" y2="30" />
-                            <line x1="180" y1="30" x2="150" y2="30" />
-                            <text x="185" y="100" text-anchor="start" class="arrow-text">Diminue Stock</text>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card">
-                <h3 class="font-semibold mb-4 sm:mb-5 text-blue-700">2.4. Le Marchand</h3>
-                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
-                    <li class="mb-2">**Source de Matériaux Avancés :** Le marchand est la principale source pour acquérir des blocs rares (bois, métaux, verre, etc.) et d'autres matériaux décoratifs ou fonctionnels.</li>
-                    <li class="mb-2">**Stock Limité :** Chaque type de bloc ou d'objet a un stock limité (ex: 10 à 100 unités).</li>
-                    <li class="mb-2">**Renouvellement du Stock :** Le stock du marchand se renouvelle automatiquement **toutes les 5 minutes**. Cela encourage les visites régulières et la planification des achats.</li>
-                </ul>
-                <div class="schema-container">
-                    <button class="schema-button" aria-expanded="false" onclick="toggleSchema(this)">
-                        <span>Afficher le schéma : Fonctionnement du Marchand</span>
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-chevron-right"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                    </button>
-                    <div class="schema-content">
-                        <svg class="schema-svg" viewBox="0 0 200 200" aria-label="Schéma de fonctionnement du marchand">
-                            <defs>
-                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
-                                    <polygon points="0 0, 10 3.5, 0 7" fill="#3b82f6" />
-                                </marker>
-                            </defs>
-
-                            <!-- Step 1: Marchand -->
-                            <rect x="50" y="10" width="100" height="40" />
-                            <text x="100" y="35" text-anchor="middle">Marchand</text>
-                            <text x="100" y="48" text-anchor="middle" class="arrow-text">(Stock Limité)</text>
-
-                            <!-- Arrow 1 (to Stock Renouvelé) -->
-                            <line x1="100" y1="50" x2="100" y2="70" />
-                            <text x="100" y="65" text-anchor="middle" class="arrow-text">Toutes les 5 min</text>
-
-                            <!-- Step 2: Stock Renouvelé -->
-                            <rect x="50" y="80" width="100" height="40" />
-                            <text x="100" y="105" text-anchor="middle">Stock Renouvelé</text>
-
-                            <!-- Arrow 2 (to Joueur Achète) -->
-                            <line x1="100" y1="120" x2="100" y2="140" />
-
-                            <!-- Step 3: Joueur Achète -->
-                            <rect x="50" y="150" width="100" height="40" />
-                            <text x="100" y="175" text-anchor="middle">Joueur Achète</text>
-
-                            <!-- Arrow 3 (back to Marchand) -->
-                            <line x1="150" y1="170" x2="180" y2="170" />
-                            <line x1="180" y1="170" x2="180" y2="30" />
-                            <line x1="180" y1="30" x2="150" y2="30" />
-                            <text x="185" y="100" text-anchor="start" class="arrow-text">Diminue Stock</text>
-                        </svg>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="mb-10 sm:mb-16">
-            <h2 class="font-bold section-title mb-6 sm:mb-8">3. Expérience Utilisateur (UX) et Interface Utilisateur (UI)</h2>
-            <div class="card">
-                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
-                    <li class="mb-2">**Interface de Construction :** Icônes claires et boutons facilement accessibles pour la sélection des types de blocs, les outils de placement, la rotation, et l'accès rapide aux Blueprints. Un système de grille visuelle pour faciliter le placement.</li>
-                    <li class="mb-2">**Menu d'Île :** Un menu principal intuitif pour créer une nouvelle île, charger une île existante, ou rejoindre une île d'ami via la saisie d'un code.</li>
-                    <li class="mb-2">**Affichage de Progression :** Des indicateurs visibles et clairs du gain d'argent par seconde ("Valeur de l'Île") et de l'argent total possédé. Des notifications visuelles et sonores satisfaisantes lors du déblocage de nouveaux éléments (blocs, couleurs, Blueprints).</li>
-                    <li class="mb-2">**Optimisation Mobile :** L'UI sera conçue pour être entièrement fonctionnelle, lisible et facile à manipuler sur les écrans tactiles des appareils mobiles.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="mb-10 sm:mb-16">
-            <h2 class="font-bold section-title mb-6 sm:mb-8">4. Monétisation</h2>
-            <div class="card">
-                <p class="mb-3 sm:mb-4">Sky Architect est un jeu entièrement **Free-to-Play**. Tous les éléments de gameplay, blocs, couleurs et fonctionnalités sont accessibles gratuitement en jouant.</p>
-                <p class="mb-3 sm:mb-4">Le seul moyen de soutenir le développement du jeu et de montrer votre appréciation est par le biais de **dons volontaires**. Ces dons sont purement optionnels et n'offrent aucun avantage en jeu, garantissant une expérience équitable pour tous les joueurs.</p>
-            </div>
-        </section>
-
-        <section class="mb-10 sm:mb-16">
-            <h2 class="font-bold section-title mb-6 sm:mb-8">5. Contenu et Progression Future</h2>
-            <div class="card">
-                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
-                    <li class="mb-2">**Contenu de Lancement :** Un assortiment suffisant de blocs de base et avancés, une variété de couleurs, et quelques Blueprints pré-définis pour démarrer l'expérience.</li>
-                    <li class="mb-2">**Mises à Jour Régulières :** Ajouts fréquents de nouveaux thèmes de blocs (ex: futuriste, médiéval, organique, industriel), de nouveaux Blueprints pré-définis, d'outils de construction supplémentaires et d'événements à thème.</li>
-                    <li class="mb-2">**Défis/Quêtes :** Des défis de construction occasionnels qui récompensent des blocs, des couleurs ou des Blueprints uniques.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="mb-10 sm:mb-16">
-            <h2 class="font-bold section-title mb-6 sm:mb-8">6. Aspect Social et Multijoueur</h2>
-            <div class="card">
-                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
-                    <li class="mb-2">**Serveurs Privés Persistants :** Les joueurs rejoignent l'île d'un ami via le code unique pour collaborer à des projets de construction ou simplement visiter.</li>
-                    <li class="mb-2">**Collaboration Simplifiée :** Les joueurs invités pourront participer à la construction sur l'île, encourageant la créativité collective sans gestion complexe de permissions.</li>
-                    <li class="mb-2">**Chat en Jeu :** Pour la communication en temps réel entre les joueurs présents sur une île.</li>
-                    <li class="mb-2">**Intégration des Amitiés Roblox :** Faciliter les invitations et la découverte des îles de ses amis.</li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="mb-10 sm:mb-16">
-            <h2 class="font-bold section-title mb-6 sm:mb-8">7. Style Artistique et Technique</h2>
-            <div class="card">
-                <ul class="list-disc pl-6 text-gray-700 leading-relaxed">
-                    <li class="mb-2">**Style Artistique :** Le jeu adoptera un style **simpliste et épuré (low poly)**, privilégiant la clarté visuelle et la performance. Cela permettra une grande liberté créative pour les joueurs sans surcharger les graphismes.</li>
-                    <li class="mb-2">**Optimisation :** Priorité absolue à la performance, en particulier sur les appareils mobiles. Cela inclura des techniques comme le "culling" (ne rendre que ce qui est visible), l'optimisation des maillages de blocs, et une gestion efficace de la physique pour les très grandes îles.</li>
-                    <li class="mb-2">**Musique et Sons :** Une ambiance sonore relaxante et inspirante pour la construction. Des effets sonores satisfaisants pour la pose et la destruction des blocs, ainsi que pour les interactions avec l'UI et le marchand.</li>
-                </ul>
-            </div>
-        </section>
-
-        <footer class="text-center text-gray-500 text-sm mt-12 py-6 border-t border-gray-200">
-            <p>&copy; 2025 Cahier des Charges - Projet Sky Architect. Tous droits réservés.</p>
-            <p>Document généré pour la conception de jeu Roblox.</p>
-        </footer>
-
-    </div>
-
     <script>
-        function toggleSchema(button) {
-            const content = button.nextElementSibling;
-            const isExpanded = button.getAttribute('aria-expanded') === 'true';
-
-            if (isExpanded) {
-                content.style.display = 'none';
-                button.setAttribute('aria-expanded', 'false');
-            } else {
-                content.style.display = 'block';
-                button.setAttribute('aria-expanded', 'true');
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'celeste-violet': '#8B5CF6',
+                        'celeste-blue': '#2563EB',
+                        'celeste-light-blue': '#60A5FA',
+                        'celeste-bg-light': '#F0F8FF',
+                        'celeste-text': '#1F2937',
+                    },
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-8px)' },
+                        },
+                        pulseLight: {
+                            '0%, 100%': { opacity: '1' },
+                            '50%': { opacity: '0.7' },
+                        },
+                        scaleIn: {
+                            '0%': { transform: 'scale(0.8)', opacity: '0' },
+                            '100%': { transform: 'scale(1)', opacity: '1' },
+                        },
+                        pageFadeIn: {
+                            '0%': { opacity: '0' },
+                            '100%': { opacity: '1' },
+                        }
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.8s ease-out forwards',
+                        'float': 'float 3s ease-in-out infinite',
+                        'pulse-light': 'pulseLight 2s ease-in-out infinite',
+                        'scale-in': 'scaleIn 0.3s ease-out forwards',
+                        'page-fade-in': 'pageFadeIn 1.5s ease-out forwards', /* Slower animation for overall page */
+                    }
+                }
             }
         }
     </script>
+    <!-- Google Fonts - Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- MathJax for LaTeX rendering -->
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+    <style>
+        /* Ensure no horizontal scroll for wide content */
+        body {
+            overflow-x: hidden;
+        }
+        /* Apply the gradient background to the body */
+        body {
+            background: linear-gradient(to right, #8B5CF6, #2563EB);
+        }
+        /* Ensure MathJax content wraps if it's too wide */
+        .MathJax_Display {
+            overflow-x: auto; /* Allows horizontal scroll for the formula itself if it's extremely long, but not the whole page */
+            max-width: 100%; /* Ensures it doesn't overflow its container */
+        }
+        /* Apply word wrapping to all relevant text elements */
+        p, ul, li, h1, h2, h3, h4 {
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+        }
+    </style>
+</head>
+<body class="font-inter text-celeste-text antialiased leading-relaxed">
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 transform scale-80 transition-all duration-300 ease-out">
+        <div class="bg-celeste-blue text-white p-6 rounded-2xl shadow-2xl max-w-sm mx-4 text-center">
+            <p class="mb-6 text-base md:text-lg">
+                Ce site utilise des cookies pour améliorer votre expérience. Acceptez-vous l'utilisation des cookies ?
+            </p>
+            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 justify-center">
+                <button id="accept-cookies" class="bg-celeste-violet hover:bg-celeste-violet/80 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300">
+                    Accepter
+                </button>
+                <button id="decline-cookies" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300">
+                    Refuser
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Content Wrapper (Initially hidden for animation) -->
+    <div id="page-wrapper" class="opacity-0">
+        <!-- Header Section -->
+        <header class="bg-opacity-0 text-white py-12 px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-md">Sky Architecte</h1>
+                <p class="text-xl md:text-2xl font-light opacity-90">Construisez votre monde céleste, bloc par bloc.</p>
+            </div>
+        </header>
+
+        <!-- Main Content Sections -->
+        <main class="max-w-4xl mx-auto py-12 px-4 bg-celeste-bg-light rounded-2xl shadow-lg">
+
+            <!-- Introduction Section -->
+            <section class="mb-16 opacity-0">
+                <h2 class="text-4xl font-bold text-celeste-blue mb-6 text-center">Bienvenue dans l'univers de Sky Architecte !</h2>
+                <p class="text-lg mb-4 text-center">
+                    Imaginez un monde où votre île est un bloc volant, incassable et infini. "Sky Architecte" est un jeu de construction et de gestion où votre créativité est la seule limite. Agrandissez votre domaine, interagissez avec des marchands uniques et élevez d'adorables compagnons dans ce paradis céleste.
+                </p>
+                <div class="flex justify-center mt-8">
+                    <div class="relative w-48 h-48 bg-celeste-light-blue rounded-3xl shadow-xl flex items-center justify-center animate-float">
+                        <span class="text-6xl" role="img" aria-label="Bloc">📦</span>
+                        <div class="absolute -bottom-4 bg-celeste-violet text-white text-sm px-3 py-1 rounded-full shadow-md animate-pulse-light">Votre Monde</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Core Gameplay Section -->
+            <section class="mb-16 opacity-0">
+                <h2 class="text-3xl font-bold text-celeste-blue mb-8 text-center">Le Cœur du Jeu</h2>
+                <div class="grid md:grid-cols-2 gap-8">
+                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group">
+                        <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Construction & Expansion</h3>
+                        <p class="mb-2">Votre île est un bloc volant que vous pouvez agrandir et modeler à votre guise. Utilisez de la terre pour étendre votre territoire et de l'Argent Céleste pour augmenter la taille maximale de votre zone de construction.</p>
+                        <p>L'objectif est d'agrandir votre domaine, de le terraformer et de le peupler de constructions uniques.</p>
+                        <div class="text-center mt-4 text-4xl group-hover:animate-bounce">🏡</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group">
+                        <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Marchands Dynamiques</h3>
+                        <p class="mb-2">Rencontrez divers marchands qui vendent une multitude de blocs, des plus communs aux plus rares, ainsi que des Pets. Les stocks de blocs rares se réinitialisent toutes les cinq minutes, créant une opportunité constante d'acquérir des matériaux précieux.</p>
+                        <p>Soyez attentif, les meilleures affaires ne durent pas !</p>
+                        <div class="text-center mt-4 text-4xl group-hover:animate-pulse">💰</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group">
+                        <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Vos Compagnons (Pets)</h3>
+                        <p class="mb-2">Adoptez et élevez d'adorables Pets qui vous accompagneront dans votre aventure. Achetez-les auprès des marchands et prenez-en soin pour les voir grandir et s'épanouir.</p>
+                        <p class="mb-2">Dans le mode multijoueur, avoir des Pets peut renforcer les liens entre joueurs, ajoutant une dimension sociale à l'aventure.</p>
+                        <p>Certains Pets pourraient même développer des **compétences uniques** (en cours de développement), comme des 'Pets Piocheurs' qui simulent le creusement avec des animations spéciales. Selon leur rareté et leur compétence, ils pourraient vous rapporter de l'Argent Céleste ou des blocs rares, sans casser votre île !</p>
+                        <div class="text-center mt-4 text-4xl group-hover:animate-wiggle">🐾</div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group">
+                        <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Blueprints (Plans de Construction)</h3>
+                        <p class="mb-2">Les Blueprints sont des plans qui améliorent la **méthode de construction** et la **rapidité** de vos créations. Ils vous permettent de poser l'équivalent de plusieurs blocs à la fois.</p>
+                        <p class="mb-2">Pour utiliser un plan, vous devez posséder les blocs nécessaires dans votre inventaire.</p>
+                        <p class="mb-2">**Comment obtenir des Blueprints :**</p>
+                        <ul class="list-disc list-inside ml-4 mb-2">
+                            <li>**Créer un plan :** Sélectionnez les blocs de votre construction existante et cliquez sur l'option "Créer un Plan".</li>
+                            <li>**Acheter un plan :** Les marchands proposent également des Blueprints à l'achat.</li>
+                        </ul>
+                        <div class="text-center mt-4 text-4xl group-hover:animate-spin">📐</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Economy Section -->
+            <section class="mb-16 opacity-0">
+                <h2 class="text-3xl font-bold text-celeste-blue mb-8 text-center">L'Économie Céleste</h2>
+                <p class="text-lg mb-6 text-center">
+                    L'économie de "Sky Architecte" est conçue pour récompenser votre créativité et votre sens du design. Plus votre île est belle et bien construite, plus vous gagnez d'Argent Céleste !
+                </p>
+
+                <div class="bg-white p-6 rounded-2xl shadow-md mb-8">
+                    <h3 class="text-2xl font-semibold text-celeste-violet mb-4">L'Argent Céleste</h3>
+                    <p class="mb-2">C'est la monnaie unique du jeu, utilisée pour toutes vos transactions :</p>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>Achat de blocs et de Pets.</li>
+                        <li>Achat et création de Blueprints.</li>
+                        <li>Agrandissement de votre bloc volant.</li>
+                        <li>Coûts d'élevage et d'amélioration de vos Pets.</li>
+                    </ul>
+                    <p class="font-bold">Comment le gagner ? Principalement en posant des blocs de manière stratégique et esthétique !</p>
+                </div>
+
+                <div class="bg-white p-6 rounded-2xl shadow-md mb-8">
+                    <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Le Multiplicateur Esthétique Global</h3>
+                    <p class="mb-2">Ce multiplicateur est une valeur **attribuée par les administrateurs du jeu**. Il représente la beauté et la complexité de votre île.</p>
+                    <p class="mb-2">Par défaut, ce multiplicateur est de 1. Les administrateurs peuvent l'ajuster pour récompenser des créations exceptionnelles.</p>
+                    <p class="font-bold">Ce multiplicateur agit sur tous vos gains d'Argent Céleste à la pose de bloc !</p>
+                </div>
+
+                <div class="bg-celeste-light-blue text-white p-6 rounded-2xl shadow-md mb-8">
+                    <h3 class="text-2xl font-semibold mb-4 text-center">Calcul du Gain d'Argent Céleste par Bloc Posé</h3>
+                    <p class="mb-4">Chaque fois que vous posez un bloc, vous gagnez de l'Argent Céleste. Le montant est calculé par la formule suivante :</p>
+                    <p class="font-mono text-xl mb-4 overflow-x-auto text-center">
+                        $$ \text{Argent Céleste Gagné} = \text{Gain\_Base\_Bloc} \times \text{Multiplicateur\_Densité} \times \text{Multiplicateur\_Diversité} \times \text{Multiplicateur\_Esthétique\_Global} $$
+                    </p>
+
+                    <h4 class="text-xl font-semibold mb-3">1. `Gain_Base_Bloc` (Valeur Intrinsèque)</h4>
+                    <p class="mb-2">C'est le montant de base que rapporte le bloc. Il est légèrement supérieur à son coût d'achat pour permettre un profit.</p>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>**Terre :** Coût 1 $\rightarrow$ Gain de base **1.2 Céleste**</li>
+                        <li>**Bois Raffiné :** Coût 10 $\rightarrow$ Gain de base **12 Céleste**</li>
+                        <li>**Gemme Lumineuse :** Coût 200 $\rightarrow$ Gain de base **240 Céleste**</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold mb-3">2. `Multiplicateur_Densité` (Qualité du Placement)</h4>
+                    <p class="mb-2">Récompense les blocs bien intégrés et pénalise les blocs isolés (anti-spam de colonnes !). Basé sur le nombre de faces du bloc adjacentes à d'autres blocs.</p>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>**0 voisin :** $0.1$</li>
+                        <li>**1 voisin :** $0.2$</li>
+                        <li>**2 voisins :** $0.4$</li>
+                        <li>**3 voisins :** $0.7$</li>
+                        <li>**4, 5 ou 6 voisins :** $1.0$ (Pleine valeur, bloc bien intégré)</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold mb-3">3. `Multiplicateur_Diversité` (Variété des Matériaux Adjacents)</h4>
+                    <p class="mb-2">Encourage l'utilisation de différents matériaux. Basé sur le nombre de *types de blocs uniques* adjacents au bloc posé.</p>
+                    <p class="mb-2">Formule : $1.0 + (\text{Nombre de types adjacents} \times 0.05)$</p>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>**1 type adjacent (ex: entouré de terre) :** $1.05$</li>
+                        <li>**3 types adjacents (ex: terre, bois, pierre) :** $1.15$</li>
+                        <li>**5 types adjacents :** $1.25$</li>
+                    </ul>
+
+                    <h4 class="text-xl font-semibold mb-3">4. `Multiplicateur_Esthétique_Global`</h4>
+                    <p class="mb-2">Ce multiplicateur est une valeur **attribuée par les administrateurs du jeu**. Il agit comme un bonus sur tous vos gains.</p>
+                    <p class="mb-2">**Exemples de Multiplicateurs attribués :**</p>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>**Multiplicateur par défaut :** $1.0$</li>
+                        <li>**Pour une création exceptionnelle :** $1.5$ (ou plus)</li>
+                    </ul>
+
+                    <h3 class="text-2xl font-semibold mt-8 mb-4 text-center">Exemple Concret de Gain</h3>
+                    <div class="bg-white text-celeste-text p-5 rounded-xl shadow-inner">
+                        <p class="mb-2">Imaginons que vous posez un bloc de **Bois Raffiné** (Coût 10 Céleste, Gain de base = 12 Céleste).</p>
+                        <p class="mb-2">Il est placé au milieu d'un mur épais (4 voisins) $\rightarrow$ `Multiplicateur_Densité = 1.0`</p>
+                        <p class="mb-2">Il est adjacent à 3 types de blocs différents (ex: Pierre, Verre, Eau) $\rightarrow$ `Multiplicateur_Diversité = 1.15`</p>
+                        <p class="mb-2">Votre Multiplicateur Esthétique Global (attribué par les administrateurs) est de $1.5$ $\rightarrow$ `Multiplicateur_Esthétique_Global = 1.5`</p>
+                        <p class="font-bold text-lg">Calcul :</p>
+                        <p class="font-mono text-xl mb-4 overflow-x-auto text-center">
+                            $$ \text{Argent Céleste Gagné} = 12 \times 1.0 \times 1.15 \times 1.5 = \mathbf{20.7 \text{ Céleste}} $$
+                        </p>
+                        <p>Dans cet exemple, en posant ce bloc de manière réfléchie, vous réalisez un profit significatif !</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Multiplayer Section -->
+            <section class="mb-16 opacity-0">
+                <h2 class="text-3xl font-bold text-celeste-blue mb-8 text-center">Mode Multijoueur</h2>
+                <div class="bg-white p-6 rounded-2xl shadow-md">
+                    <p class="mb-2">"Sky Architecte" peut être une expérience solo ou multijoueur !</p>
+                    <p class="mb-2">Lorsque vous lancez le jeu, vous avez la possibilité de :</p>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>**Créer un nouveau monde :** Un code unique vous sera donné pour ce monde.</li>
+                        <li>**Rejoindre un monde existant :** Entrez le code d'un ami pour le rejoindre et construire ensemble sur son île.</li>
+                    </ul>
+                    <p class="text-center mt-4 text-4xl">🤝</p>
+                </div>
+            </section>
+
+            <!-- Interface Section -->
+            <section class="mb-16 opacity-0">
+                <h2 class="text-3xl font-bold text-celeste-blue mb-8 text-center">Interface de Construction Intuitive</h2>
+                <div class="bg-white p-6 rounded-2xl shadow-md">
+                    <p class="mb-2">L'interface de construction est conçue pour être simple et efficace :</p>
+                    <ul class="list-disc list-inside ml-4 mb-4">
+                        <li>**Panneau des Blocs :** Accédez facilement à tous les blocs que vous possédez pour les placer sur votre île.</li>
+                        <li>**Panneau des Blueprints :** Sélectionnez un Blueprint, dépensez de l'Argent Céleste pour l'activer, et construisez des structures complexes en toute simplicité. Une fois activé, le Blueprint vous guide sur les blocs à poser.</li>
+                    </ul>
+                    <p class="text-center mt-4 text-4xl">🛠️</p>
+                </div>
+            </section>
+
+        </main>
+
+        <!-- Footer Section -->
+        <footer class="bg-celeste-blue text-white py-8 px-4 text-center rounded-t-3xl shadow-lg">
+            <p class="text-lg">"Sky Architecte" - Votre imagination, notre ciel.</p>
+            <p class="text-sm opacity-80 mt-2">&copy; 2025 Tous droits réservés.</p>
+        </footer>
+    </div> <!-- End of page-wrapper -->
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const cookieBanner = document.getElementById('cookie-banner');
+            const acceptButton = document.getElementById('accept-cookies');
+            const declineButton = document.getElementById('decline-cookies');
+            const pageWrapper = document.getElementById('page-wrapper');
+            const mainSections = document.querySelectorAll('main section'); // Target sections within main
+
+            // Function to show main content with staggered fade-in animation
+            const showMainContent = () => {
+                pageWrapper.classList.add('animate-page-fade-in');
+                pageWrapper.classList.remove('opacity-0'); // Ensure wrapper is visible
+
+                mainSections.forEach((section, index) => {
+                    section.classList.add('animate-fade-in');
+                    section.style.animationDelay = `${0.6 + (index * 0.3)}s`; // Slower staggered animation
+                    section.classList.remove('opacity-0'); // Ensure section starts visible for animation
+                });
+            };
+
+            // Function to hide cookie banner
+            const hideCookieBanner = () => {
+                cookieBanner.classList.remove('animate-scale-in');
+                cookieBanner.classList.add('opacity-0', 'scale-80'); // Scale down and fade out
+                cookieBanner.addEventListener('transitionend', () => {
+                    cookieBanner.style.display = 'none';
+                }, { once: true });
+            };
+
+            // Check if cookie choice has been made
+            const cookieChoice = localStorage.getItem('cookieConsent');
+
+            if (cookieChoice) {
+                // If choice exists, hide banner immediately and show main content
+                cookieBanner.style.display = 'none';
+                showMainContent(); // Directly show content if consent given
+            } else {
+                // If no choice, show banner with scale-in animation
+                cookieBanner.classList.add('animate-scale-in');
+                cookieBanner.classList.remove('opacity-0', 'scale-80'); // Ensure it starts from hidden state
+            }
+
+            // Event listeners for buttons
+            acceptButton.addEventListener('click', () => {
+                localStorage.setItem('cookieConsent', 'accepted');
+                hideCookieBanner();
+                showMainContent();
+            });
+
+            declineButton.addEventListener('click', () => {
+                localStorage.setItem('cookieConsent', 'declined');
+                hideCookieBanner();
+                showMainContent();
+            });
+        });
+    </script>
 </body>
 </html>
+
