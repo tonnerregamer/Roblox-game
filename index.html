@@ -60,6 +60,16 @@
                             '50%': { transform: 'translate(-10%, -10%) scale(1.1)' },
                             '80%': { transform: 'translate(20%, 5%) scale(0.9)' },
                         },
+                        // Keyframe for the final secret message glow
+                        secretGlow: {
+                            '0%, 100%': { textShadow: '0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.5)' },
+                            '50%': { textShadow: '0 0 15px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8)' },
+                        },
+                        bubblePop: {
+                            '0%': { transform: 'scale(0) translateY(20px)', opacity: '0' },
+                            '70%': { transform: 'scale(1.1) translateY(-5px)', opacity: '1' },
+                            '100%': { transform: 'scale(1) translateY(0)', opacity: '1' },
+                        }
                     },
                     animation: {
                         'fade-in': 'fadeIn 0.8s ease-out forwards',
@@ -70,6 +80,8 @@
                         'glow-move-1': 'moveGlow1 15s ease-in-out infinite alternate',
                         'glow-move-2': 'moveGlow2 18s ease-in-out infinite alternate-reverse',
                         'glow-move-3': 'moveGlow3 12s ease-in-out infinite alternate',
+                        'secret-glow': 'secretGlow 2s ease-in-out infinite alternate',
+                        'bubble-pop': 'bubblePop 0.5s ease-out forwards',
                     }
                 }
             }
@@ -202,6 +214,31 @@
             font-size: 2.5rem; /* Reveal question mark size */
             color: white; /* Reveal question mark color */
             text-shadow: 0 0 8px rgba(255, 255, 255, 0.8); /* Add glow on hover */
+        }
+        /* Speech bubble for the secret message */
+        .speech-bubble {
+            position: relative;
+            background: #fff;
+            border-radius: .4em;
+            padding: 10px 15px;
+            color: #1F2937;
+            font-size: 0.9em;
+            margin-top: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            animation: bubblePop 0.5s ease-out forwards;
+        }
+        .speech-bubble:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border: 10px solid transparent;
+            border-top-color: #fff;
+            border-bottom: 0;
+            margin-left: -10px;
+            margin-bottom: -10px;
         }
     </style>
 </head>
@@ -432,6 +469,13 @@
                     Question Suivante
                 </button>
             </div>
+            <!-- New Secret Message Container -->
+            <div id="final-secret" class="hidden flex flex-col items-center mt-8">
+                <span class="text-8xl animate-secret-glow">💩</span>
+                <div class="speech-bubble mt-4">
+                    <p class="text-celeste-text text-lg font-semibold">Le développement du jeu commencera en août ! Préparez-vous !</p>
+                </div>
+            </div>
             <button id="back-to-home-button" class="mt-8 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300 button-glow">
                 Retour au Site
             </button>
@@ -454,6 +498,7 @@
             const quizOptions = document.getElementById('quiz-options');
             const quizFeedback = document.getElementById('quiz-feedback');
             const nextQuestionButton = document.getElementById('next-question-button');
+            const finalSecret = document.getElementById('final-secret'); // New final secret element
 
             const quizData = [
                 {
@@ -473,6 +518,7 @@
                 }
             ];
             let currentQuestionIndex = 0;
+            let correctAnswersCount = 0; // Track correct answers
 
             // Function to show main content with staggered fade-in animation
             const showMainContent = () => {
@@ -497,6 +543,7 @@
 
             // Function to load a quiz question
             const loadQuestion = () => {
+                finalSecret.classList.add('hidden'); // Hide final secret when loading new question
                 const q = quizData[currentQuestionIndex];
                 quizQuestion.textContent = q.question;
                 quizOptions.innerHTML = ''; // Clear previous options
@@ -530,6 +577,7 @@
                     quizFeedback.textContent = "Correct ! 🎉";
                     quizFeedback.classList.remove('text-red-500');
                     quizFeedback.classList.add('text-green-500');
+                    correctAnswersCount++; // Increment correct answers count
                 } else {
                     quizFeedback.textContent = `Faux. La bonne réponse était : ${correctAnswer}`;
                     quizFeedback.classList.remove('text-green-500');
@@ -544,10 +592,21 @@
                 if (currentQuestionIndex < quizData.length) {
                     loadQuestion();
                 } else {
-                    quizQuestion.textContent = "Quiz terminé ! Merci d'avoir joué !";
+                    // Quiz finished
+                    quizQuestion.textContent = "Quiz terminé !";
                     quizOptions.innerHTML = '';
                     quizFeedback.textContent = '';
                     nextQuestionButton.classList.add('hidden');
+
+                    if (correctAnswersCount === quizData.length) {
+                        finalSecret.classList.remove('hidden'); // Show final secret if all correct
+                    } else {
+                        // Optionally, show a different message if not all correct
+                        quizFeedback.textContent = "Vous n'avez pas eu toutes les bonnes réponses. Réessayez !";
+                        quizFeedback.classList.remove('text-green-500');
+                        quizFeedback.classList.add('text-red-500');
+                    }
+                    correctAnswersCount = 0; // Reset for next time
                 }
             });
 
@@ -585,6 +644,7 @@
                     quizSection.classList.remove('hidden'); // Show quiz section
                     quizSection.classList.add('opacity-100'); // Fade in quiz section
                     currentQuestionIndex = 0; // Reset quiz
+                    correctAnswersCount = 0; // Reset correct answers count
                     loadQuestion();
                 }, { once: true });
             });
