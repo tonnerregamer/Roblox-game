@@ -16,6 +16,9 @@
                         'celeste-light-blue': '#60A5FA',
                         'celeste-bg-light': '#F0F8FF',
                         'celeste-text': '#1F2937',
+                        'celeste-glow-start': 'rgba(139, 92, 246, 0.6)', /* Violet translucide pour le glow */
+                        'celeste-glow-end': 'rgba(37, 99, 235, 0.6)',   /* Bleu translucide pour le glow */
+                        'celeste-glow-light': 'rgba(96, 165, 250, 0.5)', /* Bleu clair translucide pour le glow */
                     },
                     fontFamily: {
                         inter: ['Inter', 'sans-serif'],
@@ -40,7 +43,23 @@
                         pageFadeIn: {
                             '0%': { opacity: '0' },
                             '100%': { opacity: '1' },
-                        }
+                        },
+                        // New keyframes for background elements
+                        moveGlow1: {
+                            '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+                            '30%': { transform: 'translate(-20%, 10%) scale(1.1)' },
+                            '60%': { transform: 'translate(10%, -20%) scale(0.9)' },
+                        },
+                        moveGlow2: {
+                            '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+                            '40%': { transform: 'translate(15%, -15%) scale(1.05)' },
+                            '70%': { transform: 'translate(-10%, 20%) scale(0.95)' },
+                        },
+                        moveGlow3: {
+                            '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
+                            '50%': { transform: 'translate(-10%, -10%) scale(1.1)' },
+                            '80%': { transform: 'translate(20%, 5%) scale(0.9)' },
+                        },
                     },
                     animation: {
                         'fade-in': 'fadeIn 0.8s ease-out forwards',
@@ -48,6 +67,9 @@
                         'pulse-light': 'pulseLight 2s ease-in-out infinite',
                         'scale-in': 'scaleIn 0.3s ease-out forwards',
                         'page-fade-in': 'pageFadeIn 1.5s ease-out forwards', /* Slower animation for overall page */
+                        'glow-move-1': 'moveGlow1 15s ease-in-out infinite alternate',
+                        'glow-move-2': 'moveGlow2 18s ease-in-out infinite alternate-reverse',
+                        'glow-move-3': 'moveGlow3 12s ease-in-out infinite alternate',
                     }
                 }
             }
@@ -67,32 +89,140 @@
         /* Apply the gradient background to the body */
         body {
             background: linear-gradient(to right, #8B5CF6, #2563EB);
+            position: relative; /* Needed for absolute positioning of background elements */
+            min-height: 100vh; /* Ensure body takes full viewport height */
         }
+        /* Background glowing elements */
+        .background-glow-element {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(80px); /* Soft glow effect */
+            opacity: 0.6;
+            z-index: -1; /* Send to back */
+        }
+        .glow-1 {
+            width: 300px;
+            height: 300px;
+            background-color: theme('colors.celeste-glow-start');
+            top: 10%;
+            left: -5%;
+            animation: glow-move-1 15s ease-in-out infinite alternate;
+        }
+        .glow-2 {
+            width: 400px;
+            height: 400px;
+            background-color: theme('colors.celeste-glow-end');
+            bottom: 5%;
+            right: -10%;
+            animation: glow-move-2 18s ease-in-out infinite alternate-reverse;
+        }
+        .glow-3 {
+            width: 250px;
+            height: 250px;
+            background-color: theme('colors.celeste-light-blue');
+            top: 30%;
+            right: 15%;
+            animation: glow-move-3 12s ease-in-out infinite alternate;
+        }
+        /* Text glow for titles */
+        h1 {
+            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 30px rgba(255, 255, 255, 0.7); /* More prominent glow */
+        }
+        h2, h3, h4 {
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.4); /* More prominent glow */
+        }
+        /* Subtle text glow for paragraphs and list items */
+        p, ul, li {
+            text-shadow: 0 0 1px rgba(255, 255, 255, 0.2), 0 0 2px rgba(255, 255, 255, 0.1); /* Subtle white glow */
+            line-height: 1.7; /* Increased line height for better readability */
+            margin-bottom: 1em; /* Add space between paragraphs */
+        }
+        /* Remove margin-bottom for last paragraph in a section if it causes too much space */
+        section p:last-child {
+            margin-bottom: 0;
+        }
+        /* Remove margin-bottom for list items if they have their own spacing */
+        ul li {
+            margin-bottom: 0.5em;
+        }
+        ul li:last-child {
+            margin-bottom: 0;
+        }
+
+
+        /* Box glow for cards and main content area */
+        .card-glow {
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(37, 99, 235, 0.3); /* Violet and blue glow */
+        }
+        .main-content-glow {
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5), 0 0 60px rgba(37, 99, 235, 0.4);
+        }
+        .button-glow {
+            box-shadow: 0 0 12px rgba(139, 92, 246, 0.6);
+        }
+        .cookie-banner-glow {
+            box-shadow: 0 0 25px rgba(139, 92, 246, 0.7), 0 0 50px rgba(37, 99, 235, 0.5);
+        }
+
+
         /* Ensure MathJax content wraps if it's too wide */
         .MathJax_Display {
             overflow-x: auto; /* Allows horizontal scroll for the formula itself if it's extremely long, but not the whole page */
             max-width: 100%; /* Ensures it doesn't overflow its container */
         }
-        /* Apply word wrapping to all relevant text elements */
-        p, ul, li, h1, h2, h3, h4 {
-            word-wrap: break-word;
-            overflow-wrap: break-word;
+        /* Ensure specific elements like the calculation line also respect overflow-x */
+        .overflow-x-auto {
+            overflow-x: auto;
+        }
+        /* Secret button styling to hide it within the emoji */
+        .secret-quiz-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /* Center it over the emoji */
+            width: 100%; /* Take full width of parent span */
+            height: 100%; /* Take full height of parent span */
+            background-color: transparent;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+            font-size: 0; /* Hide the question mark text initially */
+            color: transparent; /* Hide the question mark color */
+            z-index: 10; /* Ensure it's above the emoji */
+            display: flex; /* Use flexbox to center content */
+            align-items: center;
+            justify-content: center;
+        }
+        /* Show on hover of the parent div (the block containing the emoji) */
+        .flex.justify-center > div:hover .secret-quiz-button {
+            opacity: 1; /* Fully visible on hover */
+            transform: translate(-50%, -50%) scale(1.2); /* Slightly larger on hover */
+            font-size: 2.5rem; /* Reveal question mark size */
+            color: white; /* Reveal question mark color */
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8); /* Add glow on hover */
         }
     </style>
 </head>
 <body class="font-inter text-celeste-text antialiased leading-relaxed">
 
+    <!-- Background Glowing Elements -->
+    <div class="background-glow-element glow-1"></div>
+    <div class="background-glow-element glow-2"></div>
+    <div class="background-glow-element glow-3"></div>
+
     <!-- Cookie Consent Banner -->
     <div id="cookie-banner" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 transform scale-80 transition-all duration-300 ease-out">
-        <div class="bg-celeste-blue text-white p-6 rounded-2xl shadow-2xl max-w-sm mx-4 text-center">
+        <div class="bg-celeste-blue text-white p-6 rounded-2xl shadow-2xl max-w-sm mx-4 text-center cookie-banner-glow">
             <p class="mb-6 text-base md:text-lg">
                 Ce site utilise des cookies pour améliorer votre expérience. Acceptez-vous l'utilisation des cookies ?
             </p>
             <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 justify-center">
-                <button id="accept-cookies" class="bg-celeste-violet hover:bg-celeste-violet/80 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300">
+                <button id="accept-cookies" class="bg-celeste-violet hover:bg-celeste-violet/80 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300 button-glow">
                     Accepter
                 </button>
-                <button id="decline-cookies" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300">
+                <button id="decline-cookies" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300 button-glow">
                     Refuser
                 </button>
             </div>
@@ -110,7 +240,7 @@
         </header>
 
         <!-- Main Content Sections -->
-        <main class="max-w-4xl mx-auto py-12 px-4 bg-celeste-bg-light rounded-2xl shadow-lg">
+        <main class="max-w-4xl mx-auto py-12 px-4 bg-celeste-bg-light rounded-2xl shadow-lg main-content-glow">
 
             <!-- Introduction Section -->
             <section class="mb-16 opacity-0">
@@ -119,9 +249,13 @@
                     Imaginez un monde où votre île est un bloc volant, incassable et infini. "Sky Architecte" est un jeu de construction et de gestion où votre créativité est la seule limite. Agrandissez votre domaine, interagissez avec des marchands uniques et élevez d'adorables compagnons dans ce paradis céleste.
                 </p>
                 <div class="flex justify-center mt-8">
-                    <div class="relative w-48 h-48 bg-celeste-light-blue rounded-3xl shadow-xl flex items-center justify-center animate-float">
+                    <div class="relative w-48 h-48 bg-celeste-light-blue rounded-3xl shadow-xl flex items-center justify-center animate-float card-glow group">
                         <span class="text-6xl" role="img" aria-label="Bloc">📦</span>
-                        <div class="absolute -bottom-4 bg-celeste-violet text-white text-sm px-3 py-1 rounded-full shadow-md animate-pulse-light">Votre Monde</div>
+                        <!-- Secret Button now inside the emoji container -->
+                        <button id="secret-quiz-button" class="secret-quiz-button">
+                            <span role="img" aria-label="Question Mark">❓</span>
+                        </button>
+                        <div class="absolute -bottom-4 bg-celeste-violet text-white text-sm px-3 py-1 rounded-full shadow-md animate-pulse-light button-glow">Votre Monde</div>
                     </div>
                 </div>
             </section>
@@ -130,26 +264,26 @@
             <section class="mb-16 opacity-0">
                 <h2 class="text-3xl font-bold text-celeste-blue mb-8 text-center">Le Cœur du Jeu</h2>
                 <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group">
+                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group card-glow">
                         <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Construction & Expansion</h3>
                         <p class="mb-2">Votre île est un bloc volant que vous pouvez agrandir et modeler à votre guise. Utilisez de la terre pour étendre votre territoire et de l'Argent Céleste pour augmenter la taille maximale de votre zone de construction.</p>
                         <p>L'objectif est d'agrandir votre domaine, de le terraformer et de le peupler de constructions uniques.</p>
                         <div class="text-center mt-4 text-4xl group-hover:animate-bounce">🏡</div>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group">
+                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group card-glow">
                         <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Marchands Dynamiques</h3>
                         <p class="mb-2">Rencontrez divers marchands qui vendent une multitude de blocs, des plus communs aux plus rares, ainsi que des Pets. Les stocks de blocs rares se réinitialisent toutes les cinq minutes, créant une opportunité constante d'acquérir des matériaux précieux.</p>
                         <p>Soyez attentif, les meilleures affaires ne durent pas !</p>
                         <div class="text-center mt-4 text-4xl group-hover:animate-pulse">💰</div>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group">
+                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group card-glow">
                         <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Vos Compagnons (Pets)</h3>
                         <p class="mb-2">Adoptez et élevez d'adorables Pets qui vous accompagneront dans votre aventure. Achetez-les auprès des marchands et prenez-en soin pour les voir grandir et s'épanouir.</p>
                         <p class="mb-2">Dans le mode multijoueur, avoir des Pets peut renforcer les liens entre joueurs, ajoutant une dimension sociale à l'aventure.</p>
                         <p>Certains Pets pourraient même développer des **compétences uniques** (en cours de développement), comme des 'Pets Piocheurs' qui simulent le creusement avec des animations spéciales. Selon leur rareté et leur compétence, ils pourraient vous rapporter de l'Argent Céleste ou des blocs rares, sans casser votre île !</p>
                         <div class="text-center mt-4 text-4xl group-hover:animate-wiggle">🐾</div>
                     </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group">
+                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group card-glow">
                         <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Blueprints (Plans de Construction)</h3>
                         <p class="mb-2">Les Blueprints sont des plans qui améliorent la **méthode de construction** et la **rapidité** de vos créations. Ils vous permettent de poser l'équivalent de plusieurs blocs à la fois.</p>
                         <p class="mb-2">Pour utiliser un plan, vous devez posséder les blocs nécessaires dans votre inventaire.</p>
@@ -170,7 +304,7 @@
                     L'économie de "Sky Architecte" est conçue pour récompenser votre créativité et votre sens du design. Plus votre île est belle et bien construite, plus vous gagnez d'Argent Céleste !
                 </p>
 
-                <div class="bg-white p-6 rounded-2xl shadow-md mb-8">
+                <div class="bg-white p-6 rounded-2xl shadow-md mb-8 card-glow">
                     <h3 class="text-2xl font-semibold text-celeste-violet mb-4">L'Argent Céleste</h3>
                     <p class="mb-2">C'est la monnaie unique du jeu, utilisée pour toutes vos transactions :</p>
                     <ul class="list-disc list-inside ml-4 mb-4">
@@ -182,14 +316,14 @@
                     <p class="font-bold">Comment le gagner ? Principalement en posant des blocs de manière stratégique et esthétique !</p>
                 </div>
 
-                <div class="bg-white p-6 rounded-2xl shadow-md mb-8">
+                <div class="bg-white p-6 rounded-2xl shadow-md mb-8 card-glow">
                     <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Le Multiplicateur Esthétique Global</h3>
                     <p class="mb-2">Ce multiplicateur est une valeur **attribuée par les administrateurs du jeu**. Il représente la beauté et la complexité de votre île.</p>
                     <p class="mb-2">Par défaut, ce multiplicateur est de 1. Les administrateurs peuvent l'ajuster pour récompenser des créations exceptionnelles.</p>
                     <p class="font-bold">Ce multiplicateur agit sur tous vos gains d'Argent Céleste à la pose de bloc !</p>
                 </div>
 
-                <div class="bg-celeste-light-blue text-white p-6 rounded-2xl shadow-md mb-8">
+                <div class="bg-celeste-light-blue text-white p-6 rounded-2xl shadow-md mb-8 card-glow">
                     <h3 class="text-2xl font-semibold mb-4 text-center">Calcul du Gain d'Argent Céleste par Bloc Posé</h3>
                     <p class="mb-4">Chaque fois que vous posez un bloc, vous gagnez de l'Argent Céleste. Le montant est calculé par la formule suivante :</p>
                     <p class="font-mono text-xl mb-4 overflow-x-auto text-center">
@@ -232,7 +366,7 @@
                     </ul>
 
                     <h3 class="text-2xl font-semibold mt-8 mb-4 text-center">Exemple Concret de Gain</h3>
-                    <div class="bg-white text-celeste-text p-5 rounded-xl shadow-inner">
+                    <div class="bg-white text-celeste-text p-5 rounded-xl shadow-inner card-glow">
                         <p class="mb-2">Imaginons que vous posez un bloc de **Bois Raffiné** (Coût 10 Céleste, Gain de base = 12 Céleste).</p>
                         <p class="mb-2">Il est placé au milieu d'un mur épais (4 voisins) $\rightarrow$ `Multiplicateur_Densité = 1.0`</p>
                         <p class="mb-2">Il est adjacent à 3 types de blocs différents (ex: Pierre, Verre, Eau) $\rightarrow$ `Multiplicateur_Diversité = 1.15`</p>
@@ -249,7 +383,7 @@
             <!-- Multiplayer Section -->
             <section class="mb-16 opacity-0">
                 <h2 class="text-3xl font-bold text-celeste-blue mb-8 text-center">Mode Multijoueur</h2>
-                <div class="bg-white p-6 rounded-2xl shadow-md">
+                <div class="bg-white p-6 rounded-2xl shadow-md card-glow">
                     <p class="mb-2">"Sky Architecte" peut être une expérience solo ou multijoueur !</p>
                     <p class="mb-2">Lorsque vous lancez le jeu, vous avez la possibilité de :</p>
                     <ul class="list-disc list-inside ml-4 mb-4">
@@ -263,7 +397,7 @@
             <!-- Interface Section -->
             <section class="mb-16 opacity-0">
                 <h2 class="text-3xl font-bold text-celeste-blue mb-8 text-center">Interface de Construction Intuitive</h2>
-                <div class="bg-white p-6 rounded-2xl shadow-md">
+                <div class="bg-white p-6 rounded-2xl shadow-md card-glow">
                     <p class="mb-2">L'interface de construction est conçue pour être simple et efficace :</p>
                     <ul class="list-disc list-inside ml-4 mb-4">
                         <li>**Panneau des Blocs :** Accédez facilement à tous les blocs que vous possédez pour les placer sur votre île.</li>
@@ -278,9 +412,32 @@
         <!-- Footer Section -->
         <footer class="bg-celeste-blue text-white py-8 px-4 text-center rounded-t-3xl shadow-lg">
             <p class="text-lg">"Sky Architecte" - Votre imagination, notre ciel.</p>
-            <p class="text-sm opacity-80 mt-2">&copy; 2025 Tous droits réservés.</p>
+            <p class="text-sm opacity-80 mt-2">
+                &copy; 2025 Tous droits réservés.
+            </p>
         </footer>
     </div> <!-- End of page-wrapper -->
+
+    <!-- Quiz Section (Initially hidden) -->
+    <div id="quiz-section" class="fixed inset-0 flex items-center justify-center z-40 bg-gradient-to-r from-celeste-violet to-celeste-blue hidden opacity-0 transition-opacity duration-500">
+        <div class="bg-celeste-bg-light text-celeste-text p-8 rounded-2xl shadow-2xl max-w-md mx-4 text-center card-glow">
+            <h2 class="text-3xl font-bold text-celeste-blue mb-6">Quiz Sky Architecte</h2>
+            <div id="quiz-content">
+                <p id="quiz-question" class="text-lg mb-6"></p>
+                <div id="quiz-options" class="flex flex-col space-y-3 mb-6">
+                    <!-- Options will be injected here -->
+                </div>
+                <p id="quiz-feedback" class="text-lg font-semibold mb-6"></p>
+                <button id="next-question-button" class="bg-celeste-violet hover:bg-celeste-violet/80 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300 button-glow hidden">
+                    Question Suivante
+                </button>
+            </div>
+            <button id="back-to-home-button" class="mt-8 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300 button-glow">
+                Retour au Site
+            </button>
+        </div>
+    </div>
+
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -288,7 +445,34 @@
             const acceptButton = document.getElementById('accept-cookies');
             const declineButton = document.getElementById('decline-cookies');
             const pageWrapper = document.getElementById('page-wrapper');
-            const mainSections = document.querySelectorAll('main section'); // Target sections within main
+            const mainSections = document.querySelectorAll('main section');
+
+            const secretQuizButton = document.getElementById('secret-quiz-button');
+            const quizSection = document.getElementById('quiz-section');
+            const backToHomeButton = document.getElementById('back-to-home-button');
+            const quizQuestion = document.getElementById('quiz-question');
+            const quizOptions = document.getElementById('quiz-options');
+            const quizFeedback = document.getElementById('quiz-feedback');
+            const nextQuestionButton = document.getElementById('next-question-button');
+
+            const quizData = [
+                {
+                    question: "Quelle est la monnaie principale utilisée dans Sky Architecte ?",
+                    options: ["Pièces d'Or", "Argent Céleste", "Cristaux Éthérés", "Jetons de Construction"],
+                    answer: "Argent Céleste"
+                },
+                {
+                    question: "Qui attribue le Multiplicateur Esthétique Global ?",
+                    options: ["Les joueurs", "Les marchands", "Les Pets", "Les administrateurs du jeu"],
+                    answer: "Les administrateurs du jeu"
+                },
+                {
+                    question: "Quel est le rôle principal des Blueprints dans Sky Architecte ?",
+                    options: ["Augmenter le gain d'Argent Céleste par bloc posé", "Faciliter et accélérer la construction de structures", "Offrir des réductions sur les achats de matériaux", "Débloquer des compétences spéciales pour les Pets"],
+                    answer: "Faciliter et accélérer la construction de structures"
+                }
+            ];
+            let currentQuestionIndex = 0;
 
             // Function to show main content with staggered fade-in animation
             const showMainContent = () => {
@@ -297,7 +481,7 @@
 
                 mainSections.forEach((section, index) => {
                     section.classList.add('animate-fade-in');
-                    section.style.animationDelay = `${0.6 + (index * 0.3)}s`; // Slower staggered animation
+                    section.style.animationDelay = `${0.6 + (index * 0.4)}s`; // Slower staggered animation
                     section.classList.remove('opacity-0'); // Ensure section starts visible for animation
                 });
             };
@@ -311,7 +495,63 @@
                 }, { once: true });
             };
 
-            // Check if cookie choice has been made
+            // Function to load a quiz question
+            const loadQuestion = () => {
+                const q = quizData[currentQuestionIndex];
+                quizQuestion.textContent = q.question;
+                quizOptions.innerHTML = ''; // Clear previous options
+                quizFeedback.textContent = ''; // Clear feedback
+                nextQuestionButton.classList.add('hidden'); // Hide next button
+
+                q.options.forEach(option => {
+                    const button = document.createElement('button');
+                    button.textContent = option;
+                    button.classList.add('bg-celeste-light-blue', 'hover:bg-celeste-light-blue/80', 'text-white', 'font-bold', 'py-2', 'px-4', 'rounded-lg', 'shadow-md', 'transition-colors', 'duration-300', 'button-glow', 'text-base', 'sm:text-lg');
+                    button.addEventListener('click', () => checkAnswer(option, q.answer));
+                    quizOptions.appendChild(button);
+                });
+            };
+
+            // Function to check the answer
+            const checkAnswer = (selectedOption, correctAnswer) => {
+                // Disable all option buttons after selection
+                Array.from(quizOptions.children).forEach(button => {
+                    button.disabled = true;
+                    if (button.textContent === correctAnswer) {
+                        button.classList.remove('bg-celeste-light-blue');
+                        button.classList.add('bg-green-500'); // Correct answer highlight
+                    } else if (button.textContent === selectedOption) {
+                        button.classList.remove('bg-celeste-light-blue');
+                        button.classList.add('bg-red-500'); // Incorrect answer highlight
+                    }
+                });
+
+                if (selectedOption === correctAnswer) {
+                    quizFeedback.textContent = "Correct ! 🎉";
+                    quizFeedback.classList.remove('text-red-500');
+                    quizFeedback.classList.add('text-green-500');
+                } else {
+                    quizFeedback.textContent = `Faux. La bonne réponse était : ${correctAnswer}`;
+                    quizFeedback.classList.remove('text-green-500');
+                    quizFeedback.classList.add('text-red-500');
+                }
+                nextQuestionButton.classList.remove('hidden'); // Show next button
+            };
+
+            // Event listener for next question button
+            nextQuestionButton.addEventListener('click', () => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizData.length) {
+                    loadQuestion();
+                } else {
+                    quizQuestion.textContent = "Quiz terminé ! Merci d'avoir joué !";
+                    quizOptions.innerHTML = '';
+                    quizFeedback.textContent = '';
+                    nextQuestionButton.classList.add('hidden');
+                }
+            });
+
+            // Initial check for cookie consent
             const cookieChoice = localStorage.getItem('cookieConsent');
 
             if (cookieChoice) {
@@ -324,7 +564,7 @@
                 cookieBanner.classList.remove('opacity-0', 'scale-80'); // Ensure it starts from hidden state
             }
 
-            // Event listeners for buttons
+            // Event listeners for cookie buttons
             acceptButton.addEventListener('click', () => {
                 localStorage.setItem('cookieConsent', 'accepted');
                 hideCookieBanner();
@@ -335,6 +575,31 @@
                 localStorage.setItem('cookieConsent', 'declined');
                 hideCookieBanner();
                 showMainContent();
+            });
+
+            // Event listener for secret quiz button
+            secretQuizButton.addEventListener('click', () => {
+                pageWrapper.classList.add('opacity-0'); // Fade out main content
+                pageWrapper.addEventListener('transitionend', () => {
+                    pageWrapper.style.display = 'none'; // Hide main content after fade out
+                    quizSection.classList.remove('hidden'); // Show quiz section
+                    quizSection.classList.add('opacity-100'); // Fade in quiz section
+                    currentQuestionIndex = 0; // Reset quiz
+                    loadQuestion();
+                }, { once: true });
+            });
+
+            // Event listener for back to home button in quiz
+            backToHomeButton.addEventListener('click', () => {
+                quizSection.classList.remove('opacity-100'); // Fade out quiz section
+                quizSection.classList.add('opacity-0');
+                quizSection.addEventListener('transitionend', () => {
+                    quizSection.classList.add('hidden'); // Hide quiz section after fade out
+                    pageWrapper.style.display = 'block'; // Show main content
+                    pageWrapper.classList.remove('opacity-0'); // Ensure main content is visible
+                    // Re-trigger main content animation to make it appear smoothly
+                    showMainContent();
+                }, { once: true });
             });
         });
     </script>
