@@ -94,16 +94,29 @@
         src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
     </script>
     <style>
-        /* Ensure no horizontal scroll for wide content */
-        body {
+        /* Global box-sizing for consistent layout */
+        *, *::before, *::after {
+            box-sizing: border-box;
+        }
+
+        /* Ensure html and body take full width and prevent horizontal scroll */
+        html {
+            width: 100%;
             overflow-x: hidden;
         }
-        /* Apply the gradient background to the body */
         body {
+            width: 100%;
+            overflow-x: hidden;
             background: linear-gradient(to right, #8B5CF6, #2563EB);
             position: relative; /* Needed for absolute positioning of background elements */
             min-height: 100vh; /* Ensure body takes full viewport height */
         }
+        /* Page wrapper to contain all main content and apply overflow-x: hidden */
+        #page-wrapper {
+            width: 100%;
+            overflow-x: hidden;
+        }
+
         /* Background glowing elements */
         .background-glow-element {
             position: absolute;
@@ -437,7 +450,7 @@
                 <div class="bg-white p-6 rounded-2xl shadow-md card-glow">
                     <p class="mb-2">L'interface de construction est conçue pour être simple et efficace :</p>
                     <ul class="list-disc list-inside ml-4 mb-4">
-                        <li>**Panneau des Blocs :** Accédez facilement à tous les blocs que vous possédez pour les placer sur votre île.</li>
+                        <li>**Panneau des Blocs :** Accédez facilement à tous les blocs que yous possédez pour les placer sur votre île.</li>
                         <li>**Panneau des Blueprints :** Sélectionnez un Blueprint, dépensez de l'Argent Céleste pour l'activer, et construisez des structures complexes en toute simplicité. Une fois activé, le Blueprint vous guide sur les blocs à poser.</li>
                     </ul>
                     <p class="text-center mt-4 text-4xl">🛠️</p>
