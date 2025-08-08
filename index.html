@@ -10,107 +10,207 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- Phosphor Icons for a clean icon set -->
+    <!-- Phosphor Icons -->
     <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
     <style>
         body {
             font-family: 'Inter', sans-serif;
             overflow-x: hidden;
             background-color: #0F172A; /* bg-slate-900 */
+            color: #F1F5F9; /* bg-slate-100 */
+        }
+
+        /* Arrière-plan étoilé subtil */
+        .starry-background {
+            background-image:
+                radial-gradient(white, rgba(255,255,255,0) 0.5px),
+                radial-gradient(white, rgba(255,255,255,0) 0.5px);
+            background-size: 600px 600px, 400px 400px;
+            background-position: 0 0, 200px 200px;
+            animation: move-stars 300s linear infinite;
+        }
+
+        @keyframes move-stars {
+            from {background-position: 0 0, 200px 200px;}
+            to {background-position: 10000px 5000px, 10200px 5200px;}
         }
 
         /* Personnalisation de l'arrière-plan de la section héroïque */
         .hero-bg {
-            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://placehold.co/1920x1080/0F172A/d1d5db?text=Votre+Royaume+Céleste');
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(15, 23, 42, 1)), url('https://placehold.co/1920x1080/0F172A/d1d5db?text=Votre+Royaume+Céleste');
             background-size: cover;
             background-position: center;
         }
 
-        /* Styles de l'animation d'introduction */
+        /* --- STYLES DE L'ANIMATION D'INTRODUCTION --- */
         #intro-animation {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: #0F172A; /* bg-slate-900 */
+            background-color: #0F172A;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 100;
             opacity: 1;
-            transition: opacity 1s ease-in-out;
+            transition: opacity 1s ease-in-out 1s, visibility 1s ease-in-out 1s;
         }
 
         #intro-animation.hide {
             opacity: 0;
+            visibility: hidden;
             pointer-events: none;
         }
 
-        .building-svg {
-            animation: bounce-in 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
-            transform: scale(0);
+        .logo-container {
+            transform: scale(0.9);
         }
-        
-        .title-text {
+
+        /* Animations des pièces du logo */
+        #logo-base {
+            animation: grow-up 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.2s forwards;
+            transform-origin: bottom;
+            transform: scaleY(0);
+        }
+
+        #logo-wing-left, #logo-wing-right {
+            opacity: 0;
+            animation: slide-in 1.2s ease-out 0.8s forwards;
+        }
+        #logo-wing-right { animation-delay: 1s; }
+
+        .logo-window {
+            opacity: 0;
+            animation: light-on 0.5s ease-out forwards;
+        }
+
+        /* Délai d'animation en cascade pour les fenêtres */
+        .logo-window:nth-of-type(1) { animation-delay: 1.5s; }
+        .logo-window:nth-of-type(2) { animation-delay: 1.6s; }
+        .logo-window:nth-of-type(3) { animation-delay: 1.7s; }
+        .logo-window:nth-of-type(4) { animation-delay: 1.8s; }
+        .logo-window:nth-of-type(5) { animation-delay: 1.9s; }
+        .logo-window:nth-of-type(6) { animation-delay: 2.0s; }
+        .logo-window:nth-of-type(7) { animation-delay: 2.1s; }
+        .logo-window:nth-of-type(8) { animation-delay: 2.2s; }
+        .logo-window:nth-of-type(9) { animation-delay: 2.3s; }
+        .logo-window:nth-of-type(10) { animation-delay: 2.4s; }
+
+
+        .title-text-intro {
             font-family: 'Inter', sans-serif;
             font-size: 3rem;
             font-weight: 800;
             color: #ffffff;
-            opacity: 0;
-            transform: translateY(20px);
-            animation: fadeInMoveUp 1.5s ease-out 1.5s forwards;
-            text-shadow: 0 4px 15px rgba(255, 255, 255, 0.4);
+            text-shadow: 0 4px 20px rgba(192, 212, 255, 0.5);
+            margin-top: 2rem;
+            display: flex;
+            overflow: hidden;
         }
+        
+        .title-text-intro span {
+            transform: translateY(100%);
+            opacity: 0;
+            animation: fadeInMoveUp 0.8s ease-out forwards;
+        }
+
+        /* Délai pour chaque lettre du titre */
+        .title-text-intro span:nth-child(1) { animation-delay: 2.5s; }
+        .title-text-intro span:nth-child(2) { animation-delay: 2.55s; }
+        .title-text-intro span:nth-child(3) { animation-delay: 2.6s; }
+        .title-text-intro span:nth-child(4) { animation-delay: 2.65s; }
+        .title-text-intro span:nth-child(5) { animation-delay: 2.7s; }
+        .title-text-intro span:nth-child(6) { animation-delay: 2.75s; }
+        .title-text-intro span:nth-child(7) { animation-delay: 2.8s; }
+        .title-text-intro span:nth-child(8) { animation-delay: 2.85s; }
+        .title-text-intro span:nth-child(9) { animation-delay: 2.9s; }
+        .title-text-intro span:nth-child(10) { animation-delay: 2.95s; }
+        .title-text-intro span:nth-child(11) { animation-delay: 3.0s; }
+        .title-text-intro span:nth-child(12) { animation-delay: 3.05s; }
 
         /* Keyframes des animations */
-        @keyframes bounce-in {
-            0% { transform: scale(0); }
-            50% { transform: scale(1.2); }
-            100% { transform: scale(1); }
+        @keyframes grow-up {
+            from { transform: scaleY(0); }
+            to { transform: scaleY(1); }
         }
-
+        @keyframes slide-in {
+            from { opacity: 0; transform: translateX(-30px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        @keyframes light-on {
+            from { opacity: 0; transform: scale(0.5); }
+            to { opacity: 1; transform: scale(1); }
+        }
         @keyframes fadeInMoveUp {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(100%); }
             to { opacity: 1; transform: translateY(0); }
         }
+
+        /* --- STYLES DES ANIMATIONS AU DÉFILEMENT --- */
+        .reveal-on-scroll {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        }
+        .reveal-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Améliorations de l'UI */
+        .btn-cta {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .btn-cta:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
     </style>
 </head>
-<body class="bg-gray-950 text-gray-100 antialiased">
+<body class="bg-slate-900 text-slate-100 antialiased starry-background">
 
     <!-- Animation d'introduction avec un logo SVG professionnel -->
     <div id="intro-animation">
-        <svg class="building-svg" width="150" height="150" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="25" y="0" width="50" height="100" fill="#E5E7EB"/>
-            <path d="M25 0L0 25V100H25V0Z" fill="#9CA3AF"/>
-            <path d="M75 0L100 25V100H75V0Z" fill="#6B7280"/>
-            <rect x="35" y="10" width="10" height="10" fill="#0F172A"/>
-            <rect x="55" y="10" width="10" height="10" fill="#0F172A"/>
-            <rect x="35" y="30" width="10" height="10" fill="#0F172A"/>
-            <rect x="55" y="30" width="10" height="10" fill="#0F172A"/>
-            <rect x="35" y="50" width="10" height="10" fill="#0F172A"/>
-            <rect x="55" y="50" width="10" height="10" fill="#0F172A"/>
-            <rect x="35" y="70" width="10" height="10" fill="#0F172A"/>
-            <rect x="55" y="70" width="10" height="10" fill="#0F172A"/>
-            <rect x="35" y="90" width="10" height="10" fill="#0F172A"/>
-            <rect x="55" y="90" width="10" height="10" fill="#0F172A"/>
-        </svg>
-        <span class="title-text mt-8">Sky Architecte</span>
+        <div class="logo-container">
+            <svg width="150" height="150" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- Les pièces du logo ont des IDs pour être ciblées par le CSS -->
+                <rect id="logo-base" x="25" y="0" width="50" height="100" fill="#E5E7EB"/>
+                <path id="logo-wing-left" d="M25 0L0 25V100H25V0Z" fill="#9CA3AF"/>
+                <path id="logo-wing-right" d="M75 0L100 25V100H75V0Z" fill="#6B7280"/>
+                <rect class="logo-window" x="35" y="10" width="10" height="10" fill="#0F172A"/>
+                <rect class="logo-window" x="55" y="10" width="10" height="10" fill="#0F172A"/>
+                <rect class="logo-window" x="35" y="30" width="10" height="10" fill="#0F172A"/>
+                <rect class="logo-window" x="55" y="30" width="10" height="10" fill="#0F172A"/>
+                <rect class="logo-window" x="35" y="50" width="10" height="10" fill="#0F172A"/>
+                <rect class="logo-window" x="55" y="50" width="10" height="10" fill="#0F172A"/>
+                <rect class="logo-window" x="35" y="70" width="10" height="10" fill="#0F172A"/>
+                <rect class="logo-window" x="55" y="70" width="10" height="10" fill="#0F172A"/>
+                <rect class="logo-window" x="35" y="90" width="10" height="10" fill="#0F172A"/>
+                <rect class="logo-window" x="55" y="90" width="10" height="10" fill="#0F172A"/>
+            </svg>
+        </div>
+        <div id="intro-title-container" class="title-text-intro">
+            <!-- Chaque lettre est dans un span pour une animation individuelle -->
+        </div>
     </div>
 
     <!-- Contenu principal du site -->
-    <header class="bg-gray-900 shadow-xl sticky top-0 z-50 transition-all duration-300">
+    <header class="bg-slate-900/80 backdrop-blur-sm shadow-xl sticky top-0 z-50 transition-all duration-300">
         <nav class="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
-            <a href="#" class="flex items-center space-x-2">
+            <a href="#" class="flex items-center space-x-3">
+                 <i class="ph-bold ph-buildings text-3xl text-white"></i>
                 <span class="text-3xl font-extrabold text-white">Sky Architecte</span>
             </a>
             <div class="hidden md:flex space-x-8">
-                <a href="#gameplay" class="text-gray-400 font-medium hover:text-white transition-colors duration-300">Gameplay</a>
-                <a href="#economie" class="text-gray-400 font-medium hover:text-white transition-colors duration-300">Économie</a>
-                <a href="#multijoueur" class="text-gray-400 font-medium hover:text-white transition-colors duration-300">Multijoueur</a>
+                <a href="#gameplay" class="text-gray-300 font-medium hover:text-white transition-colors duration-300">Gameplay</a>
+                <a href="#economie" class="text-gray-300 font-medium hover:text-white transition-colors duration-300">Économie</a>
+                <a href="#multijoueur" class="text-gray-300 font-medium hover:text-white transition-colors duration-300">Multijoueur</a>
             </div>
-            <a href="#" class="bg-gray-400 text-gray-900 font-semibold py-2 px-6 rounded-full shadow-lg cursor-not-allowed">
+            <a href="#" class="bg-slate-400 text-slate-900 font-semibold py-2 px-6 rounded-full shadow-lg cursor-not-allowed btn-cta">
                 Bientôt disponible
             </a>
         </nav>
@@ -118,30 +218,30 @@
 
     <main>
         <!-- Section d'accueil (Hero) -->
-        <section class="hero-bg text-center py-24 md:py-40">
+        <section class="hero-bg text-center py-24 md:py-48">
             <div class="relative z-10 container mx-auto px-6">
-                <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4 drop-shadow-lg">
+                <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4 drop-shadow-lg reveal-on-scroll">
                     Sky Architecte
                 </h1>
-                <p class="text-lg md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto drop-shadow-md">
+                <p class="text-lg md:text-2xl text-slate-300 mb-10 max-w-3xl mx-auto drop-shadow-md reveal-on-scroll" style="transition-delay: 200ms;">
                     Créez, gérez et faites prospérer votre royaume au-dessus des nuages. Votre créativité est la seule limite.
                 </p>
-                <a href="#" class="bg-gray-400 text-gray-900 font-bold py-4 px-12 rounded-full shadow-lg cursor-not-allowed">
+                <a href="#" class="bg-slate-200 text-slate-900 font-bold py-4 px-12 rounded-full shadow-lg cursor-not-allowed btn-cta reveal-on-scroll" style="transition-delay: 400ms;">
                     Bientôt disponible
                 </a>
             </div>
         </section>
         
         <!-- Bloc : Le Concept de base -->
-        <section class="py-20 bg-gray-900">
+        <section class="py-24 bg-slate-900">
             <div class="container mx-auto px-6">
-                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="grid lg:grid-cols-2 gap-12 items-center reveal-on-scroll">
                     <div class="order-2 lg:order-1 relative w-full h-96 rounded-2xl overflow-hidden shadow-2xl">
                         <img src="https://placehold.co/800x600/1F2937/F3F4F6?text=Image+Concept+de+base" alt="Illustration du concept de construction sur une île volante" class="w-full h-full object-cover">
                     </div>
-                    <div class="order-1 lg:order-2 space-y-4 p-6 bg-gray-800 rounded-2xl shadow-xl">
+                    <div class="order-1 lg:order-2 space-y-4 p-8 bg-slate-800 rounded-2xl shadow-xl">
                         <h2 class="text-4xl font-bold text-white mb-4">Le Concept</h2>
-                        <p class="text-lg text-gray-400">
+                        <p class="text-lg text-slate-400">
                             Construisez une ville sur des îles volantes. Le jeu mélange créativité et stratégie, où vous êtes le seul maître de votre royaume céleste.
                         </p>
                     </div>
@@ -149,19 +249,19 @@
             </div>
         </section>
 
-        <!-- Bloc : Construire et Créer -->
-        <section id="gameplay" class="py-20 bg-gray-950">
+        <!-- Bloc : Gameplay -->
+        <section id="gameplay" class="py-24 bg-slate-950">
             <div class="container mx-auto px-6">
-                <div class="grid lg:grid-cols-2 gap-12 items-center">
-                    <div class="space-y-4 p-6 bg-gray-800 rounded-2xl shadow-xl">
+                <div class="grid lg:grid-cols-2 gap-12 items-center reveal-on-scroll">
+                    <div class="space-y-4 p-8 bg-slate-800 rounded-2xl shadow-xl">
                         <h2 class="text-4xl font-bold text-white mb-4 flex items-center space-x-4">
                             <i class="ph-fill ph-hammer text-white text-5xl"></i>
                             <span>Gameplay</span>
                         </h2>
-                        <p class="text-lg text-gray-400">
+                        <p class="text-lg text-slate-400">
                             Commencez avec un simple îlot et étendez votre territoire. Utilisez des **Blueprints** pour placer plusieurs blocs à la fois et construisez des structures uniques.
                         </p>
-                        <p class="text-lg text-gray-400">
+                        <p class="text-lg text-slate-400">
                             La variété des matériaux est immense, des plus communs aux plus rares, pour laisser libre cours à votre imagination.
                         </p>
                     </div>
@@ -173,23 +273,23 @@
         </section>
 
         <!-- Bloc : L'Économie -->
-        <section id="economie" class="py-20 bg-gray-900">
+        <section id="economie" class="py-24 bg-slate-900">
             <div class="container mx-auto px-6">
-                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="grid lg:grid-cols-2 gap-12 items-center reveal-on-scroll">
                     <div class="order-2 lg:order-1 relative w-full h-96 rounded-2xl overflow-hidden shadow-2xl">
                         <img src="https://placehold.co/800x600/1F2937/F3F4F6?text=Image+Economie+et+Argent" alt="Illustration de l'Argent Céleste" class="w-full h-full object-cover">
                     </div>
-                    <div class="order-1 lg:order-2 space-y-4 p-6 bg-gray-800 rounded-2xl shadow-xl">
+                    <div class="order-1 lg:order-2 space-y-4 p-8 bg-slate-800 rounded-2xl shadow-xl">
                         <h2 class="text-4xl font-bold text-white mb-4 flex items-center space-x-4">
                             <i class="ph-fill ph-coins text-white text-5xl"></i>
                             <span>L'Économie Céleste</span>
                         </h2>
-                        <p class="text-lg text-gray-400">
+                        <p class="text-lg text-slate-400">
                             L'Argent Céleste est la monnaie de votre royaume. Vous gagnez de l'argent en posant des blocs, avec un bonus selon la **densité** et la **diversité** de vos créations.
                         </p>
-                        <div class="bg-gray-700 p-6 rounded-xl shadow-inner">
+                        <div class="bg-slate-700/50 p-6 rounded-xl shadow-inner">
                             <h3 class="text-2xl font-bold text-white mb-4">Bonus Esthétique</h3>
-                            <p class="text-gray-300">
+                            <p class="text-slate-300">
                                 Pour les constructions les plus créatives et les plus belles, un **administrateur** peut vous récompenser avec un bonus d'Argent Céleste spécial. C'est notre façon de célébrer le talent des architectes les plus doués !
                             </p>
                         </div>
@@ -199,15 +299,15 @@
         </section>
 
         <!-- Bloc : Marchands et Compagnons -->
-        <section class="py-20 bg-gray-950">
+        <section class="py-24 bg-slate-950">
             <div class="container mx-auto px-6">
-                <div class="grid lg:grid-cols-2 gap-12 items-center">
-                    <div class="space-y-4 p-6 bg-gray-800 rounded-2xl shadow-xl">
+                <div class="grid lg:grid-cols-2 gap-12 items-center reveal-on-scroll">
+                    <div class="space-y-4 p-8 bg-slate-800 rounded-2xl shadow-xl">
                         <h2 class="text-4xl font-bold text-white mb-4 flex items-center space-x-4">
                             <i class="ph-fill ph-storefront text-white text-5xl"></i>
-                            <span>Marchands et Pets</span>
+                            <span>Marchands & Pets</span>
                         </h2>
-                        <p class="text-lg text-gray-400">
+                        <p class="text-lg text-slate-400">
                             Le marchand est toujours présent au point de départ. Son inventaire de blocs rares et de compagnons uniques se réinitialise régulièrement.
                         </p>
                     </div>
@@ -219,18 +319,18 @@
         </section>
         
         <!-- Bloc : L'Expérience Multijoueur -->
-        <section id="multijoueur" class="py-20 bg-gray-900">
+        <section id="multijoueur" class="py-24 bg-slate-900">
             <div class="container mx-auto px-6">
-                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div class="grid lg:grid-cols-2 gap-12 items-center reveal-on-scroll">
                     <div class="order-2 lg:order-1 relative w-full h-96 rounded-2xl overflow-hidden shadow-2xl">
                         <img src="https://placehold.co/800x600/1F2937/F3F4F6?text=Image+Expérience+Multijoueur" alt="Illustration de joueurs construisant ensemble" class="w-full h-full object-cover">
                     </div>
-                    <div class="order-1 lg:order-2 space-y-4 p-6 bg-gray-800 rounded-2xl shadow-xl">
+                    <div class="order-1 lg:order-2 space-y-4 p-8 bg-slate-800 rounded-2xl shadow-xl">
                         <h2 class="text-4xl font-bold text-white mb-4 flex items-center space-x-4">
                             <i class="ph-fill ph-users-three text-white text-5xl"></i>
                             <span>Multijoueur</span>
                         </h2>
-                        <p class="text-lg text-gray-400">
+                        <p class="text-lg text-slate-400">
                             Invitez vos amis à construire sur votre île grâce à un code unique. Le multijoueur permet de collaborer sur des projets gigantesques.
                         </p>
                     </div>
@@ -240,26 +340,73 @@
     </main>
 
     <!-- Footer -->
-    <footer class="bg-gray-950 py-10 border-t border-gray-800">
-        <div class="container mx-auto px-6 text-center text-gray-500">
+    <footer class="bg-slate-950 py-10 border-t border-slate-800">
+        <div class="container mx-auto px-6 text-center text-slate-500">
             <p>&copy; 2025 Sky Architecte. Tous droits réservés.</p>
         </div>
     </footer>
 
-    <!-- Script pour l'animation d'introduction -->
+    <!-- Scripts -->
     <script>
-        window.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', () => {
+            // --- GESTION DE L'ANIMATION D'INTRODUCTION ---
             const introAnimation = document.getElementById('intro-animation');
-            const body = document.body;
-            body.style.display = 'block'; 
-            
-            const animationDuration = 4000;
-            
+            const introTitleContainer = document.getElementById('intro-title-container');
+            const titleText = "Sky Architecte";
+
+            // Injecter le titre avec des spans pour l'animation
+            titleText.split('').forEach(char => {
+                const span = document.createElement('span');
+                // Gérer l'espace
+                if (char === ' ') {
+                    span.innerHTML = '&nbsp;';
+                } else {
+                    span.textContent = char;
+                }
+                introTitleContainer.appendChild(span);
+            });
+
+            // Durée totale de l'animation d'intro avant disparition
+            const totalAnimationTime = 4500; 
+
             setTimeout(() => {
                 introAnimation.classList.add('hide');
-            }, animationDuration);
+            }, totalAnimationTime);
+
+            // --- GESTION DES ANIMATIONS AU DÉFILEMENT (SCROLL) ---
+            const scrollElements = document.querySelectorAll('.reveal-on-scroll');
+
+            const elementInView = (el, dividend = 1) => {
+                const elementTop = el.getBoundingClientRect().top;
+                return (
+                    elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
+                );
+            };
+
+            const displayScrollElement = (element) => {
+                element.classList.add('is-visible');
+            };
+
+            const hideScrollElement = (element) => {
+                element.classList.remove('is-visible');
+            };
+
+            const handleScrollAnimation = () => {
+                scrollElements.forEach((el) => {
+                    if (elementInView(el, 1.25)) {
+                        displayScrollElement(el);
+                    }
+                    // Optionnel: décommenter pour que l'animation se rejoue en sortant de l'écran
+                    // else {
+                    //     hideScrollElement(el);
+                    // }
+                });
+            };
+            
+            // Lancer une première fois au chargement pour les éléments déjà visibles
+            handleScrollAnimation();
+            window.addEventListener('scroll', handleScrollAnimation);
         });
     </script>
 </body>
 </html>
-
