@@ -35,9 +35,9 @@
             to {background-position: 10000px 5000px, 10200px 5200px;}
         }
 
-        /* Personnalisation de l'arrière-plan de la section héroïque */
+        /* Section Héroïque avec image de galaxie */
         .hero-bg {
-            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), rgba(15, 23, 42, 1)), url('https://placehold.co/1920x1080/0F172A/d1d5db?text=Votre+Royaume+Céleste');
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(15, 23, 42, 1)), url('https://images.unsplash.com/photo-1534796636912-3b95b3ab5986?q=80&w=1920&auto=format&fit=crop');
             background-size: cover;
             background-position: center;
         }
@@ -56,7 +56,7 @@
             align-items: center;
             z-index: 100;
             opacity: 1;
-            transition: opacity 1s ease-in-out 1s, visibility 1s ease-in-out 1s;
+            transition: opacity 1s ease-in-out 0.5s, visibility 1s ease-in-out 0.5s;
         }
 
         #intro-animation.hide {
@@ -64,41 +64,28 @@
             visibility: hidden;
             pointer-events: none;
         }
-
+        
+        /* NOUVELLE ANIMATION DU LOGO : DESSIN AVEC DÉGRADÉ */
         .logo-container {
             transform: scale(0.9);
         }
 
-        /* Animations des pièces du logo */
-        #logo-base {
-            animation: grow-up 1s cubic-bezier(0.68, -0.55, 0.27, 1.55) 0.2s forwards;
-            transform-origin: bottom;
-            transform: scaleY(0);
+        .logo-line {
+            /* Valeur assez grande pour couvrir la longueur, ajustée pour le nouveau logo */
+            stroke-dasharray: 500; 
+            stroke-dashoffset: 500;
+            animation: draw-line 1.2s ease-out forwards;
         }
+        
+        /* Animation en cascade pour construire le logo */
+        #logo-main-outline { animation-delay: 0.2s; }
+        #logo-detail-left { animation-delay: 1.4s; }
+        #logo-detail-right { animation-delay: 1.6s; }
+        #logo-crossbar { animation-delay: 1.8s; }
 
-        #logo-wing-left, #logo-wing-right {
-            opacity: 0;
-            animation: slide-in 1.2s ease-out 0.8s forwards;
+        @keyframes draw-line {
+            to { stroke-dashoffset: 0; }
         }
-        #logo-wing-right { animation-delay: 1s; }
-
-        .logo-window {
-            opacity: 0;
-            animation: light-on 0.5s ease-out forwards;
-        }
-
-        /* Délai d'animation en cascade pour les fenêtres */
-        .logo-window:nth-of-type(1) { animation-delay: 1.5s; }
-        .logo-window:nth-of-type(2) { animation-delay: 1.6s; }
-        .logo-window:nth-of-type(3) { animation-delay: 1.7s; }
-        .logo-window:nth-of-type(4) { animation-delay: 1.8s; }
-        .logo-window:nth-of-type(5) { animation-delay: 1.9s; }
-        .logo-window:nth-of-type(6) { animation-delay: 2.0s; }
-        .logo-window:nth-of-type(7) { animation-delay: 2.1s; }
-        .logo-window:nth-of-type(8) { animation-delay: 2.2s; }
-        .logo-window:nth-of-type(9) { animation-delay: 2.3s; }
-        .logo-window:nth-of-type(10) { animation-delay: 2.4s; }
-
 
         .title-text-intro {
             font-family: 'Inter', sans-serif;
@@ -117,39 +104,28 @@
             animation: fadeInMoveUp 0.8s ease-out forwards;
         }
 
-        /* Délai pour chaque lettre du titre */
-        .title-text-intro span:nth-child(1) { animation-delay: 2.5s; }
-        .title-text-intro span:nth-child(2) { animation-delay: 2.55s; }
-        .title-text-intro span:nth-child(3) { animation-delay: 2.6s; }
-        .title-text-intro span:nth-child(4) { animation-delay: 2.65s; }
-        .title-text-intro span:nth-child(5) { animation-delay: 2.7s; }
-        .title-text-intro span:nth-child(6) { animation-delay: 2.75s; }
-        .title-text-intro span:nth-child(7) { animation-delay: 2.8s; }
-        .title-text-intro span:nth-child(8) { animation-delay: 2.85s; }
-        .title-text-intro span:nth-child(9) { animation-delay: 2.9s; }
-        .title-text-intro span:nth-child(10) { animation-delay: 2.95s; }
-        .title-text-intro span:nth-child(11) { animation-delay: 3.0s; }
-        .title-text-intro span:nth-child(12) { animation-delay: 3.05s; }
+        /* Délai pour chaque lettre du titre - MIS À JOUR POUR LES 14 CARACTÈRES */
+        .title-text-intro span:nth-child(1)  { animation-delay: 2.8s; }
+        .title-text-intro span:nth-child(2)  { animation-delay: 2.85s; }
+        .title-text-intro span:nth-child(3)  { animation-delay: 2.9s; }
+        .title-text-intro span:nth-child(4)  { animation-delay: 2.95s; }
+        .title-text-intro span:nth-child(5)  { animation-delay: 3.0s; }
+        .title-text-intro span:nth-child(6)  { animation-delay: 3.05s; }
+        .title-text-intro span:nth-child(7)  { animation-delay: 3.1s; }
+        .title-text-intro span:nth-child(8)  { animation-delay: 3.15s; }
+        .title-text-intro span:nth-child(9)  { animation-delay: 3.2s; }
+        .title-text-intro span:nth-child(10) { animation-delay: 3.25s; }
+        .title-text-intro span:nth-child(11) { animation-delay: 3.3s; }
+        .title-text-intro span:nth-child(12) { animation-delay: 3.35s; }
+        .title-text-intro span:nth-child(13) { animation-delay: 3.4s; }
+        .title-text-intro span:nth-child(14) { animation-delay: 3.45s; }
 
-        /* Keyframes des animations */
-        @keyframes grow-up {
-            from { transform: scaleY(0); }
-            to { transform: scaleY(1); }
-        }
-        @keyframes slide-in {
-            from { opacity: 0; transform: translateX(-30px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes light-on {
-            from { opacity: 0; transform: scale(0.5); }
-            to { opacity: 1; transform: scale(1); }
-        }
         @keyframes fadeInMoveUp {
             from { opacity: 0; transform: translateY(100%); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- STYLES DES ANIMATIONS AU DÉFILEMENT --- */
+        /* --- STYLES DES ANIMATIONS AU DÉFILEMENT (OPTIMISÉ) --- */
         .reveal-on-scroll {
             opacity: 0;
             transform: translateY(30px);
@@ -173,28 +149,27 @@
 </head>
 <body class="bg-slate-900 text-slate-100 antialiased starry-background">
 
-    <!-- Animation d'introduction avec un logo SVG professionnel -->
+    <!-- Animation d'introduction avec le logo final -->
     <div id="intro-animation">
         <div class="logo-container">
+            <!-- LOGO SVG MIS À JOUR : PLUS DÉTAILLÉ -->
             <svg width="150" height="150" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- Les pièces du logo ont des IDs pour être ciblées par le CSS -->
-                <rect id="logo-base" x="25" y="0" width="50" height="100" fill="#E5E7EB"/>
-                <path id="logo-wing-left" d="M25 0L0 25V100H25V0Z" fill="#9CA3AF"/>
-                <path id="logo-wing-right" d="M75 0L100 25V100H75V0Z" fill="#6B7280"/>
-                <rect class="logo-window" x="35" y="10" width="10" height="10" fill="#0F172A"/>
-                <rect class="logo-window" x="55" y="10" width="10" height="10" fill="#0F172A"/>
-                <rect class="logo-window" x="35" y="30" width="10" height="10" fill="#0F172A"/>
-                <rect class="logo-window" x="55" y="30" width="10" height="10" fill="#0F172A"/>
-                <rect class="logo-window" x="35" y="50" width="10" height="10" fill="#0F172A"/>
-                <rect class="logo-window" x="55" y="50" width="10" height="10" fill="#0F172A"/>
-                <rect class="logo-window" x="35" y="70" width="10" height="10" fill="#0F172A"/>
-                <rect class="logo-window" x="55" y="70" width="10" height="10" fill="#0F172A"/>
-                <rect class="logo-window" x="35" y="90" width="10" height="10" fill="#0F172A"/>
-                <rect class="logo-window" x="55" y="90" width="10" height="10" fill="#0F172A"/>
+                <!-- Définition du dégradé de couleur -->
+                <defs>
+                    <linearGradient id="logo-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#8B5CF6;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#38BDF8;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <!-- Contour du logo avec le dégradé appliqué -->
+                <path id="logo-main-outline" class="logo-line" d="M 25,100 V 25 L 50,0 L 75,25 V 100 H 25 Z" stroke="url(#logo-gradient)" stroke-width="5" />
+                <path id="logo-detail-left" class="logo-line" d="M 35,90 V 40" stroke="url(#logo-gradient)" stroke-width="5" />
+                <path id="logo-detail-right" class="logo-line" d="M 65,90 V 40" stroke="url(#logo-gradient)" stroke-width="5" />
+                <path id="logo-crossbar" class="logo-line" d="M 35,40 H 65" stroke="url(#logo-gradient)" stroke-width="5" />
             </svg>
         </div>
         <div id="intro-title-container" class="title-text-intro">
-            <!-- Chaque lettre est dans un span pour une animation individuelle -->
+            <!-- Le titre est injecté ici par JavaScript -->
         </div>
     </div>
 
@@ -357,56 +332,38 @@
             // Injecter le titre avec des spans pour l'animation
             titleText.split('').forEach(char => {
                 const span = document.createElement('span');
-                // Gérer l'espace
-                if (char === ' ') {
-                    span.innerHTML = '&nbsp;';
-                } else {
-                    span.textContent = char;
-                }
+                span.innerHTML = char === ' ' ? '&nbsp;' : char;
                 introTitleContainer.appendChild(span);
             });
 
             // Durée totale de l'animation d'intro avant disparition
-            const totalAnimationTime = 4500; 
+            const totalAnimationTime = 4800; 
 
             setTimeout(() => {
                 introAnimation.classList.add('hide');
             }, totalAnimationTime);
 
-            // --- GESTION DES ANIMATIONS AU DÉFILEMENT (SCROLL) ---
+            // --- GESTION DES ANIMATIONS AU DÉFILEMENT (OPTIMISÉ POUR MOBILE) ---
             const scrollElements = document.querySelectorAll('.reveal-on-scroll');
 
-            const elementInView = (el, dividend = 1) => {
-                const elementTop = el.getBoundingClientRect().top;
-                return (
-                    elementTop <= (window.innerHeight || document.documentElement.clientHeight) / dividend
-                );
-            };
-
-            const displayScrollElement = (element) => {
-                element.classList.add('is-visible');
-            };
-
-            const hideScrollElement = (element) => {
-                element.classList.remove('is-visible');
-            };
-
-            const handleScrollAnimation = () => {
-                scrollElements.forEach((el) => {
-                    if (elementInView(el, 1.25)) {
-                        displayScrollElement(el);
+            // On utilise IntersectionObserver pour une performance maximale
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    // Quand l'élément entre dans le champ de vision
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('is-visible');
                     }
-                    // Optionnel: décommenter pour que l'animation se rejoue en sortant de l'écran
-                    // else {
-                    //     hideScrollElement(el);
-                    // }
                 });
-            };
-            
-            // Lancer une première fois au chargement pour les éléments déjà visibles
-            handleScrollAnimation();
-            window.addEventListener('scroll', handleScrollAnimation);
+            }, {
+                // Déclenche l'animation un peu avant que l'élément soit totalement visible
+                threshold: 0.1
+            });
+
+            scrollElements.forEach(el => {
+                observer.observe(el);
+            });
         });
     </script>
 </body>
 </html>
+
