@@ -3,712 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sky Architecte - Le Jeu</title>
+    <title>Sky Architecte - Site Officiel</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        'celeste-violet': '#8B5CF6',
-                        'celeste-blue': '#2563EB',
-                        'celeste-light-blue': '#60A5FA',
-                        'celeste-bg-light': '#F0F8FF',
-                        'celeste-text': '#1F2937',
-                        'celeste-glow-start': 'rgba(139, 92, 246, 0.6)', /* Violet translucide pour le glow */
-                        'celeste-glow-end': 'rgba(37, 99, 235, 0.6)',   /* Bleu translucide pour le glow */
-                        'celeste-glow-light': 'rgba(96, 165, 250, 0.5)', /* Bleu clair translucide pour le glow */
-                    },
-                    fontFamily: {
-                        inter: ['Inter', 'sans-serif'],
-                    },
-                    keyframes: {
-                        fadeIn: {
-                            '0%': { opacity: '0', transform: 'translateY(20px)' },
-                            '100%': { opacity: '1', transform: 'translateY(0)' },
-                        },
-                        float: {
-                            '0%, 100%': { transform: 'translateY(0px)' },
-                            '50%': { transform: 'translateY(-8px)' },
-                        },
-                        pulseLight: {
-                            '0%, 100%': { opacity: '1' },
-                            '50%': { opacity: '0.7' },
-                        },
-                        scaleIn: {
-                            '0%': { transform: 'scale(0.8)', opacity: '0' },
-                            '100%': { transform: 'scale(1)', opacity: '1' },
-                        },
-                        pageFadeIn: {
-                            '0%': { opacity: '0' },
-                            '100%': { opacity: '1' },
-                        },
-                        // New keyframes for background elements
-                        moveGlow1: {
-                            '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-                            '30%': { transform: 'translate(-20%, 10%) scale(1.1)' },
-                            '60%': { transform: 'translate(10%, -20%) scale(0.9)' },
-                        },
-                        moveGlow2: {
-                            '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-                            '40%': { transform: 'translate(15%, -15%) scale(1.05)' },
-                            '70%': { transform: 'translate(-10%, 20%) scale(0.95)' },
-                        },
-                        moveGlow3: {
-                            '0%, 100%': { transform: 'translate(0, 0) scale(1)' },
-                            '50%': { transform: 'translate(-10%, -10%) scale(1.1)' },
-                            '80%': { transform: 'translate(20%, 5%) scale(0.9)' },
-                        },
-                        // Keyframe for the final secret message glow
-                        secretGlow: {
-                            '0%, 100%': { textShadow: '0 0 5px rgba(255, 255, 255, 0.7), 0 0 10px rgba(255, 255, 255, 0.5)' },
-                            '50%': { textShadow: '0 0 15px rgba(255, 255, 255, 1), 0 0 30px rgba(255, 255, 255, 0.8)' },
-                        },
-                        bubblePop: {
-                            '0%': { transform: 'scale(0) translateY(20px)', opacity: '0' },
-                            '70%': { transform: 'scale(1.1) translateY(-5px)', opacity: '1' },
-                            '100%': { transform: 'scale(1) translateY(0)', opacity: '1' },
-                        }
-                    },
-                    animation: {
-                        'fade-in': 'fadeIn 0.8s ease-out forwards',
-                        'float': 'float 3s ease-in-out infinite',
-                        'pulse-light': 'pulseLight 2s ease-in-out infinite',
-                        'scale-in': 'scaleIn 0.3s ease-out forwards',
-                        'page-fade-in': 'pageFadeIn 1.5s ease-out forwards', /* Slower animation for overall page */
-                        'glow-move-1': 'moveGlow1 15s ease-in-out infinite alternate',
-                        'glow-move-2': 'moveGlow2 18s ease-in-out infinite alternate-reverse',
-                        'glow-move-3': 'moveGlow3 12s ease-in-out infinite alternate',
-                        'secret-glow': 'secretGlow 2s ease-in-out infinite alternate',
-                        'bubble-pop': 'bubblePop 0.5s ease-out forwards',
-                    }
-                }
-            }
-        }
-    </script>
-    <!-- Google Fonts - Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-    <!-- MathJax for LaTeX rendering -->
-    <script type="text/javascript" id="MathJax-script" async
-        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-    </script>
+    <!-- Google Fonts for Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Phosphor Icons for a clean icon set -->
+    <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/dist/phosphor.js"></script>
     <style>
-        /* Global box-sizing for consistent layout */
-        *, *::before, *::after {
-            box-sizing: border-box;
-        }
-
-        /* Ensure html and body take full width and prevent horizontal scroll */
-        html {
-            width: 100%;
-            overflow-x: hidden;
-        }
         body {
-            width: 100%;
+            font-family: 'Inter', sans-serif;
             overflow-x: hidden;
-            background: linear-gradient(to right, #8B5CF6, #2563EB);
-            position: relative; /* Needed for absolute positioning of background elements */
-            min-height: 100vh; /* Ensure body takes full viewport height */
+            background-color: #0F172A; /* bg-slate-900 */
         }
-        /* Page wrapper to contain all main content and apply overflow-x: hidden */
-        #page-wrapper {
+
+        /* Personnalisation de l'arrière-plan de la section héroïque */
+        .hero-bg {
+            background-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://placehold.co/1920x1080/0F172A/d1d5db?text=Votre+Royaume+Céleste');
+            background-size: cover;
+            background-position: center;
+        }
+
+        /* Styles de l'animation d'introduction */
+        #intro-animation {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            overflow-x: hidden;
-        }
-
-        /* Background glowing elements */
-        .background-glow-element {
-            position: absolute;
-            border-radius: 50%;
-            filter: blur(80px); /* Soft glow effect */
-            opacity: 0.6;
-            z-index: -1; /* Send to back */
-        }
-        .glow-1 {
-            width: 300px;
-            height: 300px;
-            background-color: theme('colors.celeste-glow-start');
-            top: 10%;
-            left: -5%;
-            animation: glow-move-1 15s ease-in-out infinite alternate;
-        }
-        .glow-2 {
-            width: 400px;
-            height: 400px;
-            background-color: theme('colors.celeste-glow-end');
-            bottom: 5%;
-            right: -10%;
-            animation: glow-move-2 18s ease-in-out infinite alternate-reverse;
-        }
-        .glow-3 {
-            width: 250px;
-            height: 250px;
-            background-color: theme('colors.celeste-light-blue');
-            top: 30%;
-            right: 15%;
-            animation: glow-move-3 12s ease-in-out infinite alternate;
-        }
-        /* Text glow for titles */
-        h1 {
-            text-shadow: 0 0 15px rgba(255, 255, 255, 0.9), 0 0 30px rgba(255, 255, 255, 0.7); /* More prominent glow */
-        }
-        h2, h3, h4 {
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.6), 0 0 20px rgba(255, 255, 255, 0.4); /* More prominent glow */
-        }
-        /* Subtle text glow for paragraphs and list items */
-        p, ul, li {
-            text-shadow: 0 0 1px rgba(255, 255, 255, 0.2), 0 0 2px rgba(255, 255, 255, 0.1); /* Subtle white glow */
-            line-height: 1.7; /* Increased line height for better readability */
-            margin-bottom: 1em; /* Add space between paragraphs */
-        }
-        /* Remove margin-bottom for last paragraph in a section if it causes too much space */
-        section p:last-child {
-            margin-bottom: 0;
-        }
-        /* Remove margin-bottom for list items if they have their own spacing */
-        ul li {
-            margin-bottom: 0.5em;
-        }
-        ul li:last-child {
-            margin-bottom: 0;
-        }
-
-
-        /* Box glow for cards and main content area */
-        .card-glow {
-            box-shadow: 0 0 20px rgba(139, 92, 246, 0.4), 0 0 40px rgba(37, 99, 235, 0.3); /* Violet and blue glow */
-        }
-        .main-content-glow {
-            box-shadow: 0 0 30px rgba(139, 92, 246, 0.5), 0 0 60px rgba(37, 99, 235, 0.4);
-        }
-        .button-glow {
-            box-shadow: 0 0 12px rgba(139, 92, 246, 0.6);
-        }
-        .cookie-banner-glow {
-            box-shadow: 0 0 25px rgba(139, 92, 246, 0.7), 0 0 50px rgba(37, 99, 235, 0.5);
-        }
-
-
-        /* Ensure MathJax content wraps if it's too wide */
-        .MathJax_Display {
-            overflow-x: auto; /* Allows horizontal scroll for the formula itself if it's extremely long, but not the whole page */
-            max-width: 100%; /* Ensures it doesn't overflow its container */
-        }
-        /* Ensure specific elements like the calculation line also respect overflow-x */
-        .overflow-x-auto {
-            overflow-x: auto;
-        }
-        /* Secret button styling to hide it within the emoji */
-        .secret-quiz-button {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%); /* Center it over the emoji */
-            width: 100%; /* Take full width of parent span */
-            height: 100%; /* Take full height of parent span */
-            background-color: transparent;
-            border: none;
-            padding: 0;
-            cursor: pointer;
-            opacity: 0; /* Hidden by default */
-            transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
-            font-size: 0; /* Hide the question mark text initially */
-            color: transparent; /* Hide the question mark color */
-            z-index: 10; /* Ensure it's above the emoji */
-            display: flex; /* Use flexbox to center content */
-            align-items: center;
+            height: 100%;
+            background-color: #0F172A; /* bg-slate-900 */
+            display: flex;
+            flex-direction: column;
             justify-content: center;
+            align-items: center;
+            z-index: 100;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
         }
-        /* Show on hover of the parent div (the block containing the emoji) */
-        .flex.justify-center > div:hover .secret-quiz-button {
-            opacity: 1; /* Fully visible on hover */
-            transform: translate(-50%, -50%) scale(1.2); /* Slightly larger on hover */
-            font-size: 2.5rem; /* Reveal question mark size */
-            color: white; /* Reveal question mark color */
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.8); /* Add glow on hover */
+
+        #intro-animation.hide {
+            opacity: 0;
+            pointer-events: none;
         }
-        /* Speech bubble for the secret message */
-        .speech-bubble {
-            position: relative;
-            background: #fff;
-            border-radius: .4em;
-            padding: 10px 15px;
-            color: #1F2937;
-            font-size: 0.9em;
-            margin-top: 10px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-            animation: bubblePop 0.5s ease-out forwards;
+
+        .building-svg {
+            animation: bounce-in 1.5s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
+            transform: scale(0);
         }
-        .speech-bubble:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 0;
-            border: 10px solid transparent;
-            border-top-color: #fff;
-            border-bottom: 0;
-            margin-left: -10px;
-            margin-bottom: -10px;
+        
+        .title-text {
+            font-family: 'Inter', sans-serif;
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffffff;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInMoveUp 1.5s ease-out 1.5s forwards;
+            text-shadow: 0 4px 15px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Keyframes des animations */
+        @keyframes bounce-in {
+            0% { transform: scale(0); }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes fadeInMoveUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
-<body class="font-inter text-celeste-text antialiased leading-relaxed">
+<body class="bg-gray-950 text-gray-100 antialiased">
 
-    <!-- Background Glowing Elements -->
-    <div class="background-glow-element glow-1"></div>
-    <div class="background-glow-element glow-2"></div>
-    <div class="background-glow-element glow-3"></div>
-
-    <!-- Cookie Consent Banner -->
-    <div id="cookie-banner" class="fixed inset-0 flex items-center justify-center z-50 opacity-0 transform scale-80 transition-all duration-300 ease-out">
-        <div class="bg-celeste-blue text-white p-6 rounded-2xl shadow-2xl max-w-sm mx-4 text-center cookie-banner-glow">
-            <p class="mb-6 text-base md:text-lg">
-                Ce site utilise des cookies pour améliorer votre expérience. Acceptez-vous l'utilisation des cookies ?
-            </p>
-            <div class="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 justify-center">
-                <button id="accept-cookies" class="bg-celeste-violet hover:bg-celeste-violet/80 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300 button-glow">
-                    Accepter
-                </button>
-                <button id="decline-cookies" class="bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300 button-glow">
-                    Refuser
-                </button>
-            </div>
-        </div>
+    <!-- Animation d'introduction avec un logo SVG professionnel -->
+    <div id="intro-animation">
+        <svg class="building-svg" width="150" height="150" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="25" y="0" width="50" height="100" fill="#E5E7EB"/>
+            <path d="M25 0L0 25V100H25V0Z" fill="#9CA3AF"/>
+            <path d="M75 0L100 25V100H75V0Z" fill="#6B7280"/>
+            <rect x="35" y="10" width="10" height="10" fill="#0F172A"/>
+            <rect x="55" y="10" width="10" height="10" fill="#0F172A"/>
+            <rect x="35" y="30" width="10" height="10" fill="#0F172A"/>
+            <rect x="55" y="30" width="10" height="10" fill="#0F172A"/>
+            <rect x="35" y="50" width="10" height="10" fill="#0F172A"/>
+            <rect x="55" y="50" width="10" height="10" fill="#0F172A"/>
+            <rect x="35" y="70" width="10" height="10" fill="#0F172A"/>
+            <rect x="55" y="70" width="10" height="10" fill="#0F172A"/>
+            <rect x="35" y="90" width="10" height="10" fill="#0F172A"/>
+            <rect x="55" y="90" width="10" height="10" fill="#0F172A"/>
+        </svg>
+        <span class="title-text mt-8">Sky Architecte</span>
     </div>
 
-    <!-- Page Content Wrapper (Initially hidden for animation) -->
-    <div id="page-wrapper" class="opacity-0">
-        <!-- Header Section -->
-        <header class="bg-opacity-0 text-white py-12 px-4">
-            <div class="max-w-4xl mx-auto text-center">
-                <h1 class="text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-md">Sky Architecte</h1>
-                <p class="text-xl md:text-2xl font-light opacity-90">Construisez votre monde céleste, bloc par bloc.</p>
+    <!-- Contenu principal du site -->
+    <header class="bg-gray-900 shadow-xl sticky top-0 z-50 transition-all duration-300">
+        <nav class="container mx-auto px-4 sm:px-6 py-4 flex items-center justify-between">
+            <a href="#" class="flex items-center space-x-2">
+                <span class="text-3xl font-extrabold text-white">Sky Architecte</span>
+            </a>
+            <div class="hidden md:flex space-x-8">
+                <a href="#gameplay" class="text-gray-400 font-medium hover:text-white transition-colors duration-300">Gameplay</a>
+                <a href="#economie" class="text-gray-400 font-medium hover:text-white transition-colors duration-300">Économie</a>
+                <a href="#multijoueur" class="text-gray-400 font-medium hover:text-white transition-colors duration-300">Multijoueur</a>
             </div>
-        </header>
+            <a href="#" class="bg-white hover:bg-gray-200 text-gray-900 font-semibold py-2 px-6 rounded-full transition-all duration-300 shadow-lg hover:shadow-2xl hover:scale-105">
+                Jouer maintenant
+            </a>
+        </nav>
+    </header>
 
-        <!-- Main Content Sections -->
-        <main class="max-w-4xl mx-auto py-12 px-4 bg-celeste-bg-light rounded-2xl shadow-lg main-content-glow">
-
-            <!-- Introduction Section -->
-            <section class="mb-16 opacity-0">
-                <h2 class="text-4xl font-bold text-celeste-blue mb-6 text-center">Bienvenue dans l'univers de Sky Architecte !</h2>
-                <p class="text-lg mb-4 text-center">
-                    Imaginez un monde où votre île est un bloc volant, incassable et infini. "Sky Architecte" est un jeu de construction et de gestion où votre créativité est la seule limite. Agrandissez votre domaine, interagissez avec des marchands uniques et élevez d'adorables compagnons dans ce paradis céleste.
+    <main>
+        <!-- Section d'accueil (Hero) -->
+        <section class="hero-bg text-center py-24 md:py-40">
+            <div class="relative z-10 container mx-auto px-6">
+                <h1 class="text-5xl md:text-7xl font-extrabold text-white leading-tight mb-4 drop-shadow-lg">
+                    Sky Architecte
+                </h1>
+                <p class="text-lg md:text-2xl text-gray-300 mb-10 max-w-3xl mx-auto drop-shadow-md">
+                    Créez, gérez et faites prospérer votre royaume au-dessus des nuages. Votre créativité est la seule limite.
                 </p>
-                <div class="flex justify-center mt-8">
-                    <div class="relative w-48 h-48 bg-celeste-light-blue rounded-3xl shadow-xl flex items-center justify-center animate-float card-glow group">
-                        <span class="text-6xl" role="img" aria-label="Bloc">📦</span>
-                        <!-- Secret Button now inside the emoji container -->
-                        <button id="secret-quiz-button" class="secret-quiz-button">
-                            <span role="img" aria-label="Question Mark">❓</span>
-                        </button>
-                        <div class="absolute -bottom-4 bg-celeste-violet text-white text-sm px-3 py-1 rounded-full shadow-md animate-pulse-light button-glow">Votre Monde</div>
+                <a href="#" class="bg-white hover:bg-gray-200 text-gray-900 font-bold py-4 px-12 rounded-full shadow-2xl transition-all transform hover:scale-105">
+                    Commencer l'aventure
+                </a>
+            </div>
+        </section>
+        
+        <!-- Bloc : Le Concept de base -->
+        <section class="py-20 bg-gray-900">
+            <div class="container mx-auto px-6">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 lg:order-1 relative w-full h-96 rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="https://placehold.co/800x600/1F2937/F3F4F6?text=Image+Concept+de+base" alt="Illustration du concept de construction sur une île volante" class="w-full h-full object-cover">
                     </div>
-                </div>
-            </section>
-
-            <!-- Core Gameplay Section -->
-            <section class="mb-16 opacity-0">
-                <h2 class="text-3xl font-bold text-celeste-blue mb-8 text-center">Le Cœur du Jeu</h2>
-                <div class="grid md:grid-cols-2 gap-8">
-                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group card-glow">
-                        <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Construction & Expansion</h3>
-                        <p class="mb-2">Votre île est un bloc volant que vous pouvez agrandir et modeler à votre guise. Utilisez de la terre pour étendre votre territoire et de l'Argent Céleste pour augmenter la taille maximale de votre zone de construction.</p>
-                        <p>L'objectif est d'agrandir votre domaine, de le terraformer et de le peupler de constructions uniques.</p>
-                        <div class="text-center mt-4 text-4xl group-hover:animate-bounce">🏡</div>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group card-glow">
-                        <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Marchands Dynamiques</h3>
-                        <p class="mb-2">Rencontrez divers marchands qui vendent une multitude de blocs, des plus communs aux plus rares, ainsi que des Pets. Les stocks de blocs rares se réinitialisent toutes les cinq minutes, créant une opportunité constante d'acquérir des matériaux précieux.</p>
-                        <p>Soyez attentif, les meilleures affaires ne durent pas !</p>
-                        <div class="text-center mt-4 text-4xl group-hover:animate-pulse">💰</div>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group card-glow">
-                        <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Vos Compagnons (Pets)</h3>
-                        <p class="mb-2">Adoptez et élevez d'adorables Pets qui vous accompagneront dans votre aventure. Achetez-les auprès des marchands et prenez-en soin pour les voir grandir et s'épanouir.</p>
-                        <p class="mb-2">Dans le mode multijoueur, avoir des Pets peut renforcer les liens entre joueurs, ajoutant une dimension sociale à l'aventure.</p>
-                        <p>Certains Pets pourraient même développer des **compétences uniques** (en cours de développement), comme des 'Pets Piocheurs' qui simulent le creusement avec des animations spéciales. Selon leur rareté et leur compétence, ils pourraient vous rapporter de l'Argent Céleste ou des blocs rares, sans casser votre île !</p>
-                        <div class="text-center mt-4 text-4xl group-hover:animate-wiggle">🐾</div>
-                    </div>
-                    <div class="bg-white p-6 rounded-2xl shadow-md transition-transform duration-300 hover:scale-105 group card-glow">
-                        <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Blueprints (Plans de Construction)</h3>
-                        <p class="mb-2">Les Blueprints sont des plans qui améliorent la **méthode de construction** et la **rapidité** de vos créations. Ils vous permettent de poser l'équivalent de plusieurs blocs à la fois.</p>
-                        <p class="mb-2">Pour utiliser un plan, vous devez posséder les blocs nécessaires dans votre inventaire.</p>
-                        <p class="mb-2">**Comment obtenir des Blueprints :**</p>
-                        <ul class="list-disc list-inside ml-4 mb-2">
-                            <li>**Créer un plan :** Sélectionnez les blocs de votre construction existante et cliquez sur l'option "Créer un Plan".</li>
-                            <li>**Acheter un plan :** Les marchands proposent également des Blueprints à l'achat.</li>
-                        </ul>
-                        <div class="text-center mt-4 text-4xl group-hover:animate-spin">📐</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Economy Section -->
-            <section class="mb-16 opacity-0">
-                <h2 class="text-3xl font-bold text-celeste-blue mb-8 text-center">L'Économie Céleste</h2>
-                <p class="text-lg mb-6 text-center">
-                    L'économie de "Sky Architecte" est conçue pour récompenser votre créativité et votre sens du design. Plus votre île est belle et bien construite, plus vous gagnez d'Argent Céleste !
-                </p>
-
-                <div class="bg-white p-6 rounded-2xl shadow-md mb-8 card-glow">
-                    <h3 class="text-2xl font-semibold text-celeste-violet mb-4">L'Argent Céleste</h3>
-                    <p class="mb-2">C'est la monnaie unique du jeu, utilisée pour toutes vos transactions :</p>
-                    <ul class="list-disc list-inside ml-4 mb-4">
-                        <li>Achat de blocs et de Pets.</li>
-                        <li>Achat et création de Blueprints.</li>
-                        <li>Agrandissement de votre bloc volant.</li>
-                        <li>Coûts d'élevage et d'amélioration de vos Pets.</li>
-                    </ul>
-                    <p class="font-bold">Comment le gagner ? Principalement en posant des blocs de manière stratégique et esthétique !</p>
-                </div>
-
-                <div class="bg-white p-6 rounded-2xl shadow-md mb-8 card-glow">
-                    <h3 class="text-2xl font-semibold text-celeste-violet mb-4">Le Multiplicateur Esthétique Global</h3>
-                    <p class="mb-2">Ce multiplicateur est une valeur **attribuée par les administrateurs du jeu**. Il représente la beauté et la complexité de votre île.</p>
-                    <p class="mb-2">Par défaut, ce multiplicateur est de 1. Les administrateurs peuvent l'ajuster pour récompenser des créations exceptionnelles.</p>
-                    <p class="font-bold">Ce multiplicateur agit sur tous vos gains d'Argent Céleste à la pose de bloc !</p>
-                </div>
-
-                <div class="bg-celeste-light-blue text-white p-6 rounded-2xl shadow-md mb-8 card-glow">
-                    <h3 class="text-2xl font-semibold mb-4 text-center">Calcul du Gain d'Argent Céleste par Bloc Posé</h3>
-                    <p class="mb-4">Chaque fois que vous posez un bloc, vous gagnez de l'Argent Céleste. Le montant est calculé par la formule suivante :</p>
-                    <p class="font-mono text-xl mb-4 overflow-x-auto text-center">
-                        $$ \text{Argent Céleste Gagné} = \text{Gain\_Base\_Bloc} \times \text{Multiplicateur\_Densité} \times \text{Multiplicateur\_Diversité} \times \text{Multiplicateur\_Esthétique\_Global} $$
-                    </p>
-
-                    <h4 class="text-xl font-semibold mb-3">1. `Gain_Base_Bloc` (Valeur Intrinsèque)</h4>
-                    <p class="mb-2">C'est le montant de base que rapporte le bloc. Il est légèrement supérieur à son coût d'achat pour permettre un profit.</p>
-                    <ul class="list-disc list-inside ml-4 mb-4">
-                        <li>**Terre :** Coût 1 $\rightarrow$ Gain de base **1.2 Céleste**</li>
-                        <li>**Bois Raffiné :** Coût 10 $\rightarrow$ Gain de base **12 Céleste**</li>
-                        <li>**Gemme Lumineuse :** Coût 200 $\rightarrow$ Gain de base **240 Céleste**</li>
-                    </ul>
-
-                    <h4 class="text-xl font-semibold mb-3">2. `Multiplicateur_Densité` (Qualité du Placement)</h4>
-                    <p class="mb-2">Récompense les blocs bien intégrés et pénalise les blocs isolés (anti-spam de colonnes !). Basé sur le nombre de faces du bloc adjacentes à d'autres blocs.</p>
-                    <ul class="list-disc list-inside ml-4 mb-4">
-                        <li>**0 voisin :** $0.1$</li>
-                        <li>**1 voisin :** $0.2$</li>
-                        <li>**2 voisins :** $0.4$</li>
-                        <li>**3 voisins :** $0.7$</li>
-                        <li>**4, 5 ou 6 voisins :** $1.0$ (Pleine valeur, bloc bien intégré)</li>
-                    </ul>
-
-                    <h4 class="text-xl font-semibold mb-3">3. `Multiplicateur_Diversité` (Variété des Matériaux Adjacents)</h4>
-                    <p class="mb-2">Encourage l'utilisation de différents matériaux. Basé sur le nombre de *types de blocs uniques* adjacents au bloc posé.</p>
-                    <p class="mb-2">Formule : $1.0 + (\text{Nombre de types adjacents} \times 0.05)$</p>
-                    <ul class="list-disc list-inside ml-4 mb-4">
-                        <li>**1 type adjacent (ex: entouré de terre) :** $1.05$</li>
-                        <li>**3 types adjacents (ex: terre, bois, pierre) :** $1.15$</li>
-                        <li>**5 types adjacents :** $1.25$</li>
-                    </ul>
-
-                    <h4 class="text-xl font-semibold mb-3">4. `Multiplicateur_Esthétique_Global`</h4>
-                    <p class="mb-2">Ce multiplicateur est une valeur **attribuée par les administrateurs du jeu**. Il agit comme un bonus sur tous vos gains.</p>
-                    <p class="mb-2">**Exemples de Multiplicateurs attribués :**</p>
-                    <ul class="list-disc list-inside ml-4 mb-4">
-                        <li>**Multiplicateur par défaut :** $1.0$</li>
-                        <li>**Pour une création exceptionnelle :** $1.5$ (ou plus)</li>
-                    </ul>
-
-                    <h3 class="text-2xl font-semibold mt-8 mb-4 text-center">Exemple Concret de Gain</h3>
-                    <div class="bg-white text-celeste-text p-5 rounded-xl shadow-inner card-glow">
-                        <p class="mb-2">Imaginons que vous posez un bloc de **Bois Raffiné** (Coût 10 Céleste, Gain de base = 12 Céleste).</p>
-                        <p class="mb-2">Il est placé au milieu d'un mur épais (4 voisins) $\rightarrow$ `Multiplicateur_Densité = 1.0`</p>
-                        <p class="mb-2">Il est adjacent à 3 types de blocs différents (ex: Pierre, Verre, Eau) $\rightarrow$ `Multiplicateur_Diversité = 1.15`</p>
-                        <p class="mb-2">Votre Multiplicateur Esthétique Global (attribué par les administrateurs) est de $1.5$ $\rightarrow$ `Multiplicateur_Esthétique_Global = 1.5`</p>
-                        <p class="font-bold text-lg">Calcul :</p>
-                        <p class="font-mono text-xl mb-4 overflow-x-auto text-center">
-                            $$ \text{Argent Céleste Gagné} = 12 \times 1.0 \times 1.15 \times 1.5 = \mathbf{20.7 \text{ Céleste}} $$
+                    <div class="order-1 lg:order-2 space-y-4 p-6 bg-gray-800 rounded-2xl shadow-xl">
+                        <h2 class="text-4xl font-bold text-white mb-4">Le Concept</h2>
+                        <p class="text-lg text-gray-400">
+                            Construisez une ville sur des îles volantes. Le jeu mélange créativité et stratégie, où vous êtes le seul maître de votre royaume céleste.
                         </p>
-                        <p>Dans cet exemple, en posant ce bloc de manière réfléchie, vous réalisez un profit significatif !</p>
                     </div>
                 </div>
-            </section>
-
-            <!-- Multiplayer Section -->
-            <section class="mb-16 opacity-0">
-                <h2 class="text-3xl font-bold text-celeste-blue mb-8 text-center">Mode Multijoueur</h2>
-                <div class="bg-white p-6 rounded-2xl shadow-md card-glow">
-                    <p class="mb-2">"Sky Architecte" peut être une expérience solo ou multijoueur !</p>
-                    <p class="mb-2">Lorsque vous lancez le jeu, vous avez la possibilité de :</p>
-                    <ul class="list-disc list-inside ml-4 mb-4">
-                        <li>**Créer un nouveau monde :** Un code unique vous sera donné pour ce monde.</li>
-                        <li>**Rejoindre un monde existant :** Entrez le code d'un ami pour le rejoindre et construire ensemble sur son île.</li>
-                    </ul>
-                    <p class="text-center mt-4 text-4xl">🤝</p>
-                </div>
-            </section>
-
-            <!-- Interface Section -->
-            <section class="mb-16 opacity-0">
-                <h2 class="text-3xl font-bold text-celeste-blue mb-8 text-center">Interface de Construction Intuitive</h2>
-                <div class="bg-white p-6 rounded-2xl shadow-md card-glow">
-                    <p class="mb-2">L'interface de construction est conçue pour être simple et efficace :</p>
-                    <ul class="list-disc list-inside ml-4 mb-4">
-                        <li>**Panneau des Blocs :** Accédez facilement à tous les blocs que vous possédez pour les placer sur votre île.</li>
-                        <li>**Panneau des Blueprints :** Sélectionnez un Blueprint, dépensez de l'Argent Céleste pour l'activer, et construisez des structures complexes en toute simplicité. Une fois activé, le Blueprint vous guide sur les blocs à poser.</li>
-                    </ul>
-                    <p class="text-center mt-4 text-4xl">🛠️</p>
-                </div>
-            </section>
-
-        </main>
-
-        <!-- Footer Section -->
-        <footer class="bg-celeste-blue text-white py-8 px-4 text-center rounded-t-3xl shadow-lg">
-            <p class="text-lg">"Sky Architecte" - Votre imagination, notre ciel.</p>
-            <p class="text-sm opacity-80 mt-2">
-                &copy; 2025 Tous droits réservés.
-            </p>
-        </footer>
-    </div> <!-- End of page-wrapper -->
-
-    <!-- Quiz Section (Initially hidden) -->
-    <div id="quiz-section" class="fixed inset-0 flex items-center justify-center z-40 bg-gradient-to-r from-celeste-violet to-celeste-blue hidden opacity-0 transition-opacity duration-500">
-        <div class="bg-celeste-bg-light text-celeste-text p-8 rounded-2xl shadow-2xl max-w-md mx-4 text-center card-glow">
-            <h2 class="text-3xl font-bold text-celeste-blue mb-6">Quiz Sky Architecte</h2>
-            <div id="quiz-content">
-                <p id="quiz-question" class="text-lg mb-6"></p>
-                <div id="quiz-options" class="flex flex-col space-y-3 mb-6">
-                    <!-- Options will be injected here -->
-                </div>
-                <p id="quiz-feedback" class="text-lg font-semibold mb-6"></p>
-                <button id="next-question-button" class="bg-celeste-violet hover:bg-celeste-violet/80 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300 button-glow hidden">
-                    Question Suivante
-                </button>
             </div>
-            <!-- New Secret Message Container -->
-            <div id="final-secret" class="hidden flex flex-col items-center mt-8">
-                <span class="text-8xl animate-secret-glow">💩</span>
-                <div class="speech-bubble mt-4">
-                    <p class="text-celeste-text text-lg font-semibold">Le développement du jeu commencera en août ! Préparez-vous !</p>
+        </section>
+
+        <!-- Bloc : Construire et Créer -->
+        <section id="gameplay" class="py-20 bg-gray-950">
+            <div class="container mx-auto px-6">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-4 p-6 bg-gray-800 rounded-2xl shadow-xl">
+                        <h2 class="text-4xl font-bold text-white mb-4 flex items-center space-x-4">
+                            <i class="ph-fill ph-hammer text-white text-5xl"></i>
+                            <span>Gameplay</span>
+                        </h2>
+                        <p class="text-lg text-gray-400">
+                            Commencez avec un simple îlot et étendez votre territoire. Utilisez des **Blueprints** pour placer plusieurs blocs à la fois et construisez des structures uniques.
+                        </p>
+                        <p class="text-lg text-gray-400">
+                            La variété des matériaux est immense, des plus communs aux plus rares, pour laisser libre cours à votre imagination.
+                        </p>
+                    </div>
+                    <div class="relative w-full h-96 rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="https://placehold.co/800x600/1F2937/F3F4F6?text=Image+Construction+et+Création" alt="Illustration de blocs de construction variés" class="w-full h-full object-cover">
+                    </div>
                 </div>
             </div>
-            <button id="back-to-home-button" class="mt-8 bg-gray-700 hover:bg-gray-600 text-white font-bold py-2 px-6 rounded-lg shadow-md transition-colors duration-300 button-glow">
-                Retour au Site
-            </button>
+        </section>
+
+        <!-- Bloc : L'Économie -->
+        <section id="economie" class="py-20 bg-gray-900">
+            <div class="container mx-auto px-6">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 lg:order-1 relative w-full h-96 rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="https://placehold.co/800x600/1F2937/F3F4F6?text=Image+Economie+et+Argent" alt="Illustration de l'Argent Céleste" class="w-full h-full object-cover">
+                    </div>
+                    <div class="order-1 lg:order-2 space-y-4 p-6 bg-gray-800 rounded-2xl shadow-xl">
+                        <h2 class="text-4xl font-bold text-white mb-4 flex items-center space-x-4">
+                            <i class="ph-fill ph-coins text-white text-5xl"></i>
+                            <span>L'Économie Céleste</span>
+                        </h2>
+                        <p class="text-lg text-gray-400">
+                            L'Argent Céleste est la monnaie de votre royaume. Vous gagnez de l'argent en posant des blocs, avec un bonus selon la **densité**, la **diversité** et **l'esthétique** de vos créations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bloc : Marchands et Compagnons -->
+        <section class="py-20 bg-gray-950">
+            <div class="container mx-auto px-6">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="space-y-4 p-6 bg-gray-800 rounded-2xl shadow-xl">
+                        <h2 class="text-4xl font-bold text-white mb-4 flex items-center space-x-4">
+                            <i class="ph-fill ph-storefront text-white text-5xl"></i>
+                            <span>Marchands et Pets</span>
+                        </h2>
+                        <p class="text-lg text-gray-400">
+                            Visitez les marchands qui apparaissent régulièrement avec des blocs rares et des **Pets** uniques. Prenez soin de vos compagnons, car ils peuvent vous rapporter des bonus passifs.
+                        </p>
+                    </div>
+                    <div class="relative w-full h-96 rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="https://placehold.co/800x600/1F2937/F3F4F6?text=Image+Marchands+et+Pets" alt="Illustration d'un marchand et d'un animal de compagnie" class="w-full h-full object-cover">
+                    </div>
+                </div>
+            </div>
+        </section>
+        
+        <!-- Bloc : L'Expérience Multijoueur -->
+        <section id="multijoueur" class="py-20 bg-gray-900">
+            <div class="container mx-auto px-6">
+                <div class="grid lg:grid-cols-2 gap-12 items-center">
+                    <div class="order-2 lg:order-1 relative w-full h-96 rounded-2xl overflow-hidden shadow-2xl">
+                        <img src="https://placehold.co/800x600/1F2937/F3F4F6?text=Image+Expérience+Multijoueur" alt="Illustration de joueurs construisant ensemble" class="w-full h-full object-cover">
+                    </div>
+                    <div class="order-1 lg:order-2 space-y-4 p-6 bg-gray-800 rounded-2xl shadow-xl">
+                        <h2 class="text-4xl font-bold text-white mb-4 flex items-center space-x-4">
+                            <i class="ph-fill ph-users-three text-white text-5xl"></i>
+                            <span>Multijoueur</span>
+                        </h2>
+                        <p class="text-lg text-gray-400">
+                            Invitez vos amis à construire sur votre île grâce à un code unique. Le multijoueur permet de collaborer sur des projets gigantesques.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-950 py-10 border-t border-gray-800">
+        <div class="container mx-auto px-6 text-center text-gray-500">
+            <p>&copy; 2025 Sky Architecte. Tous droits réservés.</p>
         </div>
-    </div>
+    </footer>
 
-
+    <!-- Script pour l'animation d'introduction -->
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const cookieBanner = document.getElementById('cookie-banner');
-            const acceptButton = document.getElementById('accept-cookies');
-            const declineButton = document.getElementById('decline-cookies');
-            const pageWrapper = document.getElementById('page-wrapper');
-            const mainSections = document.querySelectorAll('main section');
-
-            const secretQuizButton = document.getElementById('secret-quiz-button');
-            const quizSection = document.getElementById('quiz-section');
-            const backToHomeButton = document.getElementById('back-to-home-button');
-            const quizQuestion = document.getElementById('quiz-question');
-            const quizOptions = document.getElementById('quiz-options');
-            const quizFeedback = document.getElementById('quiz-feedback');
-            const nextQuestionButton = document.getElementById('next-question-button');
-            const finalSecret = document.getElementById('final-secret'); // New final secret element
-
-            const quizData = [
-                {
-                    question: "Quelle est la monnaie principale utilisée dans Sky Architecte ?",
-                    options: ["Pièces d'Or", "Argent Céleste", "Cristaux Éthérés", "Jetons de Construction"],
-                    answer: "Argent Céleste"
-                },
-                {
-                    question: "Qui attribue le Multiplicateur Esthétique Global ?",
-                    options: ["Les joueurs", "Les marchands", "Les Pets", "Les administrateurs du jeu"],
-                    answer: "Les administrateurs du jeu"
-                },
-                {
-                    question: "Quel est le rôle principal des Blueprints dans Sky Architecte ?",
-                    options: ["Augmenter le gain d'Argent Céleste par bloc posé", "Faciliter et accélérer la construction de structures", "Offrir des réductions sur les achats de matériaux", "Débloquer des compétences spéciales pour les Pets"],
-                    answer: "Faciliter et accélérer la construction de structures"
-                },
-                {
-                    question: "Quel est le nom de notre serveur Discord officiel ?",
-                    options: ["Clan des Éclairs", "Guilde des Nuages", "Clan des Tonnerre", "Alliance Céleste"],
-                    answer: "Clan des Tonnerre"
-                },
-                {
-                    question: "Combien de faces d'un bloc doivent être adjacentes pour obtenir le Multiplicateur de Densité maximal ?",
-                    options: ["1 ou 2", "3", "4, 5 ou 6", "Aucune"],
-                    answer: "4, 5 ou 6"
-                },
-                {
-                    question: "Quel type d'élément peut développer des compétences uniques dans le jeu ?",
-                    options: ["Les Blueprints", "Les Marchands", "Les Pets", "Les Blocs Rares"],
-                    answer: "Les Pets"
-                },
-                {
-                    question: "Quelle est la fonction du Multiplicateur de Diversité ?",
-                    options: ["Augmenter la taille de votre île", "Récompenser l'utilisation de différents matériaux", "Accélérer le temps de réinitialisation des marchands", "Diminuer le coût des Pets"],
-                    answer: "Récompenser l'utilisation de différents matériaux"
-                },
-                {
-                    question: "Comment gagne-t-on principalement de l'Argent Céleste ?",
-                    options: ["En vendant des Pets", "En détruisant des blocs", "En posant des blocs de manière stratégique et esthétique", "En complétant des quêtes journalières"],
-                    answer: "En posant des blocs de manière stratégique et esthétique"
-                },
-                {
-                    question: "Les stocks de blocs rares des marchands se réinitialisent toutes les combien de temps ?",
-                    options: ["Toutes les heures", "Toutes les cinq minutes", "Tous les jours", "Chaque fois que vous vous connectez"],
-                    answer: "Toutes les cinq minutes"
-                },
-                {
-                    question: "Dans le mode multijoueur, que permet de faire le code unique ?",
-                    options: ["Changer la couleur de votre île", "Rejoindre le monde d'un ami", "Débloquer de nouveaux Pets", "Réinitialiser votre progression"],
-                    answer: "Rejoindre le monde d'un ami"
-                }
-            ];
-            let currentQuestionIndex = 0;
-            let correctAnswersCount = 0; // Track correct answers
-
-            // Function to show main content with staggered fade-in animation
-            const showMainContent = () => {
-                pageWrapper.classList.add('animate-page-fade-in');
-                pageWrapper.classList.remove('opacity-0'); // Ensure wrapper is visible
-
-                mainSections.forEach((section, index) => {
-                    section.classList.add('animate-fade-in');
-                    section.style.animationDelay = `${0.6 + (index * 0.4)}s`; // Slower staggered animation
-                    section.classList.remove('opacity-0'); // Ensure section starts visible for animation
-                });
-            };
-
-            // Function to hide cookie banner
-            const hideCookieBanner = () => {
-                cookieBanner.classList.remove('animate-scale-in');
-                cookieBanner.classList.add('opacity-0', 'scale-80'); // Scale down and fade out
-                cookieBanner.addEventListener('transitionend', () => {
-                    cookieBanner.style.display = 'none';
-                }, { once: true });
-            };
-
-            // Function to load a quiz question
-            const loadQuestion = () => {
-                finalSecret.classList.add('hidden'); // Hide final secret when loading new question
-                const q = quizData[currentQuestionIndex];
-                quizQuestion.textContent = q.question;
-                quizOptions.innerHTML = ''; // Clear previous options
-                quizFeedback.textContent = ''; // Clear feedback
-                nextQuestionButton.classList.add('hidden'); // Hide next button
-
-                q.options.forEach(option => {
-                    const button = document.createElement('button');
-                    button.textContent = option;
-                    button.classList.add('bg-celeste-light-blue', 'hover:bg-celeste-light-blue/80', 'text-white', 'font-bold', 'py-2', 'px-4', 'rounded-lg', 'shadow-md', 'transition-colors', 'duration-300', 'button-glow', 'text-base', 'sm:text-lg');
-                    button.addEventListener('click', () => checkAnswer(option, q.answer));
-                    quizOptions.appendChild(button);
-                });
-            };
-
-            // Function to check the answer
-            const checkAnswer = (selectedOption, correctAnswer) => {
-                // Disable all option buttons after selection
-                Array.from(quizOptions.children).forEach(button => {
-                    button.disabled = true;
-                    if (button.textContent === correctAnswer) {
-                        button.classList.remove('bg-celeste-light-blue');
-                        button.classList.add('bg-green-500'); // Correct answer highlight
-                    } else if (button.textContent === selectedOption) {
-                        button.classList.remove('bg-celeste-light-blue');
-                        button.classList.add('bg-red-500'); // Incorrect answer highlight
-                    }
-                });
-
-                if (selectedOption === correctAnswer) {
-                    quizFeedback.textContent = "Correct ! 🎉";
-                    quizFeedback.classList.remove('text-red-500');
-                    quizFeedback.classList.add('text-green-500');
-                    correctAnswersCount++; // Increment correct answers count
-                } else {
-                    quizFeedback.textContent = `Faux. La bonne réponse était : ${correctAnswer}`;
-                    quizFeedback.classList.remove('text-green-500');
-                    quizFeedback.classList.add('text-red-500');
-                }
-                nextQuestionButton.classList.remove('hidden'); // Show next button
-            };
-
-            // Event listener for next question button
-            nextQuestionButton.addEventListener('click', () => {
-                currentQuestionIndex++;
-                if (currentQuestionIndex < quizData.length) {
-                    loadQuestion();
-                } else {
-                    // Quiz finished
-                    quizQuestion.textContent = "Quiz terminé !";
-                    quizOptions.innerHTML = '';
-                    quizFeedback.textContent = '';
-                    nextQuestionButton.classList.add('hidden');
-
-                    if (correctAnswersCount === quizData.length) {
-                        finalSecret.classList.remove('hidden'); // Show final secret if all correct
-                    } else {
-                        // Optionally, show a different message if not all correct
-                        quizFeedback.textContent = "Vous n'avez pas eu toutes les bonnes réponses. Réessayez !";
-                        quizFeedback.classList.remove('text-green-500');
-                        quizFeedback.classList.add('text-red-500');
-                    }
-                    correctAnswersCount = 0; // Reset for next time
-                }
-            });
-
-            // Initial check for cookie consent
-            const cookieChoice = localStorage.getItem('cookieConsent');
-
-            if (cookieChoice) {
-                // If choice exists, hide banner immediately and show main content
-                cookieBanner.style.display = 'none';
-                showMainContent(); // Directly show content if consent given
-            } else {
-                // If no choice, show banner with scale-in animation
-                cookieBanner.classList.add('animate-scale-in');
-                cookieBanner.classList.remove('opacity-0', 'scale-80'); // Ensure it starts from hidden state
-            }
-
-            // Event listeners for cookie buttons
-            acceptButton.addEventListener('click', () => {
-                localStorage.setItem('cookieConsent', 'accepted');
-                hideCookieBanner();
-                showMainContent();
-            });
-
-            declineButton.addEventListener('click', () => {
-                localStorage.setItem('cookieConsent', 'declined');
-                hideCookieBanner();
-                showMainContent();
-            });
-
-            // Event listener for secret quiz button
-            secretQuizButton.addEventListener('click', () => {
-                pageWrapper.classList.add('opacity-0'); // Fade out main content
-                pageWrapper.addEventListener('transitionend', () => {
-                    pageWrapper.style.display = 'none'; // Hide main content after fade out
-                    quizSection.classList.remove('hidden'); // Show quiz section
-                    quizSection.classList.add('opacity-100'); // Fade in quiz section
-                    currentQuestionIndex = 0; // Reset quiz
-                    correctAnswersCount = 0; // Reset correct answers count
-                    loadQuestion();
-                }, { once: true });
-            });
-
-            // Event listener for back to home button in quiz
-            backToHomeButton.addEventListener('click', () => {
-                quizSection.classList.remove('opacity-100'); // Fade out quiz section
-                quizSection.classList.add('opacity-0');
-                quizSection.addEventListener('transitionend', () => {
-                    quizSection.classList.add('hidden'); // Hide quiz section after fade out
-                    pageWrapper.style.display = 'block'; // Show main content
-                    pageWrapper.classList.remove('opacity-0'); // Ensure main content is visible
-                    // Re-trigger main content animation to make it appear smoothly
-                    showMainContent();
-                }, { once: true });
-            });
+        window.addEventListener('DOMContentLoaded', () => {
+            const introAnimation = document.getElementById('intro-animation');
+            const body = document.body;
+            body.style.display = 'block'; 
+            
+            const animationDuration = 4000;
+            
+            setTimeout(() => {
+                introAnimation.classList.add('hide');
+            }, animationDuration);
         });
     </script>
 </body>
